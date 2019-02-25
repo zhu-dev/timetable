@@ -1,0 +1,43 @@
+<resources>
+    <!--Custom AppTheme style-->
+    <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--ActionBar color-->
+        <item name="colorPrimary">@color/colorPrimary_custom</item>
+        <!--status bar color-->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_custom</item>
+        <!--Window color-->
+        <item name="android:windowBackground">@color/colorAccent_custom</item>
+        <item name="actionMenuTextColor">@color/colorPrimary_custom</item>
+    </style>
+
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!--溢出菜单主题-->
+    <style name="AppTheme.PopupOverlay" parent="@style/Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="overlapAnchor">false</item><!--锚点，为true时盖过toolbar-->
+        <item name="android:dropDownWidth">wrap_content</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:popupBackground">?attr/colorPrimary</item>
+        <!-- 弹出层垂直方向上的偏移，即在竖直方向上距离Toolbar的距离，值为负则会盖住Toolbar -->
+        <item name="android:dropDownVerticalOffset">5dip</item>
+        <!-- 弹出层水平方向上的偏移，即距离屏幕左边的距离，负值会导致右边出现空隙 -->
+        <item name="android:dropDownHorizontalOffset">0dip</item>
+    </style>
+
+    <style name="Base.AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Base.AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Base.AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>
