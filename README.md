@@ -1,1 +1,3 @@
-##This is my open source software
+# timetable
+一款轻量级课表软件，有着简约、美观、使用的特点
+
