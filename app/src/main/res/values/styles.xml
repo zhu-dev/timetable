@@ -8,6 +8,7 @@
         <!--Window color-->
         <item name="android:windowBackground">@color/colorAccent_custom</item>
         <item name="actionMenuTextColor">@color/colorPrimary_custom</item>
+
     </style>
 
 

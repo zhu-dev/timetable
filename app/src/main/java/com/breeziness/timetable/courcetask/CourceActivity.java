@@ -1,11 +1,15 @@
 package com.breeziness.timetable.courcetask;
 
 
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -24,6 +28,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -31,19 +36,17 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import static android.widget.Toast.LENGTH_SHORT;
 
 
-public class CourceActivity extends BaseActivity implements CourceContract.View, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class CourceActivity extends AppCompatActivity implements CourceContract.View, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "CourceActivity";
-    private Button btn_start;
-    private TextView tv_show;
-    private ProgressBar pb;
-    private ImageButton ib;
     private PopView popView;
     private DrawerLayout drawer;
-
     private List<DropBean> weekList;
-
     protected CourceContract.Presenter mPresenter;
+
+
+    private Toolbar toolbar;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +54,12 @@ public class CourceActivity extends BaseActivity implements CourceContract.View,
         setContentView(R.layout.activity_cource);
         //初始化选择周次数据
         initWeeksData();
-        /*初始化view*/
+        //初始化view
         initView();
+        //沉浸式状态栏
+        setStatusBarColor();
 
-        /*获取Presenter实例，传入view对象*/
+        //获取Presenter实例，传入view对象
         CourcePresenter courcePresenter = new CourcePresenter(this);
     }
 
@@ -65,39 +70,22 @@ public class CourceActivity extends BaseActivity implements CourceContract.View,
         mPresenter.detach();//将presenter中正在执行的任务取消，将view对象置为空。
     }
 
-    /**
-     * 添加周次数据
-     */
-    private void initWeeksData() {
-        weekList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            weekList.add(new DropBean("第" + (i + 1) + "周"));
-        }
-    }
 
     /**
      * 初始化控件
      */
     private void initView() {
-        /*选择周次弹出菜单*/
-        popView = findViewById(R.id.drop_couerce_select);
-        popView.setData(weekList);
 
-        /*toolbar*/
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_menu_more, null));//设置溢出菜单按钮图标，默认是三个点
-        setSupportActionBar(toolbar);
-
-        /*drawerlayout侧滑菜单*/
-        drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);//切换（滑出与关闭）的监听
-        toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        //初始化选择周次弹出菜单
+        popViewInit();
+        //初始化toolbar
+        toolbarInit();
+        //初始化测换菜单
+        drawerInit();
+        //初始化侧滑菜单内容视图
+        navigatinViewInit();
     }
+
 
     /**
      * view的点击事件处理
@@ -111,9 +99,46 @@ public class CourceActivity extends BaseActivity implements CourceContract.View,
         }
     }
 
-    /************************************设置toolbar*************************************
-     /**
-     *向toolbar添加menu
+    /**
+     * 初始化侧滑菜单内容视图
+     */
+    private void navigatinViewInit() {
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    /**
+     * 初始化选择周次弹出框
+     */
+    private void popViewInit() {
+        popView = findViewById(R.id.drop_couerce_select);
+        popView.setData(weekList);
+    }
+    /************************************透明状态栏********************************/
+    /**
+     * 透明状态栏,不再支持6.0以下
+     */
+    protected void setStatusBarColor() {
+        getWindow().setStatusBarColor(Color.TRANSPARENT);//透明
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+    }
+
+
+    /************************************toolbar相关*************************************/
+    /**
+     * 初始化toolbar
+     */
+    private void toolbarInit() {
+        /*toolbar*/
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_menu_more, null));//设置溢出菜单按钮图标，默认是三个点
+        setSupportActionBar(toolbar);
+    }
+
+    /**
+     * 向toolbar添加menu
+     *
      * @param menu
      * @return
      */
@@ -147,7 +172,28 @@ public class CourceActivity extends BaseActivity implements CourceContract.View,
         return super.onOptionsItemSelected(item);
     }
 
-    /******************************有关侧滑菜单**************************/
+    /******************************侧滑菜单**************************/
+
+    /**
+     * 初始化侧滑菜单
+     */
+    private void drawerInit() {
+        /*drawerlayout侧滑菜单*/
+        drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);//切换（滑出与关闭）的监听
+        toggle.setDrawerIndicatorEnabled(false);//不适用默认的图标,但是这里是直接禁止了它点击导航icon弹出侧滑菜单，所以到toolbar的icon点击事件设置弹出
+        toggle.setHomeAsUpIndicator(R.drawable.ic_navigation);
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(GravityCompat.START);//设置图标点击事件
+            }
+        });
+        toggle.syncState();
+    }
+
     /**
      * 侧滑菜单点击事件
      *
@@ -183,20 +229,25 @@ public class CourceActivity extends BaseActivity implements CourceContract.View,
         return true;
     }
 
+    /**
+     * 添加周次数据
+     */
+    private void initWeeksData() {
+        weekList = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            weekList.add(new DropBean("第" + (i + 1) + "周"));
+        }
+    }
 
     /*********************************以下是View接口的方法*******************************************/
     @Override
     public void showProgressBar(boolean isShow) {
-        if (isShow) {
-            pb.setVisibility(View.VISIBLE);
-        } else {
-            pb.setVisibility(View.GONE);
-        }
+
     }
 
     @Override
     public void setCource(String cource) {
-        tv_show.setText(cource);
+
     }
 
     @Override

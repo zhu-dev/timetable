@@ -3,30 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"><!--设置单选-->
         <item
             android:id="@+id/nav_cources"
-            android:icon="@drawable/ic_menu_camera"
+            android:checkable="false"
+            android:icon="@drawable/ic_menu_book"
             android:title="@string/nav_header_cources" />
         <item
             android:id="@+id/nav_share_cource"
-            android:icon="@drawable/ic_menu_gallery"
+            android:checkable="false"
+            android:icon="@drawable/ic_menu_share"
             android:title="@string/nav_header_share_cources" />
         <item
             android:id="@+id/nav_mark"
+            android:checkable="false"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/nav_header_mark" />
         <item
             android:id="@+id/nav_credit_score"
-            android:icon="@drawable/ic_menu_manage"
+            android:checkable="false"
+            android:icon="@drawable/ic_menu_mark"
             android:title="@string/nav_header_creditscore" />
     </group>
+
+
 
     <item android:title="@string/nav_header_item_div_title">
         <menu>
             <item
                 android:id="@+id/nav_share_app"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_menu_share_app"
                 android:title="@string/nav_header_share_app" />
             <item
                 android:id="@+id/nav_about_us"

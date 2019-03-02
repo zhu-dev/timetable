@@ -22,7 +22,7 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
     /*顶部标题*/
     private TextView tv_title;
 
-    private boolean isChecked;
+    private boolean isChecked = true;//被转中标志
     private Context context;
     private PopWindowManager popWindowManager;
     private PopListAdapter adapter;
@@ -35,11 +35,11 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
     private int selectPosition;
 
     public PopView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public PopView(Context context, AttributeSet attrs) {
-        this(context, attrs,0);
+        this(context, attrs, 0);
     }
 
     public PopView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -74,7 +74,7 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
         //默认选择第一个位置的内容
         drops = dropBeanList;
         drops.get(0).setCheck(true);
-        Log.d(TAG, "setData: "+drops.get(0).getWeekday());
+        Log.d(TAG, "setData: " + drops.get(0).getWeekday());
         tv_title.setText(drops.get(0).getWeekday());
         selectPosition = 0;
         View view = LayoutInflater.from(context).inflate(R.layout.drop_content, null);
@@ -112,14 +112,17 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
     @Override
     public void setChecked(boolean checked) {
         isChecked = checked;
-        Drawable icon;//设置倒三角图标
+        // Drawable icon;//设置倒三角图标
         if (checked) {
-            icon = getResources().getDrawable(R.drawable.ic_drop_menu_week, null);
+            //icon = getResources().getDrawable(R.drawable.ic_drop_menu_week, null);
             popWindowManager.show();//显示弹出菜单
+
         } else {
-            icon = getResources().getDrawable(R.drawable.ic_drop_menu_week, null);
+            //icon = getResources().getDrawable(R.drawable.ic_drop_menu_week, null);
             popWindowManager.hide();//关闭弹出菜单
+
         }
+       // isChecked = !checked;
         //把倒三角图标设置到标题的右边
         //tv_title.setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null);
     }
