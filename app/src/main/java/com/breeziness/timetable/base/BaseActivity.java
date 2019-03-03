@@ -1,12 +1,16 @@
-package com.breeziness.timetable;
+package com.breeziness.timetable.base;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.ServiceConnection;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
+import com.breeziness.timetable.util.ActivityCollector;
 
 /**
  * 通用的Activity模板
@@ -16,30 +20,41 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityCollector.addActivity(this);//添加当前的activity到管理容器中]
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//设置竖屏
         setContentView();
-        initActivity();
         initView();
         initData();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);//移除当前马上要销毁的活动
     }
 
     /**
      * 显示短的Toast
+     *
      * @param msg
      */
-    protected void showShortToast(Context context,String msg) {
+    protected void showShortToast(Context context, String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
     /**
      * 显示长的Toast
+     *
      * @param msg
      */
-    protected void showLongToast(Context context,String msg) {
+    protected void showLongToast(Context context, String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
     }
 
     /**
      * 透明状态栏
+     *
      * @param useStatusBarColor
      */
     protected void setStatusBarColor(boolean useStatusBarColor) {
@@ -55,15 +70,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
     }
+
     /**
      * 设置布局
      */
     protected abstract void setContentView();
 
-    /**
-     * 初始化Activity
-     */
-    protected abstract void initActivity();
+
 
     /**
      * 初始化View

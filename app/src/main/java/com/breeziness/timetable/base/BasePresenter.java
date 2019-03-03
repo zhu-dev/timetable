@@ -1,4 +1,4 @@
-package com.breeziness.timetable;
+package com.breeziness.timetable.base;
 
 import io.reactivex.disposables.Disposable;
 

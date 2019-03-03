@@ -1,7 +1,7 @@
 package com.breeziness.timetable.courcetask;
 
-import com.breeziness.timetable.BasePresenter;
-import com.breeziness.timetable.BaseView;
+import com.breeziness.timetable.base.BasePresenter;
+import com.breeziness.timetable.base.BaseView;
 
 public interface CourceContract {
     interface View extends BaseView<Presenter> {

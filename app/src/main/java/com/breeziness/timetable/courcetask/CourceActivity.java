@@ -1,22 +1,15 @@
 package com.breeziness.timetable.courcetask;
 
 
-import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.breeziness.timetable.BaseActivity;
 import com.breeziness.timetable.R;
 import com.breeziness.timetable.courcetask.popwin.DropBean;
 import com.breeziness.timetable.courcetask.popwin.PopView;
@@ -52,6 +45,7 @@ public class CourceActivity extends AppCompatActivity implements CourceContract.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cource);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//设置竖屏，禁止屏幕横屏显示
         //初始化选择周次数据
         initWeeksData();
         //初始化view
