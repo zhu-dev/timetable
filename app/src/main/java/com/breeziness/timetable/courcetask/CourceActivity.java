@@ -4,15 +4,18 @@ package com.breeziness.timetable.courcetask;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.breeziness.timetable.R;
+import com.breeziness.timetable.courcetask.courcelayout.CourceLayout;
+import com.breeziness.timetable.courcetask.courceview.CourceView;
 import com.breeziness.timetable.courcetask.popwin.DropBean;
 import com.breeziness.timetable.courcetask.popwin.PopView;
+import com.breeziness.timetable.data.CourceBean;
 import com.google.android.material.navigation.NavigationView;
 
 
@@ -32,20 +35,27 @@ import static android.widget.Toast.LENGTH_SHORT;
 public class CourceActivity extends AppCompatActivity implements CourceContract.View, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "CourceActivity";
+
     private PopView popView;
     private DrawerLayout drawer;
     private List<DropBean> weekList;
-    protected CourceContract.Presenter mPresenter;
-
-
     private Toolbar toolbar;
     private NavigationView navigationView;
+
+    //测试内容
+    private List<CourceBean> cources = new ArrayList<>();//测试用课程数据
+
+    protected CourceContract.Presenter mPresenter;//Presenter
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cource);
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//设置竖屏，禁止屏幕横屏显示
+        getWindow().setNavigationBarColor(Color.WHITE);//设置底部导航虚拟按键颜色为白色
+
         //初始化选择周次数据
         initWeeksData();
         //初始化view
@@ -78,8 +88,36 @@ public class CourceActivity extends AppCompatActivity implements CourceContract.
         drawerInit();
         //初始化侧滑菜单内容视图
         navigatinViewInit();
+        //测试
+        initTestCourceData();
+        for (int i = 0; i < 3; i++) {
+            CourceBean cource = cources.get(i);
+            CourceLayout layout = findViewById(R.id.cources);
+            CourceView courceView = new CourceView(getApplicationContext());
+            courceView.setCourceId(cource.getCourceId());
+            courceView.setStartSection(cource.getStartSection());
+            courceView.setEndSection(cource.getEndSection());
+            courceView.setWeekday(cource.getWeekday());
+            courceView.setBackground(getDrawable(R.drawable.bg_cource_pink));
+            courceView.setText(String.format("%s@%s", cource.getCourceName(), cource.getClassroom()));
+            courceView.setTextColor(Color.WHITE);
+            courceView.setGravity(Gravity.CENTER);//这里没有效果
+            courceView.setTextSize(12);
+            courceView.setEms(4);
+
+            layout.addView(courceView);
+        }
+        //测试
     }
 
+    public void initTestCourceData() {
+        CourceBean cource1 = new CourceBean("通信原理", "黎", 1, 1, 1, 1, "11C107", "1-16");
+        CourceBean cource2 = new CourceBean("微波天线", "黎", 2, 1, 2, 3, "11C107", "1-16");
+        CourceBean cource3 = new CourceBean("专业英语", "黎", 3, 2, 1, 2, "11C107", "1-16");
+        cources.add(cource1);
+        cources.add(cource2);
+        cources.add(cource3);
+    }
 
     /**
      * view的点击事件处理

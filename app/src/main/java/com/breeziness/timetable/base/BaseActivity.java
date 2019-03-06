@@ -20,8 +20,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityCollector.addActivity(this);//添加当前的activity到管理容器中]
+        ActivityCollector.addActivity(this);//添加当前的activity到管理容器中
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//设置竖屏
+        getWindow().setNavigationBarColor(Color.WHITE);//设置底部导航虚拟按键颜色为白色
         setContentView();
         initView();
         initData();
