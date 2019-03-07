@@ -51,7 +51,7 @@
     <com.breeziness.timetable.courcetask.courcelayout.CourceLayout
         android:id="@+id/cources"
         android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="wrap_content">
 
     </com.breeziness.timetable.courcetask.courcelayout.CourceLayout>
 </LinearLayout>

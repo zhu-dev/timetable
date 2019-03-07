@@ -4,10 +4,13 @@ package com.breeziness.timetable.courcetask;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.breeziness.timetable.R;
@@ -41,7 +44,9 @@ public class CourceActivity extends AppCompatActivity implements CourceContract.
     private List<DropBean> weekList;
     private Toolbar toolbar;
     private NavigationView navigationView;
+    private TextView tv;
 
+    private boolean isLoop = true;
     //测试内容
     private List<CourceBean> cources = new ArrayList<>();//测试用课程数据
 
@@ -88,32 +93,35 @@ public class CourceActivity extends AppCompatActivity implements CourceContract.
         drawerInit();
         //初始化侧滑菜单内容视图
         navigatinViewInit();
+
+
         //测试
         initTestCourceData();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < cources.size(); i++) {
             CourceBean cource = cources.get(i);
             CourceLayout layout = findViewById(R.id.cources);
-            CourceView courceView = new CourceView(getApplicationContext());
+            final CourceView courceView = new CourceView(getApplicationContext());
             courceView.setCourceId(cource.getCourceId());
             courceView.setStartSection(cource.getStartSection());
             courceView.setEndSection(cource.getEndSection());
             courceView.setWeekday(cource.getWeekday());
             courceView.setBackground(getDrawable(R.drawable.bg_cource_pink));
-            courceView.setText(String.format("%s@%s", cource.getCourceName(), cource.getClassroom()));
-            courceView.setTextColor(Color.WHITE);
-            courceView.setGravity(Gravity.CENTER);//这里没有效果
-            courceView.setTextSize(12);
-            courceView.setEms(4);
-
+            courceView.setText(String.format("%s%s", cource.getCourceName(), cource.getClassroom()));
+            //courceView.setTextColor(Color.WHITE);
+            //courceView.setTextSize(18);
+            // courceView.setGravity(Gravity.CENTER);
+            //courceView.setEms(4);
             layout.addView(courceView);
+
         }
-        //测试
+
     }
 
+    //测试数据
     public void initTestCourceData() {
-        CourceBean cource1 = new CourceBean("通信原理", "黎", 1, 1, 1, 1, "11C107", "1-16");
+        CourceBean cource1 = new CourceBean("通信原理", "黎", 1, 1, 1, 1, "", "1-16");
         CourceBean cource2 = new CourceBean("微波天线", "黎", 2, 1, 2, 3, "11C107", "1-16");
-        CourceBean cource3 = new CourceBean("专业英语", "黎", 3, 2, 1, 2, "11C107", "1-16");
+        CourceBean cource3 = new CourceBean("科技文献阅读和写作（信息类）", "黎", 3, 2, 2, 2, "11C107", "1-16");
         cources.add(cource1);
         cources.add(cource2);
         cources.add(cource3);
@@ -131,13 +139,6 @@ public class CourceActivity extends AppCompatActivity implements CourceContract.
         }
     }
 
-    /**
-     * 初始化侧滑菜单内容视图
-     */
-    private void navigatinViewInit() {
-        navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
 
     /**
      * 初始化选择周次弹出框
@@ -205,6 +206,14 @@ public class CourceActivity extends AppCompatActivity implements CourceContract.
     }
 
     /******************************侧滑菜单**************************/
+
+    /**
+     * 初始化侧滑菜单内容视图
+     */
+    private void navigatinViewInit() {
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
 
     /**
      * 初始化侧滑菜单

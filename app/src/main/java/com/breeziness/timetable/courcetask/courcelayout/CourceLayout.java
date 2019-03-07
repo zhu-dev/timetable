@@ -20,7 +20,7 @@ import androidx.annotation.Nullable;
  * 课程容器布局
  * 通过获得屏幕宽度，均分7份
  */
-public class CourceLayout extends LinearLayout {
+public class CourceLayout extends ViewGroup {
     private static final String TAG = "CourceLayout";
     private List<CourceView> courceViews = new ArrayList<CourceView>();//课程控件的集合
 
@@ -59,7 +59,6 @@ public class CourceLayout extends LinearLayout {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
 
         courceViews.clear();//清空课程控件容器
 
@@ -71,6 +70,7 @@ public class CourceLayout extends LinearLayout {
         for (int i = 0; i < childCount; i++) {
             CourceView child = (CourceView) getChildAt(i);
             courceViews.add(child);//添加这个课程到list中
+
 
             //获得影响位置的三个属性
             int startSection = child.getStartSection();
