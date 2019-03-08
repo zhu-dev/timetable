@@ -4,13 +4,10 @@ package com.breeziness.timetable.courcetask;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.breeziness.timetable.R;
@@ -18,8 +15,10 @@ import com.breeziness.timetable.courcetask.courcelayout.CourceLayout;
 import com.breeziness.timetable.courcetask.courceview.CourceView;
 import com.breeziness.timetable.courcetask.popwin.DropBean;
 import com.breeziness.timetable.courcetask.popwin.PopView;
-import com.breeziness.timetable.data.CourceBean;
+import com.breeziness.timetable.data.bean.CourceBean;
+import com.breeziness.timetable.util.RandomUtil;
 import com.google.android.material.navigation.NavigationView;
+
 
 
 import java.util.ArrayList;
@@ -44,14 +43,20 @@ public class CourceActivity extends AppCompatActivity implements CourceContract.
     private List<DropBean> weekList;
     private Toolbar toolbar;
     private NavigationView navigationView;
-    private TextView tv;
+    private int[] bg_color = new int[]{
+            R.drawable.bg_cource_gray
+            , R.drawable.bg_cource_green
+            , R.drawable.bg_cource_light_green
+            , R.drawable.bg_cource_pink
+            , R.drawable.bg_cource_blue
+            , R.drawable.bg_cource_brown
+            ,R.drawable.bg_cource_yellow
+    };
 
-    private boolean isLoop = true;
     //测试内容
     private List<CourceBean> cources = new ArrayList<>();//测试用课程数据
 
     protected CourceContract.Presenter mPresenter;//Presenter
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,19 +103,20 @@ public class CourceActivity extends AppCompatActivity implements CourceContract.
         //测试
         initTestCourceData();
         for (int i = 0; i < cources.size(); i++) {
+            int randBg = bg_color[RandomUtil.getRandomInt(bg_color.length-1)];
             CourceBean cource = cources.get(i);
             CourceLayout layout = findViewById(R.id.cources);
-            final CourceView courceView = new CourceView(getApplicationContext());
+            CourceView courceView = new CourceView(getApplicationContext());
             courceView.setCourceId(cource.getCourceId());
             courceView.setStartSection(cource.getStartSection());
             courceView.setEndSection(cource.getEndSection());
             courceView.setWeekday(cource.getWeekday());
-            courceView.setBackground(getDrawable(R.drawable.bg_cource_pink));
-            courceView.setText(String.format("%s%s", cource.getCourceName(), cource.getClassroom()));
-            //courceView.setTextColor(Color.WHITE);
-            //courceView.setTextSize(18);
-            // courceView.setGravity(Gravity.CENTER);
-            //courceView.setEms(4);
+            courceView.setBackground(getDrawable(randBg));
+            courceView.setText(String.format("%s@%s", cource.getCourceName(), cource.getClassroom()));
+            courceView.setTextColor(Color.WHITE);
+            //courceView.setAlpha(0.5f);
+            courceView.setTextSize(10);
+            courceView.setGravity(Gravity.CENTER);
             layout.addView(courceView);
 
         }
@@ -119,12 +125,14 @@ public class CourceActivity extends AppCompatActivity implements CourceContract.
 
     //测试数据
     public void initTestCourceData() {
-        CourceBean cource1 = new CourceBean("通信原理", "黎", 1, 1, 1, 1, "", "1-16");
-        CourceBean cource2 = new CourceBean("微波天线", "黎", 2, 1, 2, 3, "11C107", "1-16");
-        CourceBean cource3 = new CourceBean("科技文献阅读和写作（信息类）", "黎", 3, 2, 2, 2, "11C107", "1-16");
+        CourceBean cource1 = new CourceBean("通信原理A", "黎", 1, 1, 1, 1, "11C107", "1-16");
+        CourceBean cource2 = new CourceBean("微波天线", "黎", 2, 1, 2, 2, "02201Y", "1-16");
+        CourceBean cource3 = new CourceBean("科技文献阅读和写作（信息类）", "黎", 3, 7, 2, 2, "11C107", "1-16");
+        CourceBean cource4 = new CourceBean("科技文献阅读和写作（信息类）", "黎", 3, 4, 4, 4, "11C107", "1-16");
         cources.add(cource1);
         cources.add(cource2);
         cources.add(cource3);
+        cources.add(cource4);
     }
 
     /**
