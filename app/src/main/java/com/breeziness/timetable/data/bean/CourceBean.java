@@ -1,4 +1,4 @@
-package com.breeziness.timetable.data;
+package com.breeziness.timetable.data.bean;
 
 /**
  * 课程实体类

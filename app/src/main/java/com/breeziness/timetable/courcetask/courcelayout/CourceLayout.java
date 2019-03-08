@@ -28,7 +28,7 @@ public class CourceLayout extends ViewGroup {
     private int layoutHeight; //布局的高度
     private int sectionHeight; //课程的高度
     private int sectionWidth; //课程的宽度
-    private int sectionTotal = 5; //一天的节数
+    private int sectionTotal = 6; //一天的节数
     private int weekdayTotal = 7; //一周的天数
     private int divideWidth;//间隔线宽度 默认2dp
     private int divideHeight;//间隔线宽度 默认2dp
@@ -44,7 +44,7 @@ public class CourceLayout extends ViewGroup {
 
     public CourceLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        layoutHeight = dip2px(575);//默认高度600dp
+        layoutHeight = dip2px(690);//默认高度600dp
         layoutWidth = getScreenWidth() - (int) getContext().getResources().getDimension(R.dimen.weekview_month_width);//默认宽度为屏幕宽度，需要考虑下左侧的课程节数栏
         divideWidth = dip2px(3);//默认间隔3dp
         divideHeight = dip2px(3);//默认间隔3dp

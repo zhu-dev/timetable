@@ -47,6 +47,13 @@
             android:gravity="center"
             android:text="@string/section_number_5" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/weekview_section_number_width"
+            android:background="@drawable/border_line"
+            android:gravity="center"
+            android:text="@string/section_number_6" />
+
     </LinearLayout>
     <com.breeziness.timetable.courcetask.courcelayout.CourceLayout
         android:id="@+id/cources"
