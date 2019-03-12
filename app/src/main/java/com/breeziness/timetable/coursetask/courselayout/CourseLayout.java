@@ -1,4 +1,4 @@
-package com.breeziness.timetable.courcetask.courcelayout;
+package com.breeziness.timetable.coursetask.courselayout;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,10 +6,9 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 import com.breeziness.timetable.R;
-import com.breeziness.timetable.courcetask.courceview.CourceView;
+import com.breeziness.timetable.coursetask.courseview.CourseView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +19,9 @@ import androidx.annotation.Nullable;
  * 课程容器布局
  * 通过获得屏幕宽度，均分7份
  */
-public class CourceLayout extends ViewGroup {
+public class CourseLayout extends ViewGroup {
     private static final String TAG = "CourceLayout";
-    private List<CourceView> courceViews = new ArrayList<CourceView>();//课程控件的集合
+    private List<CourseView> courseViews = new ArrayList<CourseView>();//课程控件的集合
 
     private int layoutWidth; //布局的宽度
     private int layoutHeight; //布局的高度
@@ -34,15 +33,15 @@ public class CourceLayout extends ViewGroup {
     private int divideHeight;//间隔线宽度 默认2dp
 
 
-    public CourceLayout(Context context) {
+    public CourseLayout(Context context) {
         this(context, null);
     }
 
-    public CourceLayout(Context context, @Nullable AttributeSet attrs) {
+    public CourseLayout(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CourceLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CourseLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         layoutHeight = dip2px(690);//默认高度600dp
         layoutWidth = getScreenWidth() - (int) getContext().getResources().getDimension(R.dimen.weekview_month_width);//默认宽度为屏幕宽度，需要考虑下左侧的课程节数栏
@@ -60,7 +59,7 @@ public class CourceLayout extends ViewGroup {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
 
-        courceViews.clear();//清空课程控件容器
+        courseViews.clear();//清空课程控件容器
 
         sectionHeight = (getMeasuredHeight() - divideHeight * sectionTotal) / sectionTotal;//每节课的高度
         sectionWidth = (getMeasuredWidth() - divideWidth * weekdayTotal) / weekdayTotal;//每节课的宽度
@@ -68,8 +67,8 @@ public class CourceLayout extends ViewGroup {
         Log.e(TAG, "getMeasuredHeight()----> " + getMeasuredHeight());
         int childCount = getChildCount();//获取子控件的个数。
         for (int i = 0; i < childCount; i++) {
-            CourceView child = (CourceView) getChildAt(i);
-            courceViews.add(child);//添加这个课程到list中
+            CourseView child = (CourseView) getChildAt(i);
+            courseViews.add(child);//添加这个课程到list中
 
 
             //获得影响位置的三个属性

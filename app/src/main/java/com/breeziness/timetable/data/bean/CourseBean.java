@@ -3,7 +3,7 @@ package com.breeziness.timetable.data.bean;
 /**
  * 课程实体类
  */
-public class CourceBean {
+public class CourseBean {
     private String courceName;
     private String teacher;
     private int courceId;
@@ -13,7 +13,7 @@ public class CourceBean {
     private String classroom;
     private String courceTime;
 
-    public CourceBean(String courceName, String teacher, int courceId, int weekday, int startSection, int endSection, String classroom, String courceTime) {
+    public CourseBean(String courceName, String teacher, int courceId, int weekday, int startSection, int endSection, String classroom, String courceTime) {
         this.courceName = courceName;
         this.teacher = teacher;
         this.courceId = courceId;

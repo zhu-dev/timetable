@@ -1,4 +1,4 @@
-package com.breeziness.timetable.courcetask.popwin;
+package com.breeziness.timetable.coursetask.popwin;
 
 public class DropBean {
     private boolean isCheck;

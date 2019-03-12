@@ -1,4 +1,4 @@
-package com.breeziness.timetable.courcetask.courceview;
+package com.breeziness.timetable.coursetask.courseview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.breeziness.timetable.R;
@@ -20,7 +19,7 @@ import java.util.List;
  * 自定义的课程view
  */
 @SuppressLint("AppCompatCustomView")
-public class CourceView extends TextView {
+public class CourseView extends TextView {
 
     private static final String TAG = "CourceView";
 
@@ -38,23 +37,23 @@ public class CourceView extends TextView {
     private List<String> mTextList = new ArrayList<>();//文本内容容器
 
     //构造方法
-    public CourceView(Context context) {
+    public CourseView(Context context) {
         this(context, null);
     }
 
-    public CourceView(Context context, AttributeSet attrs) {
+    public CourseView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CourceView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CourseView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         //绑定自定义的属性
-        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CourceView);
-        courceId = array.getInt(R.styleable.CourceView_courceId, 0);
-        startSection = array.getInt(R.styleable.CourceView_startSection, 0);
-        endSection = array.getInt(R.styleable.CourceView_endSection, 0);
-        weekday = array.getInt(R.styleable.CourceView_weekday, 0);
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CourseView);
+        courceId = array.getInt(R.styleable.CourseView_courceId, 0);
+        startSection = array.getInt(R.styleable.CourseView_startSection, 0);
+        endSection = array.getInt(R.styleable.CourseView_endSection, 0);
+        weekday = array.getInt(R.styleable.CourseView_weekday, 0);
         array.recycle();
 
         //初始化画笔

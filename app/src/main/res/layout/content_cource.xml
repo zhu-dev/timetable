@@ -55,12 +55,12 @@
             android:text="@string/section_number_6" />
 
     </LinearLayout>
-    <com.breeziness.timetable.courcetask.courcelayout.CourceLayout
+    <com.breeziness.timetable.coursetask.courselayout.CourseLayout
         android:id="@+id/cources"
         android:layout_height="match_parent"
         android:layout_width="wrap_content">
 
-    </com.breeziness.timetable.courcetask.courcelayout.CourceLayout>
+    </com.breeziness.timetable.coursetask.courselayout.CourseLayout>
 </LinearLayout>
 
 </ScrollView>

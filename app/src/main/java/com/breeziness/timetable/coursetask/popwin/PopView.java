@@ -1,7 +1,6 @@
-package com.breeziness.timetable.courcetask.popwin;
+package com.breeziness.timetable.coursetask.popwin;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;

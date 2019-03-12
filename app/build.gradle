@@ -42,14 +42,16 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'//配合rxjava2
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'//拦截器
+    /*okhttp3*/
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.squareup.okio:okio:1.14.0'
+
     /*侧滑菜单*/
-    //implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
 
     implementation 'de.hdodenhof:circleimageview:2.2.0'//原型头像
 
     implementation 'org.jsoup:jsoup:1.11.3'//jsoup
-
 
 
 }

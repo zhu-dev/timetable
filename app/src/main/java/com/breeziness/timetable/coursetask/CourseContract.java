@@ -1,9 +1,9 @@
-package com.breeziness.timetable.courcetask;
+package com.breeziness.timetable.coursetask;
 
 import com.breeziness.timetable.base.BasePresenter;
 import com.breeziness.timetable.base.BaseView;
 
-public interface CourceContract {
+public interface CourseContract {
     interface View extends BaseView<Presenter> {
         //显示加载进度动画
         void showProgressBar(boolean isShow);

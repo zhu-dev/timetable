@@ -17,11 +17,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitFactory {
 
-    private static final String BASE_URL = "http://www.breeziness123.cn/";
+    private static final String BASE_URL = "http://bkjw.guet.edu.cn/";
     private static final long TIMEOUT = 30;//设置超时时间
 
     // Retrofit是基于OkHttpClient的，可以创建一个OkHttpClient进行一些配置
     private static OkHttpClient okHttpClient = new OkHttpClient.Builder()
+
             //设置拦截器打印接口信息，方便接口调试
             .addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                 @Override

@@ -1,6 +1,7 @@
-package com.breeziness.timetable.courcetask;
+package com.breeziness.timetable.coursetask;
 
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,11 +12,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.breeziness.timetable.R;
-import com.breeziness.timetable.courcetask.courcelayout.CourceLayout;
-import com.breeziness.timetable.courcetask.courceview.CourceView;
-import com.breeziness.timetable.courcetask.popwin.DropBean;
-import com.breeziness.timetable.courcetask.popwin.PopView;
-import com.breeziness.timetable.data.bean.CourceBean;
+import com.breeziness.timetable.addcource.AddCourseActivity;
+import com.breeziness.timetable.coursetask.courselayout.CourseLayout;
+import com.breeziness.timetable.coursetask.courseview.CourseView;
+import com.breeziness.timetable.coursetask.popwin.DropBean;
+import com.breeziness.timetable.coursetask.popwin.PopView;
+import com.breeziness.timetable.data.bean.CourseBean;
 import com.breeziness.timetable.util.RandomUtil;
 import com.google.android.material.navigation.NavigationView;
 
@@ -34,9 +36,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import static android.widget.Toast.LENGTH_SHORT;
 
 
-public class CourceActivity extends AppCompatActivity implements CourceContract.View, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class CourseActivity extends AppCompatActivity implements CourseContract.View, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String TAG = "CourceActivity";
+    private static final String TAG = "CourseActivity";
 
     private PopView popView;
     private DrawerLayout drawer;
@@ -54,9 +56,9 @@ public class CourceActivity extends AppCompatActivity implements CourceContract.
     };
 
     //测试内容
-    private List<CourceBean> cources = new ArrayList<>();//测试用课程数据
+    private List<CourseBean> cources = new ArrayList<>();//测试用课程数据
 
-    protected CourceContract.Presenter mPresenter;//Presenter
+    protected CourseContract.Presenter mPresenter;//Presenter
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +76,7 @@ public class CourceActivity extends AppCompatActivity implements CourceContract.
         setStatusBarColor();
 
         //获取Presenter实例，传入view对象
-        CourcePresenter courcePresenter = new CourcePresenter(this);
+        CoursePresenter coursePresenter = new CoursePresenter(this);
     }
 
 
@@ -104,20 +106,20 @@ public class CourceActivity extends AppCompatActivity implements CourceContract.
         initTestCourceData();
         for (int i = 0; i < cources.size(); i++) {
             int randBg = bg_color[RandomUtil.getRandomInt(bg_color.length-1)];
-            CourceBean cource = cources.get(i);
-            CourceLayout layout = findViewById(R.id.cources);
-            CourceView courceView = new CourceView(getApplicationContext());
-            courceView.setCourceId(cource.getCourceId());
-            courceView.setStartSection(cource.getStartSection());
-            courceView.setEndSection(cource.getEndSection());
-            courceView.setWeekday(cource.getWeekday());
-            courceView.setBackground(getDrawable(randBg));
-            courceView.setText(String.format("%s@%s", cource.getCourceName(), cource.getClassroom()));
-            courceView.setTextColor(Color.WHITE);
+            CourseBean cource = cources.get(i);
+            CourseLayout layout = findViewById(R.id.cources);
+            CourseView courseView = new CourseView(getApplicationContext());
+            courseView.setCourceId(cource.getCourceId());
+            courseView.setStartSection(cource.getStartSection());
+            courseView.setEndSection(cource.getEndSection());
+            courseView.setWeekday(cource.getWeekday());
+            courseView.setBackground(getDrawable(randBg));
+            courseView.setText(String.format("%s@%s", cource.getCourceName(), cource.getClassroom()));
+            courseView.setTextColor(Color.WHITE);
             //courceView.setAlpha(0.5f);
-            courceView.setTextSize(10);
-            courceView.setGravity(Gravity.CENTER);
-            layout.addView(courceView);
+            courseView.setTextSize(10);
+            courseView.setGravity(Gravity.CENTER);
+            layout.addView(courseView);
 
         }
 
@@ -125,10 +127,10 @@ public class CourceActivity extends AppCompatActivity implements CourceContract.
 
     //测试数据
     public void initTestCourceData() {
-        CourceBean cource1 = new CourceBean("通信原理A", "黎", 1, 1, 1, 1, "11C107", "1-16");
-        CourceBean cource2 = new CourceBean("微波天线", "黎", 2, 1, 2, 2, "02201Y", "1-16");
-        CourceBean cource3 = new CourceBean("科技文献阅读和写作（信息类）", "黎", 3, 7, 2, 2, "11C107", "1-16");
-        CourceBean cource4 = new CourceBean("科技文献阅读和写作（信息类）", "黎", 3, 4, 4, 4, "11C107", "1-16");
+        CourseBean cource1 = new CourseBean("通信原理A", "黎", 1, 1, 1, 1, "11C107", "1-16");
+        CourseBean cource2 = new CourseBean("微波天线", "黎", 2, 1, 2, 2, "02201Y", "1-16");
+        CourseBean cource3 = new CourseBean("科技文献阅读和写作（信息类）", "黎", 3, 7, 2, 2, "11C107", "1-16");
+        CourseBean cource4 = new CourseBean("科技文献阅读和写作（信息类）", "黎", 3, 4, 4, 4, "11C107", "1-16");
         cources.add(cource1);
         cources.add(cource2);
         cources.add(cource3);
@@ -198,15 +200,18 @@ public class CourceActivity extends AppCompatActivity implements CourceContract.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.menu_toolbar_add:
-                Toast.makeText(CourceActivity.this, "添加课程", LENGTH_SHORT).show();
+                Toast.makeText(CourseActivity.this, "添加课程", LENGTH_SHORT).show();
+                intent = new Intent(CourseActivity.this, AddCourseActivity.class);
+                startActivity(intent);
                 break;
             case R.id.menu_toolbar_remove:
-                Toast.makeText(CourceActivity.this, "删除课程", LENGTH_SHORT).show();
+                Toast.makeText(CourseActivity.this, "删除课程", LENGTH_SHORT).show();
                 break;
             case R.id.menu_toolbar_share:
-                Toast.makeText(CourceActivity.this, "分享课程", LENGTH_SHORT).show();
+                Toast.makeText(CourseActivity.this, "分享课程", LENGTH_SHORT).show();
                 break;
 
         }
@@ -253,25 +258,25 @@ public class CourceActivity extends AppCompatActivity implements CourceContract.
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_cources:
-                Toast.makeText(CourceActivity.this, "我的课程", LENGTH_SHORT).show();
+                Toast.makeText(CourseActivity.this, "我的课程", LENGTH_SHORT).show();
                 break;
             case R.id.nav_share_cource:
-                Toast.makeText(CourceActivity.this, "分享课程", LENGTH_SHORT).show();
+                Toast.makeText(CourseActivity.this, "分享课程", LENGTH_SHORT).show();
                 break;
             case R.id.nav_mark:
-                Toast.makeText(CourceActivity.this, "我的成绩", LENGTH_SHORT).show();
+                Toast.makeText(CourseActivity.this, "我的成绩", LENGTH_SHORT).show();
                 break;
             case R.id.nav_credit_score:
-                Toast.makeText(CourceActivity.this, "我的学分绩", LENGTH_SHORT).show();
+                Toast.makeText(CourseActivity.this, "我的学分绩", LENGTH_SHORT).show();
                 break;
             case R.id.nav_share_app:
-                Toast.makeText(CourceActivity.this, "分享应用", LENGTH_SHORT).show();
+                Toast.makeText(CourseActivity.this, "分享应用", LENGTH_SHORT).show();
                 break;
             case R.id.nav_about_us:
-                Toast.makeText(CourceActivity.this, "关于我们", LENGTH_SHORT).show();
+                Toast.makeText(CourseActivity.this, "关于我们", LENGTH_SHORT).show();
                 break;
             case R.id.nav_system_setting:
-                Toast.makeText(CourceActivity.this, "系统设置", LENGTH_SHORT).show();
+                Toast.makeText(CourseActivity.this, "系统设置", LENGTH_SHORT).show();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);//带有动画的关闭侧滑菜单
@@ -305,7 +310,7 @@ public class CourceActivity extends AppCompatActivity implements CourceContract.
     }
 
     @Override
-    public void setPresenter(CourceContract.Presenter presenter) {
+    public void setPresenter(CourseContract.Presenter presenter) {
         mPresenter = presenter;
     }
 

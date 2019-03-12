@@ -1,10 +1,9 @@
-package com.breeziness.timetable.courcetask;
+package com.breeziness.timetable.coursetask;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
 
 import com.breeziness.timetable.data.retrofit.RetrofitFactory;
-
 
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -13,15 +12,15 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class CourcePresenter implements CourceContract.Presenter {
+public class CoursePresenter implements CourseContract.Presenter {
 
-    private static final String TAG = "CourcePresenter";
-    private CourceContract.View view;//持有View引用
+    private static final String TAG = "CoursePresenter";
+    private CourseContract.View view;//持有View引用
 
     //将所有正在处理的Subscription都添加到CompositeSubscription中。统一退出的时候注销观察
     private CompositeDisposable mCompositeDisposable;
 
-    public CourcePresenter( CourceContract.View view) {
+    public CoursePresenter(CourseContract.View view) {
         this.view = view;
         view.setPresenter(this);
     }
@@ -35,31 +34,6 @@ public class CourcePresenter implements CourceContract.Presenter {
     @SuppressLint("CheckResult")
     @Override
     public void getCource() {
-        RetrofitFactory.getInstance()
-                .getCourceBy()
-               .subscribeOn(Schedulers.io())
-                .doOnSubscribe(new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        addDisposable(disposable);
-                        view.showProgressBar(true);
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(String s) throws Exception {
-                        view.setCource(s);
-                        Log.d(TAG, "accept: "+s);
-                        view.showProgressBar(false);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        view.showProgressBar(false);
-                        Log.e(TAG,"访问出错");
-                    }
-                });
 
     }
 
