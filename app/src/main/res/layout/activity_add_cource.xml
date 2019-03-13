@@ -25,21 +25,27 @@
         android:layout_height="wrap_content"
         android:text="登录"
         app:layout_constraintTop_toBottomOf="@+id/btn_start" />
+    <Button
+        android:id="@+id/btn_getcourse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="获取课程"
+        app:layout_constraintTop_toBottomOf="@id/btn_login"/>
 
     <ImageView
         android:id="@+id/iv_show"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_getcourse" />
 
     <TextView
         android:id="@+id/tv_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="8"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_getcourse" />
 
     <ProgressBar
         android:id="@+id/pb"

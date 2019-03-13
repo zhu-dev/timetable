@@ -2,6 +2,7 @@ package com.breeziness.timetable.data.retrofit;
 
 import android.util.Log;
 
+import com.breeziness.timetable.base.BaseApplication;
 import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
@@ -23,6 +24,12 @@ public class RetrofitFactory {
     // Retrofit是基于OkHttpClient的，可以创建一个OkHttpClient进行一些配置
     private static OkHttpClient okHttpClient = new OkHttpClient.Builder()
 
+            //获取服务器返回的cookie的拦截器
+            .addInterceptor(new ReceiveCookieInterceptor(BaseApplication.getContext()))
+            //添加cookie到头部的拦截器
+            .addInterceptor(new AddCoookieInterceptor(BaseApplication.getContext()))
+            //添加统一的拦截器
+            .addInterceptor(new CommonHeaderInterceptor())
             //设置拦截器打印接口信息，方便接口调试
             .addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                 @Override

@@ -26,6 +26,7 @@ public class AddCourseActivity extends AppCompatActivity implements View.OnClick
     private TextView tv_show;
     private Button btn_start;
     private Button btn_login;
+    private Button btn_getCourse;
     private ProgressBar pb;
     private EditText et_identify;
     private ImageView iv_show;
@@ -46,7 +47,9 @@ public class AddCourseActivity extends AppCompatActivity implements View.OnClick
         et_identify = findViewById(R.id.et_identify);
         iv_show = findViewById(R.id.iv_show);
         btn_login = findViewById(R.id.btn_login);
+        btn_getCourse = findViewById(R.id.btn_getcourse);
 
+        btn_getCourse.setOnClickListener(this);
         btn_start.setOnClickListener(this);
         btn_login.setOnClickListener(this);
         pb.setVisibility(View.GONE);
@@ -73,6 +76,9 @@ public class AddCourseActivity extends AppCompatActivity implements View.OnClick
                 if (!et_identify.getText().toString().isEmpty()) {
                     mPresenter.getLogin(et_identify.getText().toString());
                 }
+                break;
+            case R.id.btn_getcourse:
+                mPresenter.getCource();
                 break;
         }
 

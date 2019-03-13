@@ -17,7 +17,7 @@ import com.breeziness.timetable.coursetask.courselayout.CourseLayout;
 import com.breeziness.timetable.coursetask.courseview.CourseView;
 import com.breeziness.timetable.coursetask.popwin.DropBean;
 import com.breeziness.timetable.coursetask.popwin.PopView;
-import com.breeziness.timetable.data.bean.CourseBean;
+import com.breeziness.timetable.data.bean.TestCourseBean;
 import com.breeziness.timetable.util.RandomUtil;
 import com.google.android.material.navigation.NavigationView;
 
@@ -56,7 +56,7 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
     };
 
     //测试内容
-    private List<CourseBean> cources = new ArrayList<>();//测试用课程数据
+    private List<TestCourseBean> cources = new ArrayList<>();//测试用课程数据
 
     protected CourseContract.Presenter mPresenter;//Presenter
 
@@ -106,7 +106,7 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
         initTestCourceData();
         for (int i = 0; i < cources.size(); i++) {
             int randBg = bg_color[RandomUtil.getRandomInt(bg_color.length-1)];
-            CourseBean cource = cources.get(i);
+            TestCourseBean cource = cources.get(i);
             CourseLayout layout = findViewById(R.id.cources);
             CourseView courseView = new CourseView(getApplicationContext());
             courseView.setCourceId(cource.getCourceId());
@@ -127,10 +127,10 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
 
     //测试数据
     public void initTestCourceData() {
-        CourseBean cource1 = new CourseBean("通信原理A", "黎", 1, 1, 1, 1, "11C107", "1-16");
-        CourseBean cource2 = new CourseBean("微波天线", "黎", 2, 1, 2, 2, "02201Y", "1-16");
-        CourseBean cource3 = new CourseBean("科技文献阅读和写作（信息类）", "黎", 3, 7, 2, 2, "11C107", "1-16");
-        CourseBean cource4 = new CourseBean("科技文献阅读和写作（信息类）", "黎", 3, 4, 4, 4, "11C107", "1-16");
+        TestCourseBean cource1 = new TestCourseBean("通信原理A", "黎", 1, 1, 1, 1, "11C107", "1-16");
+        TestCourseBean cource2 = new TestCourseBean("微波天线", "黎", 2, 1, 2, 2, "02201Y", "1-16");
+        TestCourseBean cource3 = new TestCourseBean("科技文献阅读和写作（信息类）", "黎", 3, 7, 2, 2, "11C107", "1-16");
+        TestCourseBean cource4 = new TestCourseBean("科技文献阅读和写作（信息类）", "黎", 3, 4, 4, 4, "11C107", "1-16");
         cources.add(cource1);
         cources.add(cource2);
         cources.add(cource3);

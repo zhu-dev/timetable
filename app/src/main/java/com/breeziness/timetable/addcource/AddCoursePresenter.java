@@ -7,12 +7,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.breeziness.timetable.data.bean.CourseBean;
 import com.breeziness.timetable.data.bean.LoginBean;
 import com.breeziness.timetable.data.retrofit.RetrofitFactory;
+import com.breeziness.timetable.util.LogUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -49,7 +52,7 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
         Map<String, String> params = new HashMap<>();
         params.put("UserName", "1600200639");
         params.put("PassWord", "338471");
-        params.put("CheckCode",CheckCode);
+        params.put("CheckCode", CheckCode);
 
 
 
@@ -71,14 +74,14 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                     @Override
                     public void accept(LoginBean loginBean) throws Exception {
                         view.setCource(loginBean.getMsg());
-                        Log.e(TAG, "accept: -------"+loginBean.getData()+loginBean.getMsg());
+                        //Log.e(TAG, "accept: -------" + loginBean.getData() + loginBean.getMsg());
                         view.showProgressBar(false);//显示进度条
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         view.showProgressBar(false);//显示进度条
-                        Log.e(TAG, "accept: -------"+throwable);
+                       // Log.e(TAG, "accept: -------" + throwable);
                     }
                 });
     }
@@ -110,12 +113,10 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                     @Override
                     public Bitmap apply(ResponseBody responseBody) throws Exception {
 
-                        //获取流
                         InputStream in = responseBody.byteStream();
                         //转化为bitmap
-                        Bitmap bitmap = BitmapFactory.decodeStream(in);
 
-                        return bitmap;
+                        return BitmapFactory.decodeStream(in);
                     }
                 })
                 .subscribe(new Consumer<Bitmap>() {
@@ -127,7 +128,7 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e(TAG, "-------------accept:----------- " + throwable);//输出异常
+                       // Log.e(TAG, "-------------accept:----------- " + throwable);//输出异常
                         view.showProgressBar(false);
                     }
                 });
@@ -136,64 +137,40 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
     }
 
 
-
-
     /**
      * 获取课程表
      */
     @SuppressLint("CheckResult")
     @Override
     public void getCource() {
-//        Map<String,String> params = new HashMap<>();
-//        params.put("username","zhu");
-//        params.put("password","123");
-
-//        //登录请求
-//        Map<String, String> params = new HashMap<>();
-//        params.put("username", "1600200639");
-//        params.put("password", "338471");
-//        params.put("login", "%B5%C7%A1%A1%C2%BC");
-//
-//        //查看课表
-//        Map<String, String> termMap = new HashMap<>();
-//        params.put("term", "2018-2019_2");
-//
-//        Observable<String> ob_login = RetrofitFactory.getInstance().login(params);//登录被观察者
-//        final Observable<String> ob_query = RetrofitFactory.getInstance().getCourse(termMap);//查看课表被观察者
-//
-//
-//        ob_login.subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doOnSubscribe(new Consumer<Disposable>() {
-//                    @Override
-//                    public void accept(Disposable disposable) throws Exception {
-//                        addDisposable(disposable);
-//                        view.showProgressBar(true);
-//                    }
-//                })
-//                .observeOn(Schedulers.io())
-//                .flatMap(new Function<String, ObservableSource<String>>() {
-//                    @Override
-//                    public ObservableSource<String> apply(String s) throws Exception {
-//                        return ob_query;
-//                    }
-//                })
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Consumer<String>() {
-//
-//                    @Override
-//                    public void accept(String s) throws Exception {
-//                        view.setCource(s);
-//                        Log.e(TAG, "-----------accept: ------" + s.length());
-//                        view.showProgressBar(false);
-//                    }
-//                }, new Consumer<Throwable>() {
-//                    @Override
-//                    public void accept(Throwable throwable) throws Exception {
-//                        view.showProgressBar(false);
-//                        Log.e(TAG, "访问出错");
-//                    }
-//                });
+        RetrofitFactory.getInstance().getCourseHtml()
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        addDisposable(disposable);//将disponsable对象加入容器统一注销
+                        view.showProgressBar(true);//显示进度条
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Function<CourseBean, List<CourseBean.DataBean>>() {
+                    @Override
+                    public List<CourseBean.DataBean> apply(CourseBean courseBean) throws Exception {
+                        return courseBean.getData();
+                    }
+                })
+                .subscribe(new Consumer<List<CourseBean.DataBean>>() {
+                    @Override
+                    public void accept(List<CourseBean.DataBean> dataBeans) throws Exception {
+                        Log.e(TAG, "accept: --------"+dataBeans.get(0).getCname());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e(TAG, "accept: ------" + throwable);
+                        view.showProgressBar(false);
+                    }
+                });
     }
 
     @Override

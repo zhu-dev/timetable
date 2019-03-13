@@ -2,9 +2,11 @@ package com.breeziness.timetable.data.retrofit;
 
 
 
+import com.breeziness.timetable.data.bean.CourseBean;
 import com.breeziness.timetable.data.bean.LoginBean;
 
 
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -18,20 +20,18 @@ public interface RetrofitService {
 
 
     //获取验证图片
-    //http://bkjw.guet.edu.cn/  http://bkjw.guet.edu.cn/login/GetValidateCode      http://bkjw.guet.edu.cn/login/GetValidateCode?id=0.20388818644303797
+    //http://bkjw.guet.edu.cn/
     @GET("login/GetValidateCode")
-    @Headers({"User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0", "Accept:image/webp,*/*"})
     Observable<ResponseBody> getIdImage();
 
     //获取cookie session
     //http://bkjw.guet.edu.cn/Login/SubmitLogin
     @POST("Login/SubmitLogin")
-    @Headers("User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0")
     Observable<LoginBean> getCookie(@QueryMap Map<String, String> params);
 
     //获取课表的网页html
-    @POST()
-    Observable<String> getCourseHtml(@QueryMap Map<String, String> params);
+    @GET("student/getstutable?_dc=&term=2018-2019_2&page=1&start=0&limit=25")
+    Observable<CourseBean> getCourseHtml();
 
     //获取我的成绩
     @GET()
@@ -48,7 +48,7 @@ public interface RetrofitService {
 
     //    测试我的服务器登录功能
 //    @POST("login.php")
-//    Observable<TestBean> login(@QueryMap Map<String, String> param);
+//    Observable<TesLloginBean> login(@QueryMap Map<String, String> param);
 
 
 //    //    测试访问学校教务系统
