@@ -30,7 +30,7 @@ public class RetrofitFactory {
             .addInterceptor(new AddCoookieInterceptor(BaseApplication.getContext()))
             //添加统一的拦截器
             .addInterceptor(new CommonHeaderInterceptor())
-            //设置拦截器打印接口信息，方便接口调试
+            //设置拦截器打印接口信息，方便接口调试，这个拦截器必须在后面不然header拦截器不起作用
             .addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                 @Override
                 public void log(String message) {

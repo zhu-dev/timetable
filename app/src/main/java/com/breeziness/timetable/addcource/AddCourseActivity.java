@@ -14,11 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.breeziness.timetable.R;
+import com.breeziness.timetable.data.bean.CourseBean;
 import com.breeziness.timetable.data.jsoup.JsoupManager;
 import com.breeziness.timetable.util.DataCharset;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AddCourseActivity extends AppCompatActivity implements View.OnClickListener, AddCourseContract.View {
@@ -78,7 +80,7 @@ public class AddCourseActivity extends AppCompatActivity implements View.OnClick
                 }
                 break;
             case R.id.btn_getcourse:
-                mPresenter.getCource();
+                mPresenter.getCource("2018-2019_1");
                 break;
         }
 
@@ -96,10 +98,10 @@ public class AddCourseActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public void setCource(String cource) {
+    public void setCource(List<CourseBean.DataBean> dataBeans) {
 
-        tv_show.setText(cource);
-        Log.d(TAG, "setCource: " + cource);
+        tv_show.setText(dataBeans.get(20).getCname());
+
     }
 
     @Override

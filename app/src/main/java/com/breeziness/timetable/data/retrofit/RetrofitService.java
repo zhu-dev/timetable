@@ -11,9 +11,11 @@ import java.util.Map;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface RetrofitService {
@@ -29,9 +31,11 @@ public interface RetrofitService {
     @POST("Login/SubmitLogin")
     Observable<LoginBean> getCookie(@QueryMap Map<String, String> params);
 
-    //获取课表的网页html
-    @GET("student/getstutable?_dc=&term=2018-2019_2&page=1&start=0&limit=25")
-    Observable<CourseBean> getCourseHtml();
+
+    //获取课表的json
+    @GET("student/getstutable")  //http://bkjw.guet.edu.cn/student/getstutable?_dc=1552548462281&term=2018-2019_2&page=1&start=0&limit=25
+    @Headers("Referer:http://bkjw.guet.edu.cn/Login/MainDesktop")
+    Observable<CourseBean> getCourse(@Query("term") String term);
 
     //获取我的成绩
     @GET()

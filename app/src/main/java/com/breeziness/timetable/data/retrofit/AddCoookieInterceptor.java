@@ -3,6 +3,7 @@ package com.breeziness.timetable.data.retrofit;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 
 import java.io.IOException;
@@ -18,6 +19,8 @@ import okhttp3.Response;
  * 将cookie从sp中读出
  */
 public class AddCoookieInterceptor implements Interceptor {
+
+    private static final String TAG = "AddCoookieInterceptor";
     private Context context;//sp需要context,
 
     public AddCoookieInterceptor(Context context) {
@@ -29,14 +32,16 @@ public class AddCoookieInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         final Request.Builder builder = chain.request().newBuilder();
+        StringBuilder sb = new StringBuilder();
         SharedPreferences sp = context.getSharedPreferences("Cookie", Context.MODE_PRIVATE);
-        Observable.just(sp.getString("Cookie", ""))
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(String s) throws Exception {
-                        builder.addHeader("Cookie", s);
-                    }
-                });
+        Log.e(TAG, "apply:-----cookie--add----"+sp.getString("Cookie", ""));
+        if (!sp.getString("session","").equals("")){
+            sb.append(sp.getString("session","")).append(";").append(sp.getString("Cookie", ""));
+            builder.addHeader("Cookie", sb.toString());
+        }else {
+            builder.addHeader("Cookie", sp.getString("Cookie", ""));
+        }
+
         return chain.proceed(builder.build());
     }
 }

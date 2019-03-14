@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="8"
-        app:layout_constraintTop_toBottomOf="@+id/btn_getcourse" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_show" />
 
     <ProgressBar
         android:id="@+id/pb"

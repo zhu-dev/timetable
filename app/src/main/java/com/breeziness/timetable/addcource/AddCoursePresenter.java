@@ -3,16 +3,12 @@ package com.breeziness.timetable.addcource;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
 import com.breeziness.timetable.data.bean.CourseBean;
 import com.breeziness.timetable.data.bean.LoginBean;
 import com.breeziness.timetable.data.retrofit.RetrofitFactory;
-import com.breeziness.timetable.util.LogUtil;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +51,6 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
         params.put("CheckCode", CheckCode);
 
 
-
         RetrofitFactory.getInstance().getCookie(params)
 
                 //被观察者在io子线程
@@ -73,7 +68,7 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                 .subscribe(new Consumer<LoginBean>() {
                     @Override
                     public void accept(LoginBean loginBean) throws Exception {
-                        view.setCource(loginBean.getMsg());
+                        //view.setCource(loginBean.getMsg());
                         //Log.e(TAG, "accept: -------" + loginBean.getData() + loginBean.getMsg());
                         view.showProgressBar(false);//显示进度条
                     }
@@ -81,7 +76,7 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         view.showProgressBar(false);//显示进度条
-                       // Log.e(TAG, "accept: -------" + throwable);
+                        // Log.e(TAG, "accept: -------" + throwable);
                     }
                 });
     }
@@ -128,7 +123,7 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                       // Log.e(TAG, "-------------accept:----------- " + throwable);//输出异常
+                        // Log.e(TAG, "-------------accept:----------- " + throwable);//输出异常
                         view.showProgressBar(false);
                     }
                 });
@@ -142,8 +137,8 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
      */
     @SuppressLint("CheckResult")
     @Override
-    public void getCource() {
-        RetrofitFactory.getInstance().getCourseHtml()
+    public void getCource(String term) {
+        RetrofitFactory.getInstance().getCourse(term)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
@@ -153,6 +148,7 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
+                //转化结果
                 .map(new Function<CourseBean, List<CourseBean.DataBean>>() {
                     @Override
                     public List<CourseBean.DataBean> apply(CourseBean courseBean) throws Exception {
@@ -162,12 +158,13 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                 .subscribe(new Consumer<List<CourseBean.DataBean>>() {
                     @Override
                     public void accept(List<CourseBean.DataBean> dataBeans) throws Exception {
-                        Log.e(TAG, "accept: --------"+dataBeans.get(0).getCname());
+                        view.setCource(dataBeans);
+                        view.showProgressBar(false);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e(TAG, "accept: ------" + throwable);
+                        Log.e(TAG, "accept: ---throwable---" + throwable);
                         view.showProgressBar(false);
                     }
                 });
