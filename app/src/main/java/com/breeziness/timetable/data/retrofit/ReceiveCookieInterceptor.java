@@ -6,12 +6,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import okhttp3.Interceptor;
 import okhttp3.Response;
 
@@ -30,6 +25,12 @@ public class ReceiveCookieInterceptor implements Interceptor {
         this.context = context;
     }
 
+    /**
+     * 接受cookie并保存到sp中
+     * @param chain
+     * @return
+     * @throws IOException
+     */
     @SuppressLint("CheckResult")
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -38,6 +39,8 @@ public class ReceiveCookieInterceptor implements Interceptor {
         final StringBuilder sb = new StringBuilder();
         for (String cookie : cookies) {
             if (!cookie.isEmpty()) {
+                //刚开始并没有".ASPXAUTH"，只有seesion,但是请求登录后会返回".ASPXAUTH",后面的操作都需要，
+                // 同时还需要拼接session在后面，才能正常访问，所以要单独把保存session
                 if (cookie.contains(".ASPXAUTH")) {
                     sb.append(cookie);
                     SharedPreferences sp = context.getSharedPreferences("Cookie", Context.MODE_PRIVATE);
@@ -53,21 +56,9 @@ public class ReceiveCookieInterceptor implements Interceptor {
                     editor.apply();
                 }
 
-
             }
         }
 
-
-//        if (!response.header("Set-Cookie").isEmpty()) {
-//            //final StringBuilder sb = new StringBuilder();
-//
-//            Log.e(TAG, "apply:-----cookie--receiver----" + response.header("Set-Cookie"));
-//
-//            SharedPreferences sp = context.getSharedPreferences("Cookie", Context.MODE_PRIVATE);
-//            SharedPreferences.Editor editor = sp.edit();
-//            editor.putString("Cookie", response.header("Set-Cookie"));
-//            editor.apply();
-//        }
         return response;
     }
 }

@@ -71,6 +71,7 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                         //view.setCource(loginBean.getMsg());
                         //Log.e(TAG, "accept: -------" + loginBean.getData() + loginBean.getMsg());
                         view.showProgressBar(false);//显示进度条
+
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -164,7 +165,7 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e(TAG, "accept: ---throwable---" + throwable);
+                      //  Log.e(TAG, "accept: ---throwable---" + throwable);
                         view.showProgressBar(false);
                     }
                 });

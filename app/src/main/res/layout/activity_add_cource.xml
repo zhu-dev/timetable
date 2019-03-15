@@ -29,8 +29,15 @@
         android:id="@+id/btn_getcourse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="获取课程"
+        android:text="从网络获取课程"
         app:layout_constraintTop_toBottomOf="@id/btn_login"/>
+
+    <Button
+        android:id="@+id/btn_get_course_from_db"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="从数据库获取课程"
+        app:layout_constraintTop_toBottomOf="@id/btn_getcourse" />
 
     <ImageView
         android:id="@+id/iv_show"
@@ -38,14 +45,14 @@
         android:layout_height="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_getcourse" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_get_course_from_db" />
 
     <TextView
         android:id="@+id/tv_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="8"
-        app:layout_constraintTop_toBottomOf="@+id/iv_show" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_get_course_from_db" />
 
     <ProgressBar
         android:id="@+id/pb"

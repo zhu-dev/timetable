@@ -1,6 +1,6 @@
 package com.breeziness.timetable.data.bean;
 
-public class TesLloginBean {
+public class TestLloginBean {
     /**
      * code : 200
      * message : sucess

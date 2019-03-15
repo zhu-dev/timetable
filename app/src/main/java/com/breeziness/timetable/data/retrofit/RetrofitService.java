@@ -52,7 +52,7 @@ public interface RetrofitService {
 
     //    测试我的服务器登录功能
 //    @POST("login.php")
-//    Observable<TesLloginBean> login(@QueryMap Map<String, String> param);
+//    Observable<TestLloginBean> login(@QueryMap Map<String, String> param);
 
 
 //    //    测试访问学校教务系统

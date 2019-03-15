@@ -34,7 +34,7 @@ public class AddCoookieInterceptor implements Interceptor {
         final Request.Builder builder = chain.request().newBuilder();
         StringBuilder sb = new StringBuilder();
         SharedPreferences sp = context.getSharedPreferences("Cookie", Context.MODE_PRIVATE);
-        Log.e(TAG, "apply:-----cookie--add----"+sp.getString("Cookie", ""));
+      //  Log.e(TAG, "apply:-----cookie--add----"+sp.getString("Cookie", ""));
         if (!sp.getString("session","").equals("")){
             sb.append(sp.getString("session","")).append(";").append(sp.getString("Cookie", ""));
             builder.addHeader("Cookie", sb.toString());
