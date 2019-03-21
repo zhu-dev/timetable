@@ -8,4 +8,5 @@
 
     <dimen name="weekview_month_width">16dp</dimen>
     <dimen name="weekview_section_number_width">115dp</dimen>
+    <dimen name="tint_text_size">11sp</dimen>
 </resources>

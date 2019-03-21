@@ -7,6 +7,7 @@ import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Toast;
 
@@ -71,6 +72,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
     }
+
+    /**
+     * 获取屏幕的宽和高
+     */
+//    public void getScreenPixels() {
+//        DisplayMetrics metrics = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//        screenWidth = metrics.widthPixels;
+//        screenHeight = metrics.heightPixels;
+//    }
+
+
+
+
 
     /**
      * 设置布局

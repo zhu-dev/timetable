@@ -1,8 +1,17 @@
-package com.breeziness.timetable.coursetask.popwin;
+package com.breeziness.timetable.UI.popwin.weekpopwin;
 
 public class DropBean {
     private boolean isCheck;
     private String weekday;
+    private boolean curWeek;
+
+    public boolean isCurWeek() {
+        return curWeek;
+    }
+
+    public void setCurWeek(boolean curWeek) {
+        this.curWeek = curWeek;
+    }
 
     public DropBean(String weekday) {
         this.weekday = weekday;

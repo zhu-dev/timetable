@@ -25,12 +25,13 @@
         android:layout_height="wrap_content"
         android:text="登录"
         app:layout_constraintTop_toBottomOf="@+id/btn_start" />
+
     <Button
         android:id="@+id/btn_getcourse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="从网络获取课程"
-        app:layout_constraintTop_toBottomOf="@id/btn_login"/>
+        app:layout_constraintTop_toBottomOf="@id/btn_login" />
 
     <Button
         android:id="@+id/btn_get_course_from_db"
@@ -39,30 +40,36 @@
         android:text="从数据库获取课程"
         app:layout_constraintTop_toBottomOf="@id/btn_getcourse" />
 
+    <Button
+        android:id="@+id/btn_login_image_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="验证码对话框"
+        app:layout_constraintTop_toBottomOf="@id/btn_get_course_from_db" />
+
     <ImageView
         android:id="@+id/iv_show"
         android:layout_width="60dp"
         android:layout_height="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_get_course_from_db" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_login_image_dialog" />
 
     <TextView
         android:id="@+id/tv_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="8"
-        app:layout_constraintTop_toBottomOf="@+id/btn_get_course_from_db" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_show" />
 
     <ProgressBar
         android:id="@+id/pb"
         style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_show" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

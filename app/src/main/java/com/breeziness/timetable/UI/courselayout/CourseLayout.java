@@ -1,4 +1,4 @@
-package com.breeziness.timetable.coursetask.courselayout;
+package com.breeziness.timetable.UI.courselayout;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.breeziness.timetable.R;
-import com.breeziness.timetable.coursetask.courseview.CourseView;
+import com.breeziness.timetable.UI.courseview.CourseView;
 
 import java.util.ArrayList;
 import java.util.List;

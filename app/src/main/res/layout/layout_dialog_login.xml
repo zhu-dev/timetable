@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/bg_dialog_radius"
+    android:orientation="vertical"
+    android:padding="5dp">
+    <!--上面部分-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top_part"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_title"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:src="@drawable/guet"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_login_tiltle"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--分割线-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/border_color"
+        app:layout_constraintStart_toStartOf="parent" />
+    <!--下面部分-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_part">
+
+        <TextView
+            android:id="@+id/tv_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/dialog_login_subtitlle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_login"
+            android:layout_width="65dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:src="@color/grey_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_subtitle" />
+
+
+        <com.breeziness.timetable.UI.editText.NumberInputView
+            android:id="@+id/input_image_number"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="20dp"
+            android:background="@null"
+            android:inputType="number"
+            app:borderColor="@color/grey_color"
+            app:borderRadius="0dp"
+            app:borderWidth="1dp"
+            app:circleDot="2dp"
+            app:isPassword="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_login"
+            app:textColor="@color/colorPrimary"
+            app:textLenght="4" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+

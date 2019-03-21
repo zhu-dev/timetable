@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drop_item"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    android:orientation="horizontal"
-    android:id="@+id/drop_item">
+    android:orientation="horizontal">
+
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:id="@+id/tv_pop_curweek"
+        android:layout_marginStart="5dp"
+        android:text="@string/popweek_curweek_text"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
         android:id="@+id/drop_item_tv"
-        android:text="@string/cource_toolbar_name"
-        android:textSize="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:gravity="center"
         android:layout_gravity="center_horizontal"
-        android:textColor="@color/common_textcolor"/>
+        android:gravity="center"
+        android:text="@string/cource_toolbar_name"
+        android:textColor="@color/common_textcolor"
+        android:textSize="16sp" />
+
     <ImageView
+        android:id="@+id/drop_item_tick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/drop_item_tick"
-       android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_tick_check"/>
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_tick_check" />
 </RelativeLayout>

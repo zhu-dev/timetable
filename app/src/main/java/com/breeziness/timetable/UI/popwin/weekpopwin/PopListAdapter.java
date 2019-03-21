@@ -1,4 +1,4 @@
-package com.breeziness.timetable.coursetask.popwin;
+package com.breeziness.timetable.UI.popwin.weekpopwin;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -40,27 +40,38 @@ public class PopListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        if (convertView == null){
-           holder = new ViewHolder();
-           convertView = LayoutInflater.from(context).inflate(R.layout.drop_item,parent,false);
-           holder.tv_weekday = convertView.findViewById(R.id.drop_item_tv);//绑定
-           holder.tick = convertView.findViewById(R.id.drop_item_tick);
-           convertView.setTag(holder);//Sets the tag associated with this view  设置与此视图关联的标记
-        }else{
+        if (convertView == null) {
+            holder = new ViewHolder();
+            convertView = LayoutInflater.from(context).inflate(R.layout.drop_item, parent, false);
+            holder.tv_weekday = convertView.findViewById(R.id.drop_item_tv);//绑定
+            holder.tick = convertView.findViewById(R.id.drop_item_tick);
+            holder.tv_curweek = convertView.findViewById(R.id.tv_pop_curweek);
+            convertView.setTag(holder);//Sets the tag associated with this view  设置与此视图关联的标记
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.tv_weekday.setText(drops.get(position).getWeekday());//显示weekday
+
         //如果选中，则显示勾号
-        if (drops.get(position).isCheck()){
+        if (drops.get(position).isCheck()) {
             holder.tick.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             holder.tick.setVisibility(View.GONE);
         }
+
+        //判断是不是当前周
+        if (drops.get(position).isCurWeek()) {
+            holder.tv_curweek.setVisibility(View.VISIBLE);
+        } else {
+            holder.tv_curweek.setVisibility(View.GONE);
+        }
+
         return convertView;
     }
 
-    class ViewHolder{
+    class ViewHolder {
         TextView tv_weekday;
         ImageView tick;
+        TextView tv_curweek;
     }
 }

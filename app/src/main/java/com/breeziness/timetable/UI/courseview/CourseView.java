@@ -1,4 +1,4 @@
-package com.breeziness.timetable.coursetask.courseview;
+package com.breeziness.timetable.UI.courseview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

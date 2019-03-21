@@ -13,10 +13,10 @@ import android.widget.Toast;
 
 import com.breeziness.timetable.R;
 import com.breeziness.timetable.addcource.AddCourseActivity;
-import com.breeziness.timetable.coursetask.courselayout.CourseLayout;
-import com.breeziness.timetable.coursetask.courseview.CourseView;
-import com.breeziness.timetable.coursetask.popwin.DropBean;
-import com.breeziness.timetable.coursetask.popwin.PopView;
+import com.breeziness.timetable.UI.courselayout.CourseLayout;
+import com.breeziness.timetable.UI.courseview.CourseView;
+import com.breeziness.timetable.UI.popwin.weekpopwin.DropBean;
+import com.breeziness.timetable.UI.popwin.weekpopwin.PopView;
 import com.breeziness.timetable.data.bean.TestCourseBean;
 import com.breeziness.timetable.util.RandomUtil;
 import com.google.android.material.navigation.NavigationView;
@@ -36,11 +36,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import static android.widget.Toast.LENGTH_SHORT;
 
 
-public class CourseActivity extends AppCompatActivity implements CourseContract.View, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class CourseActivity extends AppCompatActivity implements CourseContract.View, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener ,PopView.OnDismissListener,PopView.OnShowListener{
 
     private static final String TAG = "CourseActivity";
 
     private PopView popView;
+
     private DrawerLayout drawer;
     private List<DropBean> weekList;
     private Toolbar toolbar;
@@ -145,7 +146,7 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
+            //点击事件
         }
     }
 
@@ -155,7 +156,9 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
      */
     private void popViewInit() {
         popView = findViewById(R.id.drop_couerce_select);
-        popView.setData(weekList);
+        popView.setOnShowListener(this);
+        popView.setOnDismissListener(this);
+        popView.setData(weekList);//这里记得传入当前周号
     }
     /************************************透明状态栏********************************/
     /**
@@ -314,5 +317,28 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
         mPresenter = presenter;
     }
 
+    /**
+     * 周次选择弹出菜单的弹出显示监听
+     * 将背景暗化
+     */
+    @Override
+    public void OnShow() {
+//        WindowManager.LayoutParams lp = getWindow().getAttributes();
+//        lp.alpha = 0.4f;
+//        getWindow().setAttributes(lp);
+//        popview_shelter.setVisibility(View.VISIBLE);
 
+    }
+
+    /**
+     * 周次选择弹出菜单的关闭显示监听
+     * 将背景恢复
+     */
+    @Override
+    public void OnDismiss() {
+//        WindowManager.LayoutParams lp = getWindow().getAttributes();
+//        lp.alpha = 1.0f;
+//        getWindow().setAttributes(lp);
+//        popview_shelter.setVisibility(View.GONE);
+    }
 }

@@ -14,7 +14,6 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -32,6 +31,27 @@
         <!-- 弹出层水平方向上的偏移，即距离屏幕左边的距离，负值会导致右边出现空隙 -->
         <item name="android:dropDownHorizontalOffset">0dip</item>
     </style>
+
+    <!--由于dialog自带的theme主题会限制宽度，这里我自定义-->
+    <style name="CusTheme.Dialog.Theme.Dialog" parent="@android:style/Theme.Dialog">
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">false</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 模糊 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 全屏 -->
+        <item name="android:windowFullscreen">true</item>
+        <!--最小宽度-->
+        <item name="android:windowMinWidthMinor">80%</item>
+
+    </style>
+
 
     <style name="Base.AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

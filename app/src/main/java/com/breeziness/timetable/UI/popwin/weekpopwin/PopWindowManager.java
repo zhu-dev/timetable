@@ -1,6 +1,5 @@
-package com.breeziness.timetable.coursetask.popwin;
+package com.breeziness.timetable.UI.popwin.weekpopwin;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -16,14 +15,16 @@ public class PopWindowManager {
     private PopupWindow popupWindow;
     private OnDismissListener onDismissListener;//视图消失回调监听
 
+
     public PopWindowManager(Context context, View contentView, View anchor) {
         this.context = context;
         this.contentView = contentView;
         this.anchor = anchor;
         init();
+
     }
 
-    @SuppressLint("WrongConstant")
+
     private void init() {
         //设置内容、宽度、高度、
         popupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -32,15 +33,19 @@ public class PopWindowManager {
         //弹出菜单背景色
         ColorDrawable colorDrawable = new ColorDrawable(Color.TRANSPARENT);//透明色 transparent
         popupWindow.setBackgroundDrawable(colorDrawable);
-        popupWindow.setOutsideTouchable(true);//是否响应window以外的触摸事件
-        //关闭事件
-        popupWindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
-        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        //设置监听
+        popupWindow.setOutsideTouchable(true);//是否响应window以外的触摸事件，可以通过点击外部空白处退出
+        //弹出键盘后显示的问题
+        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);//总是隐藏软键盘
+        //popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);//当显示软键盘时，调整window内的控件大小以便显示软键盘。这样的话控件可能会变形。
+
+
+
+        //设置关闭监听
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if (onDismissListener != null){
+                if (onDismissListener != null) {
+
                     onDismissListener.OnDismiss();
                 }
 
@@ -74,8 +79,10 @@ public class PopWindowManager {
         return popupWindow.isShowing();
     }
 
+
+
     /**
-     * 设置监听的方法
+     * 设置关闭监听的方法
      *
      * @param onDismissListener
      */
@@ -83,8 +90,11 @@ public class PopWindowManager {
         this.onDismissListener = onDismissListener;
     }
 
+
+
     /**
      * 视图消失回调接口
+     * 可以在这里实现背景透明度恢复
      */
     public interface OnDismissListener {
         void OnDismiss();

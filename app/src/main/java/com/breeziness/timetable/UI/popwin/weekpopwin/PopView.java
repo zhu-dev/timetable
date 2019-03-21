@@ -1,8 +1,7 @@
-package com.breeziness.timetable.coursetask.popwin;
+package com.breeziness.timetable.UI.popwin.weekpopwin;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,12 +19,15 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
     private final static String TAG = "PopView";
     /*顶部标题*/
     private TextView tv_title;
-
     private boolean isChecked = true;//被转中标志
     private Context context;
     private PopWindowManager popWindowManager;
     private PopListAdapter adapter;
     private OnDropItemSelectListener onDropItemSelectListener;
+
+    private OnShowListener onShowListener;
+    private OnDismissListener onDismissListener;
+
 
     /*传入显示的数据*/
     private List<DropBean> drops;
@@ -43,12 +45,9 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
 
     public PopView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        init(context);//初始化
     }
 
-    public PopView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
 
     /**
      * 初始化操作
@@ -57,11 +56,12 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
      */
     private void init(Context context) {
         this.context = context;
+
         /*顶部标题设置*/
         View view = LayoutInflater.from(getContext()).inflate(R.layout.drop_top_title, this, true);
         tv_title = view.findViewById(R.id.drop_title);
         //设置点击监听事件
-        setOnClickListener(this);
+        tv_title.setOnClickListener(this);
     }
 
     /**
@@ -73,24 +73,25 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
         //默认选择第一个位置的内容
         drops = dropBeanList;
         drops.get(0).setCheck(true);
-        Log.d(TAG, "setData: " + drops.get(0).getWeekday());
+        drops.get(0).setCurWeek(true);//默认第一周是当前周
         tv_title.setText(drops.get(0).getWeekday());
         selectPosition = 0;
-        View view = LayoutInflater.from(context).inflate(R.layout.drop_content, null);
-        view.findViewById(R.id.drop_content).setOnClickListener(new OnClickListener() {
+        View contentView = LayoutInflater.from(context).inflate(R.layout.drop_content, null);
+        contentView.findViewById(R.id.drop_content).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 popWindowManager.hide();//当点击弹出菜单后关闭弹出菜单
             }
         });
 
-        ListView listView = view.findViewById(R.id.drop_listview);
+        ListView listView = contentView.findViewById(R.id.drop_listview);
         listView.setOnItemClickListener(this);
         adapter = new PopListAdapter(drops, context);
         listView.setAdapter(adapter);
 
-        popWindowManager = new PopWindowManager(context, view, this);//锚点设置为这个PopView,实际上就是我们的标题
+        popWindowManager = new PopWindowManager(context, contentView, this);//锚点设置为这个PopView,实际上就是我们的标题栏
         popWindowManager.setOnDismissListener(this);//设置视图消失监听
+
     }
 
     /**
@@ -115,13 +116,18 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
         if (checked) {
             //icon = getResources().getDrawable(R.drawable.ic_drop_menu_week, null);
             popWindowManager.show();//显示弹出菜单
+            onShowListener.OnShow();//显示的状态回调
+
+
 
         } else {
             //icon = getResources().getDrawable(R.drawable.ic_drop_menu_week, null);
             popWindowManager.hide();//关闭弹出菜单
+            onDismissListener.OnDismiss();//关闭的状态回调
+
 
         }
-       // isChecked = !checked;
+
         //把倒三角图标设置到标题的右边
         //tv_title.setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null);
     }
@@ -137,7 +143,6 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
         adapter.notifyDataSetInvalidated();//通知适配器更新listview数据
         selectPosition = position;//更新选择的位置
         popWindowManager.hide();
-
         //回调被点击的item的position
         if (onDropItemSelectListener != null) {
             onDropItemSelectListener.onDropItemSelect(position);
@@ -153,6 +158,7 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
         this.onDropItemSelectListener = onDropItemSelectListener;
     }
 
+
     /**
      * 获取点击item位置的回调接口
      */
@@ -160,6 +166,40 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
 
         void onDropItemSelect(int Postion);
     }
+
+
+    /**
+     * 设置Popview弹出监听
+     *
+     * @param onShowListener
+     */
+    public void setOnShowListener(OnShowListener onShowListener) {
+        this.onShowListener = onShowListener;
+    }
+
+    /**
+     * 设置Popview关闭监听
+     *
+     * @param onDismissListener
+     */
+    public void setOnDismissListener(OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
+    }
+
+    /**
+     * Popview弹出监听的回调接口
+     */
+    public interface OnShowListener {
+        void OnShow();
+    }
+
+    /**
+     * Popview关闭监听的回调接口
+     */
+    public interface OnDismissListener {
+        void OnDismiss();
+    }
+
 
     @Override
     public boolean isChecked() {

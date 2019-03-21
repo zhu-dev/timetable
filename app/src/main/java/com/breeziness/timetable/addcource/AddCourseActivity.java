@@ -20,6 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.breeziness.timetable.R;
+import com.breeziness.timetable.UI.dialog.LoadingDialog;
+import com.breeziness.timetable.UI.dialog.LoginImageDialog;
+import com.breeziness.timetable.UI.editText.NumberInputView;
 import com.breeziness.timetable.data.bean.CourseBean;
 import com.breeziness.timetable.data.db.DataBaseHelper;
 import com.breeziness.timetable.data.db.DataBaseManager;
@@ -40,6 +43,7 @@ public class AddCourseActivity extends AppCompatActivity implements View.OnClick
     private Button btn_login;
     private Button btn_getCourse;
     private Button btn_getcourse_from_db;
+    private Button btn_login_image_dialog;
     private ProgressBar pb;
     private EditText et_identify;
     private ImageView iv_show;
@@ -74,7 +78,10 @@ public class AddCourseActivity extends AppCompatActivity implements View.OnClick
         btn_login = findViewById(R.id.btn_login);
         btn_getCourse = findViewById(R.id.btn_getcourse);
         btn_getcourse_from_db = findViewById(R.id.btn_get_course_from_db);
+        btn_login_image_dialog = findViewById(R.id.btn_login_image_dialog);
 
+
+        btn_login_image_dialog.setOnClickListener(this);
         btn_getcourse_from_db.setOnClickListener(this);
         btn_getCourse.setOnClickListener(this);
         btn_start.setOnClickListener(this);
@@ -117,9 +124,22 @@ public class AddCourseActivity extends AppCompatActivity implements View.OnClick
                         }, new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) throws Exception {
-                                Log.e(TAG, "accept: -----throwable------" + throwable);
+                                // Log.e(TAG, "accept: -----throwable------" + throwable);
                             }
                         });
+                break;
+            case R.id.btn_login_image_dialog:
+                LoginImageDialog loginImageDialog = new LoginImageDialog.Builder(AddCourseActivity.this).create();
+                loginImageDialog.show();
+
+                loginImageDialog.setOnDismissListener(new LoginImageDialog.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        LoadingDialog loadingDialog = new LoadingDialog.Builder(AddCourseActivity.this).create();
+                        loadingDialog.show();
+                    }
+                });
+
                 break;
 
         }
@@ -152,7 +172,7 @@ public class AddCourseActivity extends AppCompatActivity implements View.OnClick
                         @Override
                         public void accept(Boolean aBoolean) throws Exception {
                             if (aBoolean) {
-                                Log.e(TAG, "accept: ---1---" + aBoolean);
+                                //Log.e(TAG, "accept: ---1---" + aBoolean);
                                 //  Toast.makeText(AddCourseActivity.this, "插入数据成功", Toast.LENGTH_SHORT).show();
                             } else {
                                 //  Toast.makeText(AddCourseActivity.this, "插入数据失败", Toast.LENGTH_SHORT).show();
@@ -161,7 +181,7 @@ public class AddCourseActivity extends AppCompatActivity implements View.OnClick
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
-                            Log.e(TAG, "accept: ---throwable1-----" + throwable);
+                            //Log.e(TAG, "accept: ---throwable1-----" + throwable);
                             //  Toast.makeText(AddCourseActivity.this, "插入异常", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -176,7 +196,7 @@ public class AddCourseActivity extends AppCompatActivity implements View.OnClick
                         @Override
                         public void accept(Boolean aBoolean) throws Exception {
                             if (aBoolean) {
-                                Log.e(TAG, "accept: ----2----" + aBoolean);
+                                //Log.e(TAG, "accept: ----2----" + aBoolean);
                                 //Toast.makeText(AddCourseActivity.this, "更新数据成功", Toast.LENGTH_SHORT).show();
                             } else {
                                 //Toast.makeText(AddCourseActivity.this, "更新数据失败", Toast.LENGTH_SHORT).show();
@@ -186,7 +206,7 @@ public class AddCourseActivity extends AppCompatActivity implements View.OnClick
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
-                            Log.e(TAG, "accept: ---throwable2-----" + throwable);
+                            //Log.e(TAG, "accept: ---throwable2-----" + throwable);
                             // Toast.makeText(AddCourseActivity.this, "更新数据异常", Toast.LENGTH_SHORT).show();
                         }
                     });

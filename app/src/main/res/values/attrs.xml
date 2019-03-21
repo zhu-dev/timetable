@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="CourseView"> <!-- 这个Name需要跟你的自定义View的名称一致哦 -->
-        <attr name="courceId" format="integer"/><!--课程id-->
-        <attr name="startSection" format="integer"/><!--开始节次-->
-        <attr name="endSection" format="integer"/><!--结束节次-->
-        <attr name="weekday" format="integer"/><!--属于星期几-->
+        <attr name="courceId" format="integer" /><!--课程id-->
+        <attr name="startSection" format="integer" /><!--开始节次-->
+        <attr name="endSection" format="integer" /><!--结束节次-->
+        <attr name="weekday" format="integer" /><!--属于星期几-->
+    </declare-styleable>
+
+    <declare-styleable name="NumberInputView"><!--数字输入框-->
+        <attr name="borderColor" format="dimension" />
+        <attr name="borderWidth" format="dimension" />
+        <attr name="borderRadius" format="dimension" />
+        <attr name="textColor" format="color" />
+        <attr name="circleDot" format="dimension" />
+        <attr name="textLenght" format="integer" />
+        <attr name="isPassword" format="boolean" />
     </declare-styleable>
 </resources>
