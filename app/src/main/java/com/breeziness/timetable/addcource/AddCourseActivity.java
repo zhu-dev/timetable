@@ -6,11 +6,8 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 import android.annotation.SuppressLint;
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,19 +19,13 @@ import android.widget.Toast;
 import com.breeziness.timetable.R;
 import com.breeziness.timetable.UI.dialog.LoadingDialog;
 import com.breeziness.timetable.UI.dialog.LoginImageDialog;
-import com.breeziness.timetable.UI.editText.NumberInputView;
+import com.breeziness.timetable.UI.selectitemview.WheelSelectView;
 import com.breeziness.timetable.data.bean.CourseBean;
 import com.breeziness.timetable.data.db.DataBaseHelper;
 import com.breeziness.timetable.data.db.DataBaseManager;
-import com.breeziness.timetable.data.jsoup.JsoupManager;
-import com.breeziness.timetable.util.DataCharset;
 
-import org.reactivestreams.Subscription;
-
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class AddCourseActivity extends AppCompatActivity implements View.OnClickListener, AddCourseContract.View {
     private static final String TAG = "AddCourseActivity";
@@ -48,6 +39,7 @@ public class AddCourseActivity extends AppCompatActivity implements View.OnClick
     private EditText et_identify;
     private ImageView iv_show;
     private DataBaseHelper helper;
+    private WheelSelectView selectView;
 
     private AddCourseContract.Presenter mPresenter;
     private AddCoursePresenter courcePresenter;
@@ -56,16 +48,27 @@ public class AddCourseActivity extends AppCompatActivity implements View.OnClick
     //测试数据库
     private boolean flag = true;
 
+    //测试滑动选择视图
+    List<String> mDataList = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
-
+        initData();
         // helper = new DataBaseHelper(AddCourseActivity.this, "timetable.db", null, 1);//获得数据库helper实例
 
         courcePresenter = new AddCoursePresenter(this);
     }
 
+
+    private void initData() {
+        for (int i = 0; i < 5; i++) {
+            mDataList.add(2016+i+"");
+        }
+
+    }
 
     private void initView() {
         setContentView(R.layout.activity_add_cource);
@@ -79,8 +82,16 @@ public class AddCourseActivity extends AppCompatActivity implements View.OnClick
         btn_getCourse = findViewById(R.id.btn_getcourse);
         btn_getcourse_from_db = findViewById(R.id.btn_get_course_from_db);
         btn_login_image_dialog = findViewById(R.id.btn_login_image_dialog);
+        selectView = findViewById(R.id.wheelview);
+        selectView.setDataList(mDataList);
+        selectView.setCurrentPosition(5);
+        selectView.setOnSelectedChangeListener(new WheelSelectView.OnSelectedChangeListener() {
 
-
+            @Override
+            public void OnSelectedChange(String item, int position) {
+                Toast.makeText(AddCourseActivity.this, item, Toast.LENGTH_SHORT).show();
+            }
+        });
         btn_login_image_dialog.setOnClickListener(this);
         btn_getcourse_from_db.setOnClickListener(this);
         btn_getCourse.setOnClickListener(this);

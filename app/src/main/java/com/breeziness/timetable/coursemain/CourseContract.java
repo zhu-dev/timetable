@@ -1,4 +1,4 @@
-package com.breeziness.timetable.coursetask;
+package com.breeziness.timetable.coursemain;
 
 import com.breeziness.timetable.base.BasePresenter;
 import com.breeziness.timetable.base.BaseView;

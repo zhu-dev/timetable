@@ -16,4 +16,25 @@
         <attr name="textLenght" format="integer" />
         <attr name="isPassword" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="WheelSelectView"><!--滚动选择视图-->
+        <attr name="mTextSize" format="dimension"/>
+        <attr name="mTextColor" format="color"/>
+        <attr name="mItemWidthSpace" format="dimension"/>
+        <attr name="mItemHeightSpace" format="dimension"/>
+        <attr name="mSelectItemTextColor" format="color"/>
+        <attr name="mSelectItemTextSize" format="dimension"/>
+        <!--<attr name="mItemWidth" format="dimension"/>-->
+        <!--<attr name="mItemHeight" format="dimension"/>-->
+
+        <attr name="mIsTextGradual" format="boolean"/>
+        <attr name="mIsCyclic" format="boolean"/>
+        <attr name="mIsEnlargeSelectedItem" format="boolean"/>
+        <attr name="mIsShowSelectedCurtain" format="boolean"/>
+        <attr name="mIsShowCurtainBorder" format="boolean"/>
+
+        <attr name="mSelectedItemCurtainColor" format="color"/>
+        <attr name="mSelectedItemCurtainBorder" format="dimension"/>
+        <attr name="mSelectedItemCurtainBorderColor" format="color"/>
+    </declare-styleable>
 </resources>

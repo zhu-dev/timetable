@@ -14,7 +14,7 @@
         android:theme="@style/Base.AppTheme">
         <activity android:name=".addcource.AddCourseActivity"/>
         <activity
-            android:name=".coursetask.CourseActivity"
+            android:name=".coursemain.CourseActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
