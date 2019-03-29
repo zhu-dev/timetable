@@ -1,4 +1,4 @@
-package com.breeziness.timetable.UI.selectitemview;
+package com.breeziness.timetable.UI.wheelpicker;
 
 import android.content.Context;
 import android.util.AttributeSet;

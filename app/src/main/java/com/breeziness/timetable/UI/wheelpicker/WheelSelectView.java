@@ -1,19 +1,15 @@
-package com.breeziness.timetable.UI.selectitemview;
+package com.breeziness.timetable.UI.wheelpicker;
 
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Shader;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -258,7 +254,7 @@ public class WheelSelectView<T> extends View {
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setColor(mSelectedItemCurtainBorderColor);
             canvas.drawRect(mSelectedItemRect, mPaint);
-            canvas.drawRect(mDrawnRect, mPaint);//背景
+            //canvas.drawRect(mDrawnRect, mPaint);//背景
         }
 
         int visibleItemCount = -mScrollOffsetY / mItemHeight;//可视的item的个数
@@ -343,7 +339,7 @@ public class WheelSelectView<T> extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         mDrawnRect.set(getPaddingLeft(), getPaddingTop(),
-                getWidth() - getPaddingRight(), getHeight() - getPaddingBottom());
+                getWidth() - getPaddingRight(), getHeight()-getPaddingBottom());
         mItemHeight = mDrawnRect.height() / getVisibleItemCount();
         mFirstItemX = mDrawnRect.centerX();
         mFirstItemY = (int) ((mItemHeight - (mSelectedItemPaint.ascent() + mSelectedItemPaint.descent())) / 2);

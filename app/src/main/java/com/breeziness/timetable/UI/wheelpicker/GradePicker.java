@@ -1,4 +1,4 @@
-package com.breeziness.timetable.UI.selectitemview;
+package com.breeziness.timetable.UI.wheelpicker;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -25,7 +25,7 @@ public class GradePicker extends WheelSelectView<String> {
     public GradePicker(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        setmSelectedGrade(mSelectedGrade);
+        setSelectedGrade(mSelectedGrade);
         setOnSelectedChangeListener(new OnSelectedChangeListener() {
             @Override
             public void OnSelectedChange(String item, int position) {
@@ -38,7 +38,7 @@ public class GradePicker extends WheelSelectView<String> {
         return mSelectedGrade;
     }
 
-    public void setmSelectedGrade(int mSelectedGrade) {
+    public void setSelectedGrade(int mSelectedGrade) {
         setCurrentPosition(mSelectedGrade);
     }
 
@@ -46,7 +46,7 @@ public class GradePicker extends WheelSelectView<String> {
         return mGrade;
     }
 
-    public void setmGrade(List<String> mGrade) {
+    public void setGradeList(List<String> mGrade) {
         this.mGrade = mGrade;
         setDataList(mGrade);
     }

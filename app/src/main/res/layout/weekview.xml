@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="38dp"
+    android:layout_height="35dp"
     android:alpha="0.9"
     android:orientation="horizontal">
 
@@ -31,6 +31,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/monday_contain"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -46,6 +47,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/monday_day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -54,6 +56,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/tuesday_contain"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -69,6 +72,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/tuesday_day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -77,6 +81,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/wednesday_contain"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -92,6 +97,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/wednesday_day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -100,6 +106,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/thursday_contain"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -110,12 +117,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:gravity="center"
                 android:text="@string/weekview_thursday"
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/thursday_day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -124,6 +131,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/friday_contain"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -139,6 +147,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/friday_day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -147,6 +156,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/saturday_contain"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -162,6 +172,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/saturday_day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -170,6 +181,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/sunday_contain"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -185,6 +197,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/sunday_day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

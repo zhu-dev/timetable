@@ -1,4 +1,4 @@
-package com.breeziness.timetable.UI.selectitemview;
+package com.breeziness.timetable.UI.wheelpicker;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -8,9 +8,9 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 
-public class WeekPicker extends WheelSelectView<Integer> {
+public class WeekPicker extends WheelSelectView<String> {
     private int selectedWeek = 0;
-    private List<Integer> weekList = new ArrayList<>();
+    private List<String> weekList = new ArrayList<>();
 
     private OnWeekSelectedListener onWeekSelectedListener;
 
@@ -42,11 +42,8 @@ public class WeekPicker extends WheelSelectView<Integer> {
         setCurrentPosition(selectedWeek);
     }
 
-    public List<Integer> getWeekList() {
-        return weekList;
-    }
 
-    public void setWeekList(List<Integer> weekList) {
+    public void setWeekList(List<String> weekList) {
         this.weekList = weekList;
         setDataList(weekList);
     }

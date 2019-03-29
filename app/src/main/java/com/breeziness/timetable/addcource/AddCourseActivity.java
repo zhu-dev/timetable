@@ -1,6 +1,6 @@
 package com.breeziness.timetable.addcource;
 
-import androidx.appcompat.app.AppCompatActivity;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -8,38 +8,44 @@ import io.reactivex.schedulers.Schedulers;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.breeziness.timetable.R;
 import com.breeziness.timetable.UI.dialog.LoadingDialog;
 import com.breeziness.timetable.UI.dialog.LoginImageDialog;
-import com.breeziness.timetable.UI.selectitemview.WheelSelectView;
+import com.breeziness.timetable.UI.wheelpicker.InfoPicker;
+import com.breeziness.timetable.base.BaseActivity;
 import com.breeziness.timetable.data.bean.CourseBean;
-import com.breeziness.timetable.data.db.DataBaseHelper;
 import com.breeziness.timetable.data.db.DataBaseManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddCourseActivity extends AppCompatActivity implements View.OnClickListener, AddCourseContract.View {
+import static com.breeziness.timetable.util.ErrorCodeUtil.getCourseError;
+import static com.breeziness.timetable.util.ErrorCodeUtil.getImageError;
+import static com.breeziness.timetable.util.ErrorCodeUtil.getloginError;
+
+public class AddCourseActivity extends BaseActivity implements View.OnClickListener, AddCourseContract.View {
     private static final String TAG = "AddCourseActivity";
-    private TextView tv_show;
-    private Button btn_start;
-    private Button btn_login;
-    private Button btn_getCourse;
-    private Button btn_getcourse_from_db;
-    private Button btn_login_image_dialog;
-    private ProgressBar pb;
-    private EditText et_identify;
-    private ImageView iv_show;
-    private DataBaseHelper helper;
-    private WheelSelectView selectView;
+
+    private InfoPicker infoPicker;
+    private List<String> mGradeList = new ArrayList<>();
+    private List<String> mTermList = new ArrayList<>();
+    private List<String> mWeekList = new ArrayList<>();
+
+    private TextView tv_student_name;
+    private TextView tv_student_id;
+    private Button btn_import;
+
+    private Bitmap loginImage;//验证码
+    private String loginNumber;//输入的验证码
+
+    private LoginImageDialog loginImageDialog;
+    private LoadingDialog loadingDialog;
 
     private AddCourseContract.Presenter mPresenter;
     private AddCoursePresenter courcePresenter;
@@ -48,82 +54,91 @@ public class AddCourseActivity extends AppCompatActivity implements View.OnClick
     //测试数据库
     private boolean flag = true;
 
-    //测试滑动选择视图
-    List<String> mDataList = new ArrayList<>();
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initView();
         initData();
+        initView();
         // helper = new DataBaseHelper(AddCourseActivity.this, "timetable.db", null, 1);//获得数据库helper实例
 
         courcePresenter = new AddCoursePresenter(this);
     }
 
 
-    private void initData() {
-        for (int i = 0; i < 5; i++) {
-            mDataList.add(2016+i+"");
+    protected void initData() {
+
+        if (mGradeList.size() == 0) {
+            mGradeList.add("2016-2017");
+            mGradeList.add("2017-2018");
+            mGradeList.add("2018-2019");
+            mGradeList.add("2019-2020");
         }
+
+        if (mTermList.size() == 0) {
+            mTermList.add("第一学期");
+            mTermList.add("第二学期");
+        }
+
+        if (mWeekList.size() == 0) {
+            for (int i = 1; i <= 20; i++) {
+                mWeekList.add("第" + i + "周");
+            }
+        }
+
 
     }
 
-    private void initView() {
+    protected void initView() {
         setContentView(R.layout.activity_add_cource);
 
-        tv_show = findViewById(R.id.tv_show);
-        btn_start = findViewById(R.id.btn_start);
-        pb = findViewById(R.id.pb);
-        et_identify = findViewById(R.id.et_identify);
-        iv_show = findViewById(R.id.iv_show);
-        btn_login = findViewById(R.id.btn_login);
-        btn_getCourse = findViewById(R.id.btn_getcourse);
-        btn_getcourse_from_db = findViewById(R.id.btn_get_course_from_db);
-        btn_login_image_dialog = findViewById(R.id.btn_login_image_dialog);
-        selectView = findViewById(R.id.wheelview);
-        selectView.setDataList(mDataList);
-        selectView.setCurrentPosition(5);
-        selectView.setOnSelectedChangeListener(new WheelSelectView.OnSelectedChangeListener() {
+        tv_student_id = findViewById(R.id.student_id);
+        tv_student_name = findViewById(R.id.student_name);
+        btn_import = findViewById(R.id.btn_import);
+        btn_import.setOnClickListener(this);
 
+        loadingDialog = new LoadingDialog.Builder(AddCourseActivity.this).create();
+
+
+        infoPicker = findViewById(R.id.info_picker);
+        infoPicker.setGradeList(mGradeList);
+        infoPicker.setmTermList(mTermList);
+        infoPicker.setmWeekList(mWeekList);
+        infoPicker.setOnDataSelectedListener(new InfoPicker.OnDataSelectedListener() {
             @Override
-            public void OnSelectedChange(String item, int position) {
-                Toast.makeText(AddCourseActivity.this, item, Toast.LENGTH_SHORT).show();
+            public void onDataSelected(String grade, String term, String week) {
+                Toast.makeText(AddCourseActivity.this, grade + term + week, Toast.LENGTH_SHORT).show();
             }
         });
-        btn_login_image_dialog.setOnClickListener(this);
-        btn_getcourse_from_db.setOnClickListener(this);
-        btn_getCourse.setOnClickListener(this);
-        btn_start.setOnClickListener(this);
-        btn_login.setOnClickListener(this);
-        pb.setVisibility(View.GONE);
+        infoPicker.setSelectedInfo(1, 1, 9);
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPresenter.detach();//将presenter中正在执行的任务取消，将view对象置为空。
+        mPresenter.detach();//将presenter中正在执行的任务取消，将view对象置为空。避免OOM
     }
 
+    @Override
+    protected void setContentView() {
+
+    }
+
+    /**
+     * view的点击事件处理
+     *
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
 //            mPresenter.getCource();
-//            pb.setVisibility(View.VISIBLE);
             //登录请求
-            case R.id.btn_start:
+            case R.id.btn_import:
+                Log.e(TAG, "onClick: ---获取课表---");
                 mPresenter.getImage();
                 break;
-            case R.id.btn_login:
-                if (!et_identify.getText().toString().isEmpty()) {
-                    mPresenter.getLogin(et_identify.getText().toString());
-                }
-                break;
-            case R.id.btn_getcourse:
-                mPresenter.getCource("2018-2019_2");
-                break;
-            case R.id.btn_get_course_from_db:
+/*            case R.id.btn_get_course_from_db:
                 DataBaseManager.getInstance(AddCourseActivity.this).getAllCourse("course")
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -138,41 +153,36 @@ public class AddCourseActivity extends AppCompatActivity implements View.OnClick
                                 // Log.e(TAG, "accept: -----throwable------" + throwable);
                             }
                         });
-                break;
-            case R.id.btn_login_image_dialog:
-                LoginImageDialog loginImageDialog = new LoginImageDialog.Builder(AddCourseActivity.this).create();
-                loginImageDialog.show();
+                break;*/
 
-                loginImageDialog.setOnDismissListener(new LoginImageDialog.OnDismissListener() {
-                    @Override
-                    public void onDismiss() {
-                        LoadingDialog loadingDialog = new LoadingDialog.Builder(AddCourseActivity.this).create();
-                        loadingDialog.show();
-                    }
-                });
-
-                break;
 
         }
 
-
     }
 
+    /**
+     * 显示加载dialog
+     *
+     * @param isShow
+     */
     @Override
     public void showProgressBar(boolean isShow) {
-        if (!isShow) {
-            pb.setVisibility(View.GONE);
+        if (isShow) {
+            loadingDialog.show();
         } else {
-            pb.setVisibility(View.VISIBLE);
+            loadingDialog.dismiss();
         }
 
     }
 
+    /**
+     * 显示课程和将课程保存到数据库
+     *
+     * @param dataBeans
+     */
     @SuppressLint("CheckResult")
     @Override
     public void setCource(List<CourseBean.DataBean> dataBeans) {
-
-        tv_show.setText(dataBeans.get(20).getCname());
 
         if (flag) {
             //第一次插入
@@ -223,12 +233,75 @@ public class AddCourseActivity extends AppCompatActivity implements View.OnClick
                     });
 
         }
+        //要在获取课程之后返回到课程的界面
+    }
+
+    /**
+     * 显示验证码
+     *
+     * @param bitmap
+     */
+    @Override
+    public void setImage(Bitmap bitmap) {
+        if (bitmap != null) {
+            loginImage = bitmap;
+            loginImageDialog = new LoginImageDialog.Builder(AddCourseActivity.this, loginImage).create();
+            loginImageDialog.show();
+            loginImageDialog.setOnDismissListener(new LoginImageDialog.OnDismissListener() {
+                @Override
+                public void onDismiss(String content) {
+                    if (content != null) {
+                        mPresenter.getLogin(content);
+                        Log.e(TAG, "onDismiss: ---输入的验证码---" + content);
+                    } else {
+                        Toast.makeText(AddCourseActivity.this, "输入验证码为空", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+        } else {
+            Toast.makeText(AddCourseActivity.this, "获取不到验证码，网络出错", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * 显示登录结果信息
+     *
+     * @param isSuccess
+     * @param content
+     */
+    @Override
+    public void setLoginMassage(boolean isSuccess, String content) {
+        if (isSuccess) {
+            Toast.makeText(AddCourseActivity.this, content, Toast.LENGTH_SHORT).show();//显示登录结果信息
+            mPresenter.getCource("2018-2019_2");//获取课程
+        } else {
+            Log.e(TAG, "setLoginMassage: -----" + content);
+            Toast.makeText(AddCourseActivity.this, content, Toast.LENGTH_SHORT).show();//显示登录结果信息
+        }
+
 
     }
 
+    /**
+     * 显示错误信息
+     *
+     * @param e
+     */
     @Override
-    public void setImage(Bitmap bitmap) {
-        iv_show.setImageBitmap(bitmap);
+    public void showError(int eCode, String e) {
+        switch (eCode) {
+            case getImageError:
+                Toast.makeText(AddCourseActivity.this, "获取验证码失败", Toast.LENGTH_SHORT).show();
+                break;
+            case getloginError:
+                Toast.makeText(AddCourseActivity.this, "登录教务系统失败", Toast.LENGTH_SHORT).show();
+                break;
+            case getCourseError:
+                Toast.makeText(AddCourseActivity.this, "获取课程信息失败", Toast.LENGTH_SHORT).show();
+                break;
+
+        }
     }
 
 

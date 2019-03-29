@@ -13,7 +13,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">你的名字</string>
-    <string name="nav_header_subtitle">你的学号</string>
+    <string name="nav_header_subtitle">1600100101</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="nav_header_cources">我的课程</string>
     <string name="nav_header_share_cources">分享课程</string>
@@ -29,7 +29,7 @@
     <string name="nav_bottom_btn_quit">退出应用</string>
 
     <!--weekview-->
-    <string name="weekview_defaultmonth">2月</string>
+    <string name="weekview_defaultmonth">1月</string>
     <string name="weekview_monday">周一</string>
     <string name="weekview_tuesday">周二</string>
     <string name="weekview_wednesday">周三</string>
@@ -53,5 +53,11 @@
     <string name="dialog_login_tiltle">请输入验证码</string>
     <string name="dialog_login_subtitlle">验证码如图</string>
     <string name="dialog_loading_text">正在加载中</string>
+    <string name="info_picker_grade_dedault">1970–2099</string>
+    <string name="info_picker_term_dedault">第二学期</string>
+    <string name="info_picker_week_dedault">第20周</string>
+    <string name="info_student_id_tint">学号:</string>
+    <string name="info_import">立即导入课程</string>
+    <string name="info_top_text">从下方导入课程</string>
 
 </resources>

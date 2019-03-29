@@ -23,10 +23,12 @@
 
     <!--选择器颜色-->
     <color name="border_color">#CCCCCC</color>
-    <color name="checked_color">#E3F9F9</color>
+    <color name="checked_color">#E7E6E6</color>
 
 
     <color name="weekview_bg_color">#F7F7F7</color>
+    <color name="color_black">#000000</color>
+    <color name="color_light_grey">#F7F7F7</color>
 
 
 </resources>

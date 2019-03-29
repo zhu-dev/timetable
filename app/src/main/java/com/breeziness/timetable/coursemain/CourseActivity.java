@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,15 +13,16 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.breeziness.timetable.R;
+import com.breeziness.timetable.UI.weekview.WeekView;
 import com.breeziness.timetable.addcource.AddCourseActivity;
 import com.breeziness.timetable.UI.courselayout.CourseLayout;
 import com.breeziness.timetable.UI.courseview.CourseView;
 import com.breeziness.timetable.UI.popwin.weekpopwin.DropBean;
 import com.breeziness.timetable.UI.popwin.weekpopwin.PopView;
 import com.breeziness.timetable.data.bean.TestCourseBean;
+import com.breeziness.timetable.util.DateUtil;
 import com.breeziness.timetable.util.RandomUtil;
 import com.google.android.material.navigation.NavigationView;
-
 
 
 import java.util.ArrayList;
@@ -36,7 +38,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import static android.widget.Toast.LENGTH_SHORT;
 
 
-public class CourseActivity extends AppCompatActivity implements CourseContract.View, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener ,PopView.OnDismissListener,PopView.OnShowListener{
+public class CourseActivity extends AppCompatActivity implements CourseContract.View, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, PopView.OnDismissListener, PopView.OnShowListener {
 
     private static final String TAG = "CourseActivity";
 
@@ -46,6 +48,7 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
     private List<DropBean> weekList;
     private Toolbar toolbar;
     private NavigationView navigationView;
+    private WeekView weekView;
     private int[] bg_color = new int[]{
             R.drawable.bg_cource_gray
             , R.drawable.bg_cource_green
@@ -53,12 +56,12 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
             , R.drawable.bg_cource_pink
             , R.drawable.bg_cource_blue
             , R.drawable.bg_cource_brown
-            ,R.drawable.bg_cource_yellow
+            , R.drawable.bg_cource_yellow
     };
 
     //测试内容
     private List<TestCourseBean> cources = new ArrayList<>();//测试用课程数据
-
+    private List<String> days = new ArrayList<>();
     protected CourseContract.Presenter mPresenter;//Presenter
 
     @Override
@@ -68,6 +71,8 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//设置竖屏，禁止屏幕横屏显示
         getWindow().setNavigationBarColor(Color.WHITE);//设置底部导航虚拟按键颜色为白色
+
+        initData();
 
         //初始化选择周次数据
         initWeeksData();
@@ -101,12 +106,13 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
         drawerInit();
         //初始化侧滑菜单内容视图
         navigatinViewInit();
-
+        //初始化星期头部
+        weekviewInit();
 
         //测试
         initTestCourceData();
         for (int i = 0; i < cources.size(); i++) {
-            int randBg = bg_color[RandomUtil.getRandomInt(bg_color.length-1)];
+            int randBg = bg_color[RandomUtil.getRandomInt(bg_color.length - 1)];
             TestCourseBean cource = cources.get(i);
             CourseLayout layout = findViewById(R.id.cources);
             CourseView courseView = new CourseView(getApplicationContext());
@@ -150,6 +156,18 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
         }
     }
 
+    private void weekviewInit() {
+        weekView = findViewById(R.id.weekview);
+        DateUtil dateUtil = new DateUtil(5,this);
+        weekView.setData(dateUtil.getWeekday(),dateUtil.getMonth()+"",days);
+
+    }
+
+    private void initData() {
+        for (int i = 1;i<=7;i++){
+            days.add(i+"日");
+        }
+    }
 
     /**
      * 初始化选择周次弹出框

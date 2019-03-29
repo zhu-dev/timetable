@@ -4,94 +4,152 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_light_grey"
     tools:context=".addcource.AddCourseActivity">
 
-    <EditText
-        android:id="@+id/et_identify"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btn_start"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="获取验证码"
-        app:layout_constraintTop_toBottomOf="@+id/et_identify" />
-
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="登录"
-        app:layout_constraintTop_toBottomOf="@+id/btn_start" />
-
-    <Button
-        android:id="@+id/btn_getcourse"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="从网络获取课程"
-        app:layout_constraintTop_toBottomOf="@id/btn_login" />
-
-    <Button
-        android:id="@+id/btn_get_course_from_db"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="从数据库获取课程"
-        app:layout_constraintTop_toBottomOf="@id/btn_getcourse" />
-
-    <Button
-        android:id="@+id/btn_login_image_dialog"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="验证码对话框"
-        app:layout_constraintTop_toBottomOf="@id/btn_get_course_from_db" />
-
-    <ImageView
-        android:id="@+id/iv_show"
-        android:layout_width="60dp"
-        android:layout_height="20dp"
+        android:layout_height="300dp"
+        android:background="@drawable/nav_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login_image_dialog" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tv_show"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_icon_64"
+            app:civ_border_color="@color/white_textcolor"
+            app:civ_border_width="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.65" />
+
+        <TextView
+            android:id="@+id/student_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nav_header_title"
+            android:textColor="@color/color_black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toEndOf="@id/image_info"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.60" />
+
+        <TextView
+            android:id="@+id/student_id_tint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/info_student_id_tint"
+            android:textColor="@color/grey_color"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.03"
+            app:layout_constraintStart_toEndOf="@id/image_info"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.7" />
+
+        <TextView
+            android:id="@+id/student_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/nav_header_subtitle"
+            android:textColor="@color/grey_color"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toEndOf="@id/student_id_tint"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.7" />
+
+        <TextView
+            android:id="@+id/btn_current_course"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/bg_top_radius"
+            android:gravity="center"
+            android:text="@string/info_top_text"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/info_picker_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="8"
-        app:layout_constraintTop_toBottomOf="@+id/iv_show" />
-
-    <ProgressBar
-        android:id="@+id/pb"
-        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="220dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="3dp"
+        android:background="@drawable/bg_bottom_radius"
+        android:paddingBottom="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_show" />
+        app:layout_constraintTop_toBottomOf="@+id/header_info">
 
-    <com.breeziness.timetable.UI.selectitemview.WheelSelectView
-        android:id="@+id/wheelview"
-        android:layout_width="200dp"
-        android:layout_height="150dp"
+        <com.breeziness.timetable.UI.wheelpicker.InfoPicker
+            android:id="@+id/info_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pb"
-        app:mItemHeightSpace="1dp"
-        app:mItemWidthSpace="2dp"
-        app:mSelectItemTextColor="@color/colorPrimary"
-        app:mSelectItemTextSize="20sp"
-        app:mTextColor="@color/grey_color"
-        app:mTextSize="15sp"
-        app:mIsCyclic="false"
-        app:mIsShowCurtainBorder="true"
-        app:mIsEnlargeSelectedItem="true"
-        app:mIsShowSelectedCurtain="true"
-        app:mIsTextGradual="true"
-        app:mSelectedItemCurtainBorder="1dp"
-        app:mSelectedItemCurtainColor="@color/white_color"
-        app:mSelectedItemCurtainBorderColor ="@color/colorPrimary"/>
+        app:layout_constraintTop_toBottomOf="@id/info_picker_container"
+        app:layout_constraintVertical_weight="1">
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:background="@color/grey_color"
+            app:cardCornerRadius="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/btn_import"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:background="@drawable/bg_gradient_button"
+            android:text="@string/info_import"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cv_info"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.7" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

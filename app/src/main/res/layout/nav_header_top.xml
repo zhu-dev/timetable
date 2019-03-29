@@ -31,13 +31,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:id="@+id/student_name"
         android:text="@string/nav_header_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/white_textcolor"
         android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/student_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"

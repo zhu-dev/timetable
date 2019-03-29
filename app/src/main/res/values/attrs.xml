@@ -37,4 +37,6 @@
         <attr name="mSelectedItemCurtainBorder" format="dimension"/>
         <attr name="mSelectedItemCurtainBorderColor" format="color"/>
     </declare-styleable>
+
+
 </resources>

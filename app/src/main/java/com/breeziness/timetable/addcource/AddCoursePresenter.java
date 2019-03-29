@@ -8,6 +8,7 @@ import android.util.Log;
 import com.breeziness.timetable.data.bean.CourseBean;
 import com.breeziness.timetable.data.bean.LoginBean;
 import com.breeziness.timetable.data.retrofit.RetrofitFactory;
+import com.breeziness.timetable.util.ErrorCodeUtil;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -46,10 +47,11 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
     public void getLogin(String CheckCode) {
         //登录请求
         Map<String, String> params = new HashMap<>();
-        params.put("UserName", "1600200639");
+        params.put("UserName", "1600200639");//这个应该从sp中读出
         params.put("PassWord", "338471");
         params.put("CheckCode", CheckCode);
 
+        Log.e(TAG, "getLogin: -----"+CheckCode);
 
         RetrofitFactory.getInstance().getCookie(params)
 
@@ -60,7 +62,7 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
                         addDisposable(disposable);//将disponsable对象加入容器统一注销
-                        view.showProgressBar(true);//显示进度条
+                        //view.showProgressBar(true);//显示进度条
                     }
                 })
                 //观察者在主线程
@@ -68,16 +70,16 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                 .subscribe(new Consumer<LoginBean>() {
                     @Override
                     public void accept(LoginBean loginBean) throws Exception {
-                        //view.setCource(loginBean.getMsg());
+
                         //Log.e(TAG, "accept: -------" + loginBean.getData() + loginBean.getMsg());
-                        view.showProgressBar(false);//显示进度条
+                       // view.showProgressBar(false);//显示进度条
+                        view.setLoginMassage(loginBean.isSuccess(),loginBean.getMsg());
 
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        view.showProgressBar(false);//显示进度条
-                        // Log.e(TAG, "accept: -------" + throwable);
+                        view.showError(ErrorCodeUtil.getloginError,throwable.getMessage());
                     }
                 });
     }
@@ -100,7 +102,7 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
                         addDisposable(disposable);//将disponsable对象加入容器统一注销
-                        view.showProgressBar(true);//显示进度条
+
                     }
                 })
                 //观察者在主线程
@@ -111,7 +113,6 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
 
                         InputStream in = responseBody.byteStream();
                         //转化为bitmap
-
                         return BitmapFactory.decodeStream(in);
                     }
                 })
@@ -119,13 +120,12 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                     @Override
                     public void accept(Bitmap bitmap) throws Exception {
                         view.setImage(bitmap);
-                        view.showProgressBar(false);//显示进度条
+
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        // Log.e(TAG, "-------------accept:----------- " + throwable);//输出异常
-                        view.showProgressBar(false);
+                        view.showError(ErrorCodeUtil.getImageError,throwable.getMessage());
                     }
                 });
 
@@ -159,14 +159,14 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                 .subscribe(new Consumer<List<CourseBean.DataBean>>() {
                     @Override
                     public void accept(List<CourseBean.DataBean> dataBeans) throws Exception {
-                        view.setCource(dataBeans);
                         view.showProgressBar(false);
+                        view.setCource(dataBeans);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                      //  Log.e(TAG, "accept: ---throwable---" + throwable);
                         view.showProgressBar(false);
+                        view.showError(ErrorCodeUtil.getCourseError,throwable.getMessage());
                     }
                 });
     }

@@ -20,6 +20,11 @@ public interface AddCourseContract {
         //显示验证码
         void setImage(Bitmap bitmap);
 
+        //显示登录结果信息
+        void setLoginMassage(boolean isSuccess, String content);
+
+        //显示错误信息
+        void showError(int eCode,String e);
     }
 
     interface Presenter extends BasePresenter {

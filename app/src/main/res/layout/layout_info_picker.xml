@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/info_title"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@drawable/bg_rectangle_border"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/info_grade_title"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:text="@string/info_picker_grade_dedault"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toStartOf="@id/info_term_title"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/info_term_title"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:text="@string/info_picker_term_dedault"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toStartOf="@id/info_week_title"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/info_grade_title"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/info_week_title"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:text="@string/info_picker_week_dedault"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/info_term_title"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/picker_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_title">
+
+        <com.breeziness.timetable.UI.wheelpicker.GradePicker
+            android:id="@+id/grade_picker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/term_picker"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:mIsCyclic="false"
+            app:mIsEnlargeSelectedItem="true"
+            app:mIsShowCurtainBorder="true"
+            app:mIsShowSelectedCurtain="true"
+            app:mIsTextGradual="true"
+            app:mItemHeightSpace="10dp"
+            app:mItemWidthSpace="2dp"
+            app:mSelectItemTextColor="@color/colorPrimary"
+            app:mSelectItemTextSize="15sp"
+            app:mSelectedItemCurtainBorder="1dp"
+            app:mSelectedItemCurtainBorderColor="@color/colorPrimary"
+            app:mSelectedItemCurtainColor="@color/white_color"
+            app:mTextColor="@color/grey_color"
+            app:mTextSize="14sp" />
+
+        <com.breeziness.timetable.UI.wheelpicker.TermPicker
+            android:id="@+id/term_picker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/week_picker"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/grade_picker"
+            app:layout_constraintTop_toTopOf="parent"
+            app:mIsCyclic="false"
+            app:mIsEnlargeSelectedItem="true"
+            app:mIsShowCurtainBorder="true"
+            app:mIsShowSelectedCurtain="true"
+            app:mIsTextGradual="true"
+            app:mItemHeightSpace="10dp"
+            app:mItemWidthSpace="2dp"
+            app:mSelectItemTextColor="@color/colorPrimary"
+            app:mSelectItemTextSize="15sp"
+            app:mSelectedItemCurtainBorder="1dp"
+            app:mSelectedItemCurtainBorderColor="@color/colorPrimary"
+            app:mSelectedItemCurtainColor="@color/white_color"
+            app:mTextColor="@color/grey_color"
+            app:mTextSize="14sp" />
+
+        <com.breeziness.timetable.UI.wheelpicker.WeekPicker
+            android:id="@+id/week_picker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/term_picker"
+            app:layout_constraintTop_toTopOf="parent"
+            app:mIsCyclic="false"
+            app:mIsEnlargeSelectedItem="true"
+            app:mIsShowCurtainBorder="true"
+            app:mIsShowSelectedCurtain="true"
+            app:mIsTextGradual="true"
+            app:mItemHeightSpace="10dp"
+            app:mItemWidthSpace="2dp"
+            app:mSelectItemTextColor="@color/colorPrimary"
+            app:mSelectItemTextSize="15sp"
+            app:mSelectedItemCurtainBorder="1dp"
+            app:mSelectedItemCurtainBorderColor="@color/colorPrimary"
+            app:mSelectedItemCurtainColor="@color/white_color"
+            app:mTextColor="@color/grey_color"
+            app:mTextSize="14sp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

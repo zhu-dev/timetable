@@ -174,7 +174,7 @@ public class NumberInputView extends EditText {
         //输入完成监听回调接口
         if (text.length() == textLenght) {
             if (onInputCompleteListener != null)
-                onInputCompleteListener.onComplete();
+                onInputCompleteListener.onComplete(text.toString());
         }
     }
 
@@ -191,6 +191,6 @@ public class NumberInputView extends EditText {
      * 输入完成监听回调接口
      */
     public interface OnInputCompleteListener {
-        void onComplete();
+        void onComplete(String content);
     }
 }

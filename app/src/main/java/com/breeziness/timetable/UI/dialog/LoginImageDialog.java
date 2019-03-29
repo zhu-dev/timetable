@@ -3,10 +3,13 @@ package com.breeziness.timetable.UI.dialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -25,7 +28,7 @@ import androidx.annotation.NonNull;
  */
 public class LoginImageDialog extends Dialog {
     private Context context;
-   private OnDismissListener onDismissListener;//输入完成关闭对话框监听回调接口实例
+    private OnDismissListener onDismissListener;//输入完成关闭对话框监听回调接口实例
 
     public LoginImageDialog(@NonNull Context context, int themeResId) {
         super(context, themeResId);
@@ -38,8 +41,9 @@ public class LoginImageDialog extends Dialog {
         private LoginImageDialog mDialog;
         private NumberInputView inputView;//自定义输入框
         private Context context;
+        private ImageView iv_login;
 
-        public Builder(Context context) {
+        public Builder(Context context, Bitmap bitmap) {
             this.context = context;
             mDialog = new LoginImageDialog(context, R.style.Theme_AppCompat_Dialog);//获取dialog的实例
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);//获得加载器实例
@@ -49,20 +53,28 @@ public class LoginImageDialog extends Dialog {
                 //添加布局文件
                 mDialog.addContentView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 inputView = view.findViewById(R.id.input_image_number);
+                iv_login = view.findViewById(R.id.iv_login);
+
+                if (iv_login != null && bitmap != null) {
+                    iv_login.setImageBitmap(bitmap);
+                }
+
             }
             if (mDialog.getWindow() != null) {
                 mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);//解决圆角出现菱角的问题，实际上就是将默认的背景设置为透明
             }
         }
 
+
         public LoginImageDialog create() {
 
             //输入完成监听
             inputView.setOnInputCompleteListener(new NumberInputView.OnInputCompleteListener() {
                 @Override
-                public void onComplete() {
+                public void onComplete(final String content) {
                     //输入完成后的操作
-                    Toast.makeText(context, "输入完成", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, content, Toast.LENGTH_SHORT).show();
+                    mDialog.onDismissListener.onDismiss(content);
                     //延时200ms后关闭显示,并自动关闭软键盘
                     new Thread(new Runnable() {
                         @Override
@@ -73,7 +85,6 @@ public class LoginImageDialog extends Dialog {
                                     @Override
                                     public void run() {
                                         mDialog.dismiss();
-                                        mDialog.onDismissListener.onDismiss();
                                     }
                                 });
                             } catch (InterruptedException e) {
@@ -105,10 +116,11 @@ public class LoginImageDialog extends Dialog {
         }, 200);
     }
 
-    public void setOnDismissListener(OnDismissListener onDismissListener){
-       this.onDismissListener = onDismissListener;
+    public void setOnDismissListener(OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
     }
-    public interface OnDismissListener{
-        void onDismiss();
+
+    public interface OnDismissListener {
+        void onDismiss(String content);
     }
 }
