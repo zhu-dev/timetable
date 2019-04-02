@@ -8,13 +8,13 @@
 
     <!--<include layout="@layout/weekview" />-->
     <!--星期头部视图-->
-    <com.breeziness.timetable.UI.weekview.WeekView
+    <com.breeziness.timetable.UI.weekview.OldWeekView
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:id="@+id/weekview"
         android:alpha="0.7"
         android:orientation="horizontal">
-    </com.breeziness.timetable.UI.weekview.WeekView>
+    </com.breeziness.timetable.UI.weekview.OldWeekView>
 
     <include layout="@layout/content_cource" /><!--课表布局-->
 

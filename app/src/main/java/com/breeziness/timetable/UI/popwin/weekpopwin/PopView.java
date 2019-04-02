@@ -25,8 +25,8 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
     private PopListAdapter adapter;
     private OnDropItemSelectListener onDropItemSelectListener;
 
-    private OnShowListener onShowListener;
-    private OnDismissListener onDismissListener;
+    //private OnShowListener onShowListener;
+    //private OnDismissListener onDismissListener;
 
 
     /*传入显示的数据*/
@@ -116,14 +116,14 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
         if (checked) {
             //icon = getResources().getDrawable(R.drawable.ic_drop_menu_week, null);
             popWindowManager.show();//显示弹出菜单
-            onShowListener.OnShow();//显示的状态回调
+            //onShowListener.OnShow();//显示的状态回调
 
 
 
         } else {
             //icon = getResources().getDrawable(R.drawable.ic_drop_menu_week, null);
             popWindowManager.hide();//关闭弹出菜单
-            onDismissListener.OnDismiss();//关闭的状态回调
+           // onDismissListener.OnDismiss();//关闭的状态回调
 
 
         }
@@ -135,6 +135,7 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (selectPosition == position) {
+            popWindowManager.hide();
             return;//当与上次选择的item相同时，直接退出
         }
         drops.get(selectPosition).setCheck(false);//将上次选择的标志清空
@@ -168,37 +169,47 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
     }
 
 
-    /**
+/*
+    */
+/**
      * 设置Popview弹出监听
      *
      * @param onShowListener
-     */
+     *//*
+
     public void setOnShowListener(OnShowListener onShowListener) {
         this.onShowListener = onShowListener;
     }
 
-    /**
+    */
+/**
      * 设置Popview关闭监听
      *
      * @param onDismissListener
-     */
+     *//*
+
     public void setOnDismissListener(OnDismissListener onDismissListener) {
         this.onDismissListener = onDismissListener;
     }
 
-    /**
+    */
+/**
      * Popview弹出监听的回调接口
-     */
+     *//*
+
     public interface OnShowListener {
         void OnShow();
     }
 
-    /**
+    */
+/**
      * Popview关闭监听的回调接口
-     */
+     *//*
+
     public interface OnDismissListener {
         void OnDismiss();
     }
+*/
 
 
     @Override

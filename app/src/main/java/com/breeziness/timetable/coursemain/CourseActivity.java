@@ -13,7 +13,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.breeziness.timetable.R;
-import com.breeziness.timetable.UI.weekview.WeekView;
+import com.breeziness.timetable.UI.weekview.CalendarDateBean;
+import com.breeziness.timetable.UI.weekview.OldWeekView;
 import com.breeziness.timetable.addcource.AddCourseActivity;
 import com.breeziness.timetable.UI.courselayout.CourseLayout;
 import com.breeziness.timetable.UI.courseview.CourseView;
@@ -38,7 +39,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import static android.widget.Toast.LENGTH_SHORT;
 
 
-public class CourseActivity extends AppCompatActivity implements CourseContract.View, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, PopView.OnDismissListener, PopView.OnShowListener {
+public class CourseActivity extends AppCompatActivity implements CourseContract.View, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, PopView.OnDropItemSelectListener {
 
     private static final String TAG = "CourseActivity";
 
@@ -48,7 +49,8 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
     private List<DropBean> weekList;
     private Toolbar toolbar;
     private NavigationView navigationView;
-    private WeekView weekView;
+    private OldWeekView oldWeekView;
+    private DateUtil dateUtil;
     private int[] bg_color = new int[]{
             R.drawable.bg_cource_gray
             , R.drawable.bg_cource_green
@@ -83,6 +85,13 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
 
         //获取Presenter实例，传入view对象
         CoursePresenter coursePresenter = new CoursePresenter(this);
+
+
+        //测试区域
+        CalendarDateBean cca = new CalendarDateBean();
+        cca.getTargetWeek(0);
+
+
     }
 
 
@@ -127,7 +136,6 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
             courseView.setTextSize(10);
             courseView.setGravity(Gravity.CENTER);
             layout.addView(courseView);
-
         }
 
     }
@@ -157,15 +165,15 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
     }
 
     private void weekviewInit() {
-        weekView = findViewById(R.id.weekview);
-        DateUtil dateUtil = new DateUtil(5,this);
-        weekView.setData(dateUtil.getWeekday(),dateUtil.getMonth()+"",days);
+        oldWeekView = findViewById(R.id.weekview);
+        dateUtil = new DateUtil(6, this);
+        oldWeekView.setData(dateUtil.getWeekRange(6));
 
     }
 
     private void initData() {
-        for (int i = 1;i<=7;i++){
-            days.add(i+"日");
+        for (int i = 1; i <= 7; i++) {
+            days.add(i + "日");
         }
     }
 
@@ -174,9 +182,8 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
      */
     private void popViewInit() {
         popView = findViewById(R.id.drop_couerce_select);
-        popView.setOnShowListener(this);
-        popView.setOnDismissListener(this);
         popView.setData(weekList);//这里记得传入当前周号
+        popView.setOnDropItemSelectListener(this);
     }
     /************************************透明状态栏********************************/
     /**
@@ -335,28 +342,16 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
         mPresenter = presenter;
     }
 
-    /**
-     * 周次选择弹出菜单的弹出显示监听
-     * 将背景暗化
-     */
-    @Override
-    public void OnShow() {
-//        WindowManager.LayoutParams lp = getWindow().getAttributes();
-//        lp.alpha = 0.4f;
-//        getWindow().setAttributes(lp);
-//        popview_shelter.setVisibility(View.VISIBLE);
 
-    }
 
     /**
-     * 周次选择弹出菜单的关闭显示监听
-     * 将背景恢复
+     * 周次弹出菜单选择监听
+     *
+     * @param Postion
      */
     @Override
-    public void OnDismiss() {
-//        WindowManager.LayoutParams lp = getWindow().getAttributes();
-//        lp.alpha = 1.0f;
-//        getWindow().setAttributes(lp);
-//        popview_shelter.setVisibility(View.GONE);
+    public void onDropItemSelect(int Postion) {
+        oldWeekView.setData(dateUtil.getWeekRange(Postion+1));
+        Log.e(TAG, "onDropItemSelect: -----Postion------"+(Postion+1));
     }
 }
