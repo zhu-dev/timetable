@@ -30,5 +30,7 @@
     <color name="color_black">#000000</color>
     <color name="color_light_grey">#F7F7F7</color>
 
+    <color name="weekview_circle_color">#0C317C</color>
+
 
 </resources>

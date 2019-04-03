@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_my_round"
         android:supportsRtl="true"
         android:theme="@style/Base.AppTheme">
-        <activity android:name=".addcource.AddCourseActivity"/>
+        <activity android:name=".homePage.HomeActivity"></activity>
+        <activity android:name=".addcource.AddCourseActivity" />
         <activity
             android:name=".coursemain.CourseActivity"
             android:screenOrientation="portrait">

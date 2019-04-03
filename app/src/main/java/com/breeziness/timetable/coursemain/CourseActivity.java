@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.breeziness.timetable.R;
-import com.breeziness.timetable.UI.weekview.CalendarDateBean;
+import com.breeziness.timetable.UI.weekview.CalendarDate;
 import com.breeziness.timetable.UI.weekview.OldWeekView;
 import com.breeziness.timetable.addcource.AddCourseActivity;
 import com.breeziness.timetable.UI.courselayout.CourseLayout;
@@ -21,6 +21,7 @@ import com.breeziness.timetable.UI.courseview.CourseView;
 import com.breeziness.timetable.UI.popwin.weekpopwin.DropBean;
 import com.breeziness.timetable.UI.popwin.weekpopwin.PopView;
 import com.breeziness.timetable.data.bean.TestCourseBean;
+import com.breeziness.timetable.homePage.HomeActivity;
 import com.breeziness.timetable.util.DateUtil;
 import com.breeziness.timetable.util.RandomUtil;
 import com.google.android.material.navigation.NavigationView;
@@ -88,8 +89,8 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
 
 
         //测试区域
-        CalendarDateBean cca = new CalendarDateBean();
-        cca.getTargetWeek(0);
+        CalendarDate cca = new CalendarDate();
+        cca.getTargetWeek(1);
 
 
     }
@@ -237,6 +238,8 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
                 break;
             case R.id.menu_toolbar_remove:
                 Toast.makeText(CourseActivity.this, "删除课程", LENGTH_SHORT).show();
+                intent = new Intent(CourseActivity.this, HomeActivity.class);
+                startActivity(intent);
                 break;
             case R.id.menu_toolbar_share:
                 Toast.makeText(CourseActivity.this, "分享课程", LENGTH_SHORT).show();

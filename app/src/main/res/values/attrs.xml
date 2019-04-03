@@ -38,5 +38,12 @@
         <attr name="mSelectedItemCurtainBorderColor" format="color"/>
     </declare-styleable>
 
+    <declare-styleable name="DateView">
+        <attr name="commomTextSize" format="dimension"/>
+        <attr name="commomTextColor" format="color"/>
+        <attr name="selectedTextColor" format="color"/>
+        <attr name="selectedCircleColor" format="color"/>
+    </declare-styleable>
+
 
 </resources>

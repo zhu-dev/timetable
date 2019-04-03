@@ -6,9 +6,9 @@ import java.util.Calendar;
 
 import androidx.annotation.NonNull;
 
-public class CalendarDateBean {
+public class CalendarDate {
 
-    private static final String TAG = "CalendarDateBean";
+    private static final String TAG = "CalendarDate";
 
     private int year;
     private int month;
@@ -16,13 +16,13 @@ public class CalendarDateBean {
 
     private int[] weekdate = new int[9];
 
-    public CalendarDateBean(int year, int month, int date) {
+    public CalendarDate(int year, int month, int date) {
         this.year = year;
         this.month = month;
         this.date = date;
     }
 
-    public CalendarDateBean() {
+    public CalendarDate() {
         DateTimeUtil dateUtil = new DateTimeUtil();
         this.year = dateUtil.getCurYear();
         this.month = dateUtil.getCurMonth();
@@ -41,7 +41,7 @@ public class CalendarDateBean {
 
     private int[] getTargetWeekDays(int offset) {
         int[] days = new int[7];
-        CalendarDateBean c1 = getTargetWeekSunday(offset);
+        CalendarDate c1 = getTargetLastWeekSunday(offset);
         Calendar calendar = Calendar.getInstance();
         calendar.set(c1.year, c1.month - 1, c1.date);
         for (int i = 0; i < 7; i++) {
@@ -51,40 +51,52 @@ public class CalendarDateBean {
         return days;
     }
 
-    private CalendarDateBean getTargetWeekSunday(int offset) {
-        CalendarDateBean c1 = getModifiedWeek(offset);
+    private CalendarDate getTargetLastWeekSunday(int offset) {
+        CalendarDate c1 = getModifiedWeek(offset);
         Calendar calendar = Calendar.getInstance();
         calendar.set(c1.year, c1.month - 1, c1.date);
         if (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
             Log.e(TAG, "getTargetWeekSunday:---weekday---- " + calendar.get(Calendar.DAY_OF_WEEK));
-            calendar.add(Calendar.DAY_OF_MONTH, 7 - calendar.get(Calendar.DAY_OF_WEEK) + 1);
-            //calendar.add(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_WEEK) % 7 == 0 ? 6 : (calendar.get(Calendar.DAY_OF_WEEK) % 7 - 1));//算法不对
+            //calendar.add(Calendar.DAY_OF_MONTH, 7 - calendar.get(Calendar.DAY_OF_WEEK) + 1);//获取这周的周日作为计算起点日期
+            calendar.add(Calendar.DAY_OF_MONTH, -(7 - Math.abs(calendar.get(Calendar.DAY_OF_WEEK) - 7) - 1));//获取上周的周日作为计算日期的起点
         }
         Log.e(TAG, "getTargetWeekSunday: ---location--sunday-----" + calendar.get(Calendar.DAY_OF_MONTH));
-        return new CalendarDateBean(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+        return new CalendarDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+    }
+
+    private CalendarDate getTargetThisWeekSunday(int offset) {
+        CalendarDate c1 = getModifiedWeek(offset);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(c1.year, c1.month - 1, c1.date);
+        if (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+            Log.e(TAG, "getTargetWeekSunday:---weekday---- " + calendar.get(Calendar.DAY_OF_WEEK));
+            calendar.add(Calendar.DAY_OF_MONTH, 7 - calendar.get(Calendar.DAY_OF_WEEK) + 1);//获取这周的周日作为计算起点日期
+        }
+        Log.e(TAG, "getTargetWeekSunday: ---location--sunday-----" + calendar.get(Calendar.DAY_OF_MONTH));
+        return new CalendarDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
     }
 
 
-    private CalendarDateBean getModifiedWeek(int offset) {
-        CalendarDateBean result = new CalendarDateBean();
+    private CalendarDate getModifiedWeek(int offset) {
+        CalendarDate result = new CalendarDate();
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month - 1);
         calendar.set(Calendar.DAY_OF_MONTH, date);
-        calendar.add(Calendar.DATE, 7 * (offset - 1));//因为我获取的周日定位日期是下一周的周日 所以我在这里减一
+        calendar.add(Calendar.DATE, 7 * offset);//因为我获取的周日定位日期是下一周的周日 所以我在这里减一，但还是希望找到更好的算法
         result.setYear(calendar.get(Calendar.YEAR));
         result.setMonth(calendar.get(Calendar.MONTH) + 1);
         result.setDate(calendar.get(Calendar.DATE));
 
-        weekdate[8] = calendar.get(Calendar.MONTH) + 1;//记下种子日期所属的月份
+        weekdate[8] = calendar.get(Calendar.MONTH) + 1;//记下种子日期所属的月份,即跳转到的那一天
 
 //        Log.e(TAG, "getModifiedWeek:----today--- " + date);
 //        Log.e(TAG, "getModifiedWeek: -----offsetday------" + calendar.get(Calendar.DATE));
         return result;
     }
 
-    public CalendarDateBean getModifiedMonth(int offset) {
-        CalendarDateBean result = new CalendarDateBean();
+    public CalendarDate getModifiedMonth(int offset) {
+        CalendarDate result = new CalendarDate();
 
         int targetMonth = month + offset;
 
