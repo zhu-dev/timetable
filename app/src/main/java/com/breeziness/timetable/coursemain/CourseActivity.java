@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.breeziness.timetable.R;
 import com.breeziness.timetable.UI.weekview.CalendarDate;
 import com.breeziness.timetable.UI.weekview.OldWeekView;
+import com.breeziness.timetable.UI.weekview.WeekViewBar;
 import com.breeziness.timetable.addcource.AddCourseActivity;
 import com.breeziness.timetable.UI.courselayout.CourseLayout;
 import com.breeziness.timetable.UI.courseview.CourseView;
@@ -50,8 +51,12 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
     private List<DropBean> weekList;
     private Toolbar toolbar;
     private NavigationView navigationView;
-    private OldWeekView oldWeekView;
-    private DateUtil dateUtil;
+
+    //weekview
+    private CalendarDate calendarDate;
+    private  WeekViewBar weekViewBar;
+    private  List<Integer> days;
+
     private int[] bg_color = new int[]{
             R.drawable.bg_cource_gray
             , R.drawable.bg_cource_green
@@ -64,7 +69,7 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
 
     //测试内容
     private List<TestCourseBean> cources = new ArrayList<>();//测试用课程数据
-    private List<String> days = new ArrayList<>();
+//    private List<String> days = new ArrayList<>();
     protected CourseContract.Presenter mPresenter;//Presenter
 
     @Override
@@ -75,7 +80,7 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//设置竖屏，禁止屏幕横屏显示
         getWindow().setNavigationBarColor(Color.WHITE);//设置底部导航虚拟按键颜色为白色
 
-        initData();
+
 
         //初始化选择周次数据
         initWeeksData();
@@ -88,9 +93,7 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
         CoursePresenter coursePresenter = new CoursePresenter(this);
 
 
-        //测试区域
-        CalendarDate cca = new CalendarDate();
-        cca.getTargetWeek(1);
+
 
 
     }
@@ -166,17 +169,14 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
     }
 
     private void weekviewInit() {
-        oldWeekView = findViewById(R.id.weekview);
-        dateUtil = new DateUtil(6, this);
-        oldWeekView.setData(dateUtil.getWeekRange(6));
+        calendarDate = new CalendarDate();
+        days = calendarDate.getTargetWeekDays(0);
+        weekViewBar = findViewById(R.id.weekbar);
+        weekViewBar.setTextList(days);
 
     }
 
-    private void initData() {
-        for (int i = 1; i <= 7; i++) {
-            days.add(i + "日");
-        }
-    }
+
 
     /**
      * 初始化选择周次弹出框
@@ -354,7 +354,10 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
      */
     @Override
     public void onDropItemSelect(int Postion) {
-        oldWeekView.setData(dateUtil.getWeekRange(Postion+1));
+        calendarDate = new CalendarDate();//此处有缺陷，每次获取都是不同对象  会new出很多对象
+        days = calendarDate.getTargetWeekDays(Postion+1-6);
+        weekViewBar.setTextList(days);
         Log.e(TAG, "onDropItemSelect: -----Postion------"+(Postion+1));
+        Log.e(TAG, "onDropItemSelect: -----days------"+days.get(2));
     }
 }

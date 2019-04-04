@@ -7,9 +7,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.breeziness.timetable.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.Nullable;
 
@@ -24,19 +28,25 @@ public class DateView extends View {
     private int selectedDateTextColor;
     private int selectedDateCircleColor;
 
+    private boolean isDrawUnitBackground = false;
+
     private Paint textPaint;
     private Paint curDateTextPaint;
 
     private Paint mPaint;
 
     private Rect totalDrawnRect;
-    private Rect circleDrawnRect;
+    private Rect containDrawnRect;
 
     int width;
     int height;
 
-    private boolean isSelectedDate = true;
-    private String mText = "20";
+    int unitWidth;
+    int unitHeight;
+
+    private int selectedWeekday = 0;
+    // private String mText = "20";
+    private List<Integer> mTextList = new ArrayList<>();
 
 
     public DateView(Context context) {
@@ -50,9 +60,9 @@ public class DateView extends View {
     public DateView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-        drawRectsInit();
         initAttrs(context, attrs);
         initPaints();
+        initDrawRects();
     }
 
 
@@ -63,6 +73,7 @@ public class DateView extends View {
         selectedDateTextColor = array.getColor(R.styleable.DateView_selectedTextColor, selectedDateTextColor);
         selectedDateCircleColor = array.getColor(R.styleable.DateView_selectedCircleColor, selectedDateCircleColor);
         array.recycle();
+
     }
 
     private void initPaints() {
@@ -89,9 +100,9 @@ public class DateView extends View {
 
     }
 
-    private void drawRectsInit() {
+    private void initDrawRects() {
         totalDrawnRect = new Rect();//总绘制区域
-        circleDrawnRect = new Rect();//圆形选中框
+        containDrawnRect = new Rect();//将主空间分为7分  这是每一份的区域
     }
 
     @Override
@@ -110,40 +121,77 @@ public class DateView extends View {
         width = getWidth();
         height = getHeight();
 
-        mPaint.setColor(getResources().getColor(R.color.color_light_grey));
+        mPaint.setColor(Color.WHITE);
+        mPaint.setStyle(Paint.Style.FILL);
         totalDrawnRect.set(0, 0, width, height);
         canvas.drawRect(totalDrawnRect, mPaint);
 
-        if (isSelectedDate) {
-            drawCircle(canvas, mPaint);
-            drawText(canvas, curDateTextPaint);
-        } else {
-            drawText(canvas, textPaint);
+        unitWidth = width / 7;
+        unitHeight = height;
+
+        for (int i = 0; i <7; i++) {
+            if (isDrawUnitBackground) {
+                mPaint.setColor(getResources().getColor(R.color.color_light_grey));
+                containDrawnRect.set(unitWidth * i, 0, (i + 1) * unitWidth, unitHeight);
+                canvas.drawRect(containDrawnRect, mPaint);
+            }
+
+            if ((selectedWeekday-1) == i) {
+                Log.e(TAG, "setContentText: ----Weekday---"+selectedWeekday);
+                drawCircle((unitWidth * i) + unitWidth / 2.0f, unitHeight / 2.0f, unitWidth / 4.0f, canvas, mPaint);
+                if (mTextList.size() != 0) {
+                    drawText(mTextList.get(i + 2).toString(), (unitWidth * i) + unitWidth / 2.0f, unitHeight, canvas, curDateTextPaint);
+                }
+
+            } else {
+                if (mTextList.size() != 0) {
+                    drawText(mTextList.get(i + 2).toString(), (unitWidth * i) + unitWidth / 2.0f, unitHeight, canvas, textPaint);
+                }
+
+            }
+
+
         }
     }
 
-    private void drawText(Canvas canvas, Paint paint) {
+    private void drawText(String text, float x, float y, Canvas canvas, Paint paint) {
         Paint.FontMetrics fm = paint.getFontMetrics();//获取字体的显示基于baseline的各个参数
-        float x = width / 2.0f;
-        float y = (height + (fm.bottom - fm.top)) / 2 - fm.descent;
-        canvas.drawText(mText, x, y, paint);
+        canvas.drawText(text, x, (y + (fm.bottom - fm.top)) / 2 - fm.descent, paint);
     }
 
-    private void drawCircle(Canvas canvas, Paint paint) {
-        circleDrawnRect.set(0, 0, width / 2, width / 2);
+    private void drawCircle(float x, float y, float radius, Canvas canvas, Paint paint) {
         paint.setColor(selectedDateCircleColor);
-        float radius = width / 4.0f;
-        float x = width / 2.0f;
-        float y = height / 2.0f;
         canvas.drawCircle(x, y, radius, paint);
     }
 
-    public void setContentText(String mText) {
-        this.mText = mText;
-    }
-    public void setSelectedDate(boolean selectedDate) {
-        isSelectedDate = selectedDate;
+    public void setContentText(List<Integer> mTextList) {
+        this.mTextList = mTextList;
+        setSelectedWeekday(mTextList.get(1)-1);
+        Log.e(TAG, "setContentText: ----SelectedWeekday---"+selectedWeekday);
+        invalidate();
     }
 
+    public void setSelectedWeekday(int selectedWeekday) {
+        this.selectedWeekday = selectedWeekday;
+    }
+
+    public void setDrawUnitBackground(boolean drawUnitBackground) {
+        isDrawUnitBackground = drawUnitBackground;
+    }
+
+    public void setTextColor(int textColor) {
+        this.textColor = textColor;
+        invalidate();
+    }
+
+    public void setSelectedDateTextColor(int selectedDateTextColor) {
+        this.selectedDateTextColor = selectedDateTextColor;
+        invalidate();
+    }
+
+    public void setSelectedDateCircleColor(int selectedDateCircleColor) {
+        this.selectedDateCircleColor = selectedDateCircleColor;
+        invalidate();
+    }
 
 }

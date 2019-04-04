@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="CourseView"> <!-- 这个Name需要跟你的自定义View的名称一致哦 -->
+    <declare-styleable name="CourseView"> <!-- 这个Name需要跟你的自定义View的名称一致 -->
         <attr name="courceId" format="integer" /><!--课程id-->
         <attr name="startSection" format="integer" /><!--开始节次-->
         <attr name="endSection" format="integer" /><!--结束节次-->
@@ -18,31 +18,37 @@
     </declare-styleable>
 
     <declare-styleable name="WheelSelectView"><!--滚动选择视图-->
-        <attr name="mTextSize" format="dimension"/>
-        <attr name="mTextColor" format="color"/>
-        <attr name="mItemWidthSpace" format="dimension"/>
-        <attr name="mItemHeightSpace" format="dimension"/>
-        <attr name="mSelectItemTextColor" format="color"/>
-        <attr name="mSelectItemTextSize" format="dimension"/>
+        <attr name="mTextSize" format="dimension" />
+        <attr name="mTextColor" format="color" />
+        <attr name="mItemWidthSpace" format="dimension" />
+        <attr name="mItemHeightSpace" format="dimension" />
+        <attr name="mSelectItemTextColor" format="color" />
+        <attr name="mSelectItemTextSize" format="dimension" />
         <!--<attr name="mItemWidth" format="dimension"/>-->
         <!--<attr name="mItemHeight" format="dimension"/>-->
 
-        <attr name="mIsTextGradual" format="boolean"/>
-        <attr name="mIsCyclic" format="boolean"/>
-        <attr name="mIsEnlargeSelectedItem" format="boolean"/>
-        <attr name="mIsShowSelectedCurtain" format="boolean"/>
-        <attr name="mIsShowCurtainBorder" format="boolean"/>
+        <attr name="mIsTextGradual" format="boolean" />
+        <attr name="mIsCyclic" format="boolean" />
+        <attr name="mIsEnlargeSelectedItem" format="boolean" />
+        <attr name="mIsShowSelectedCurtain" format="boolean" />
+        <attr name="mIsShowCurtainBorder" format="boolean" />
 
-        <attr name="mSelectedItemCurtainColor" format="color"/>
-        <attr name="mSelectedItemCurtainBorder" format="dimension"/>
-        <attr name="mSelectedItemCurtainBorderColor" format="color"/>
+        <attr name="mSelectedItemCurtainColor" format="color" />
+        <attr name="mSelectedItemCurtainBorder" format="dimension" />
+        <attr name="mSelectedItemCurtainBorderColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="DateView">
-        <attr name="commomTextSize" format="dimension"/>
-        <attr name="commomTextColor" format="color"/>
-        <attr name="selectedTextColor" format="color"/>
-        <attr name="selectedCircleColor" format="color"/>
+        <attr name="commomTextSize" format="dimension" />
+        <attr name="commomTextColor" format="color" />
+        <attr name="selectedTextColor" format="color" />
+        <attr name="selectedCircleColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="WeekViewBar">
+        <attr name="mCommomTextColor" format="color" />
+        <attr name="mSelectDateTextColor" format="color" />
+        <attr name="mSelectDateCircleColor" format="color" />
     </declare-styleable>
 
 

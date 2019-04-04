@@ -2,148 +2,136 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:orientation="horizontal">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/tv_weekview_month"
         android:layout_width="@dimen/weekview_month_width"
         android:layout_height="0dp"
+        android:background="@drawable/border_right_line"
         android:ems="1"
         android:gravity="center"
+        android:lineSpacingExtra="5dp"
         android:text="@string/weekview_defaultmonth"
         android:textSize="12sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="20dp"
-        android:id="@+id/tv_monday"
-        android:text="@string/weekview_monday"
-        android:gravity="center"
-        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tv_weekview_month"
-        app:layout_constraintEnd_toStartOf="@id/tv_tuesday"/>
+        app:layout_constraintEnd_toStartOf="@id/tv_monday"/>
 
     <TextView
+        android:id="@+id/tv_monday"
         android:layout_width="0dp"
-        android:layout_height="20dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="@string/weekview_monday"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/dateview"
+        app:layout_constraintEnd_toStartOf="@id/tv_tuesday"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toEndOf="@id/tv_weekview_month"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="3" />
+
+    <TextView
         android:id="@+id/tv_tuesday"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:gravity="center"
         android:text="@string/weekview_tuesday"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/dateview"
+        app:layout_constraintEnd_toStartOf="@id/tv_wednesday"
         app:layout_constraintStart_toEndOf="@id/tv_monday"
-        app:layout_constraintEnd_toStartOf="@id/tv_wednesday"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="3" />
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="20dp"
         android:id="@+id/tv_wednesday"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:gravity="center"
         android:text="@string/weekview_wednesday"
-        app:layout_constraintStart_toEndOf="@id/tv_tuesday"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/dateview"
         app:layout_constraintEnd_toStartOf="@id/tv_thursday"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/tv_tuesday"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="3" />
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="20dp"
         android:id="@+id/tv_thursday"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:gravity="center"
         android:text="@string/weekview_thursday"
-        app:layout_constraintStart_toEndOf="@id/tv_wednesday"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/dateview"
         app:layout_constraintEnd_toStartOf="@id/tv_friday"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/tv_wednesday"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="3" />
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="20dp"
         android:id="@+id/tv_friday"
-        android:text="@string/weekview_friday"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:gravity="center"
-        app:layout_constraintStart_toEndOf="@id/tv_thursday"
+        android:text="@string/weekview_friday"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/dateview"
         app:layout_constraintEnd_toStartOf="@id/tv_saturday"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/tv_thursday"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="3" />
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="20dp"
         android:id="@+id/tv_saturday"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:gravity="center"
         android:text="@string/weekview_saturday"
-        app:layout_constraintStart_toEndOf="@id/tv_friday"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/dateview"
         app:layout_constraintEnd_toStartOf="@id/tv_sunday"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/tv_friday"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="3" />
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="20dp"
         android:id="@+id/tv_sunday"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:gravity="center"
         android:text="@string/weekview_sunday"
-        app:layout_constraintStart_toEndOf="@id/tv_saturday"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/dateview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/tv_saturday"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="3" />
 
-
-    <!--    <com.breeziness.timetable.UI.weekview.DateView
-            android:id="@+id/weekview_monday"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toEndOf="@id/tv_weekview_month"
-            app:layout_constraintEnd_toStartOf="@id/weekview_tuesday"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.breeziness.timetable.UI.weekview.DateView
-            android:id="@+id/weekview_tuesday"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toEndOf="@id/weekview_monday"
-            app:layout_constraintEnd_toStartOf="@id/weekview_wednesday"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.breeziness.timetable.UI.weekview.DateView
-            android:id="@+id/weekview_wednesday"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toEndOf="@id/weekview_tuesday"
-            app:layout_constraintEnd_toStartOf="@id/weekview_thursday"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.breeziness.timetable.UI.weekview.DateView
-            android:id="@+id/weekview_thursday"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toEndOf="@id/weekview_wednesday"
-            app:layout_constraintEnd_toStartOf="@id/weekview_friday"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.breeziness.timetable.UI.weekview.DateView
-            android:id="@+id/weekview_friday"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toEndOf="@id/weekview_thursday"
-            app:layout_constraintEnd_toStartOf="@id/weekview_saturday"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.breeziness.timetable.UI.weekview.DateView
-            android:id="@+id/weekview_saturday"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toEndOf="@id/weekview_friday"
-            app:layout_constraintEnd_toStartOf="@id/weekview_sunday"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.breeziness.timetable.UI.weekview.DateView
-            android:id="@+id/weekview_sunday"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toEndOf="@id/weekview_saturday"
-            app:layout_constraintTop_toTopOf="parent" />-->
+    <com.breeziness.timetable.UI.weekview.DateView
+        android:id="@+id/dateview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:commomTextColor="@color/color_black"
+        app:commomTextSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_weekview_month"
+        app:layout_constraintTop_toBottomOf="@+id/tv_monday"
+        app:layout_constraintVertical_weight="5"
+        app:selectedCircleColor="@color/weekview_circle_color"
+        app:selectedTextColor="@color/white_color" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

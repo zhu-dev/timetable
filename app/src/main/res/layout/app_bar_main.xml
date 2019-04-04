@@ -35,14 +35,5 @@
 
         <include layout="@layout/content_main" /><!--加入内容界面-->
 
-        <!--<View-->
-            <!--android:id="@+id/popview_shelter"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:visibility="gone"-->
-            <!--android:background="#66000000"-->
-            <!--android:alpha="0.2"/>-->
-
-
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

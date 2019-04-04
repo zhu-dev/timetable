@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
-    <!--<include layout="@layout/weekview" />-->
     <!--星期头部视图-->
-    <com.breeziness.timetable.UI.weekview.OldWeekView
+    <com.breeziness.timetable.UI.weekview.WeekViewBar
+        android:id="@+id/weekbar"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:id="@+id/weekview"
-        android:alpha="0.7"
-        android:orientation="horizontal">
-    </com.breeziness.timetable.UI.weekview.OldWeekView>
+        android:layout_height="50dp"
+        android:layout_marginTop="2dp"
+        app:mCommomTextColor="@color/color_black"
+        app:mSelectDateCircleColor="@color/weekview_circle_color"
+        app:mSelectDateTextColor="@color/white_color">
+
+    </com.breeziness.timetable.UI.weekview.WeekViewBar>
 
     <include layout="@layout/content_cource" /><!--课表布局-->
 

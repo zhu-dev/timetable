@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
     tools:context=".coursemain.CourseActivity"
-    tools:openDrawer="start">
+    tools:openDrawer="start"
+    android:background="@color/color_light_grey">
 
     <include layout="@layout/app_bar_main"/>
 
@@ -18,7 +19,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_top"
-        app:menu="@menu/activity_test_drawer"
+        app:menu="@menu/activity_drawer"
         >
     </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>
