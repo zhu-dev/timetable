@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.breeziness.timetable.R;
+import com.breeziness.timetable.UI.floatingBar.FloatingBar;
 import com.breeziness.timetable.UI.weekview.CalendarDate;
 import com.breeziness.timetable.UI.weekview.DateView;
 import com.breeziness.timetable.UI.weekview.WeekViewBar;
@@ -24,6 +25,10 @@ public class HomeActivity extends AppCompatActivity {
         List<Integer> days = calendarDate.getTargetWeekDays(0);
         WeekViewBar weekViewBar = findViewById(R.id.weekbar);
         weekViewBar.setTextList(days);
+
+        FloatingBar floatingBar = findViewById(R.id.fb_bar);
+        //floatingBar.bringToFront();
+
 
     }
 }

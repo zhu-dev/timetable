@@ -60,4 +60,11 @@
     <string name="info_import">立即导入课程</string>
     <string name="info_top_text">从下方导入课程</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="floating_bar_text_1">课程表</string>
+    <string name="floating_bar_text_2">课程表</string>
+    <string name="floating_bar_text_3">课程表</string>
+    <string name="floating_bar_text_4">课程表</string>
+
 </resources>

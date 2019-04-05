@@ -12,5 +12,6 @@
 
     <dimen name="custom_toolbar">40dp</dimen>
     <dimen name="smallTextSze">10sp</dimen>
+    <dimen name="tinyTextSze">8sp</dimen>
 
 </resources>

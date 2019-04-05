@@ -4,19 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".homePage.HomeActivity">
+    tools:context=".homePage.HomeActivity"
+    android:background="@color/color_light_grey">
 
     <com.breeziness.timetable.UI.weekview.WeekViewBar
+        android:id="@+id/weekbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:id="@+id/weekbar"
-        app:mSelectDateCircleColor="@color/weekview_circle_color"
-        app:mSelectDateTextColor="@color/white_color"
-        app:mCommomTextColor="@color/color_black"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:mCommomTextColor="@color/color_black"
+        app:mSelectDateCircleColor="@color/weekview_circle_color"
+        app:mSelectDateTextColor="@color/white_color">
 
     </com.breeziness.timetable.UI.weekview.WeekViewBar>
+
+    <com.breeziness.timetable.UI.floatingBar.FloatingBar
+        android:id="@+id/fb_bar"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </com.breeziness.timetable.UI.floatingBar.FloatingBar>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

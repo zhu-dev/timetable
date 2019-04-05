@@ -1,67 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="575dp"
-    android:orientation="horizontal">
-    <LinearLayout
-        android:layout_width="@dimen/weekview_month_width"
+    android:background="@drawable/bg_child">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_session_1"
+            android:layout_width="@dimen/weekview_month_width"
+            android:layout_height="0dp"
+            android:background="@drawable/border_line"
+            android:gravity="center"
+            android:text="@string/section_number_1"
+            app:layout_constraintBottom_toTopOf="@id/tv_session_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread" />
+
+        <TextView
+            android:id="@+id/tv_session_2"
+            android:layout_width="@dimen/weekview_month_width"
+            android:layout_height="0dp"
+            android:background="@drawable/border_line"
+            android:gravity="center"
+            android:text="@string/section_number_2"
+            app:layout_constraintBottom_toTopOf="@id/tv_session_3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_session_1" />
+
+        <TextView
+            android:id="@+id/tv_session_3"
+            android:layout_width="@dimen/weekview_month_width"
+            android:layout_height="0dp"
+            android:background="@drawable/border_line"
+            android:gravity="center"
+            android:text="@string/section_number_3"
+            app:layout_constraintBottom_toTopOf="@id/tv_session_4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_session_2" />
+
+        <TextView
+            android:id="@+id/tv_session_4"
+            android:layout_width="@dimen/weekview_month_width"
+            android:layout_height="0dp"
+            android:background="@drawable/border_line"
+            android:gravity="center"
+            android:text="@string/section_number_4"
+            app:layout_constraintBottom_toTopOf="@id/tv_session_5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_session_3" />
+
+        <TextView
+            android:id="@+id/tv_session_5"
+            android:layout_width="@dimen/weekview_month_width"
+            android:layout_height="0dp"
+            android:background="@drawable/border_line"
+            android:gravity="center"
+            android:text="@string/section_number_5"
+            app:layout_constraintBottom_toTopOf="@id/tv_session_6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_session_4" />
+
+        <TextView
+            android:id="@+id/tv_session_6"
+            android:layout_width="@dimen/weekview_month_width"
+            android:layout_height="0dp"
+            android:background="@drawable/border_line"
+            android:gravity="center"
+            android:text="@string/section_number_6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_session_5" />
+
+        <com.breeziness.timetable.UI.courselayout.CourseLayout
+            android:id="@+id/cources"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_session_1"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </com.breeziness.timetable.UI.courselayout.CourseLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--<LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:alpha="100"
-        android:orientation="vertical">
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="@dimen/weekview_month_width"
+            android:layout_height="wrap_content"
+            android:alpha="100"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/weekview_section_number_width"
-            android:background="@drawable/border_line"
-            android:gravity="center"
-            android:text="@string/section_number_1" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/weekview_section_number_width"
+                android:background="@drawable/border_line"
+                android:gravity="center"
+                android:text="@string/section_number_1" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/weekview_section_number_width"
-            android:background="@drawable/border_line"
-            android:gravity="center"
-            android:text="@string/section_number_2" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/weekview_section_number_width"
+                android:background="@drawable/border_line"
+                android:gravity="center"
+                android:text="@string/section_number_2" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/weekview_section_number_width"
-            android:background="@drawable/border_line"
-            android:gravity="center"
-            android:text="@string/section_number_3" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/weekview_section_number_width"
+                android:background="@drawable/border_line"
+                android:gravity="center"
+                android:text="@string/section_number_3" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/weekview_section_number_width"
-            android:background="@drawable/border_line"
-            android:gravity="center"
-            android:text="@string/section_number_4" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/weekview_section_number_width"
+                android:background="@drawable/border_line"
+                android:gravity="center"
+                android:text="@string/section_number_4" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/weekview_section_number_width"
-            android:background="@drawable/border_line"
-            android:gravity="center"
-            android:text="@string/section_number_5" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/weekview_section_number_width"
+                android:background="@drawable/border_line"
+                android:gravity="center"
+                android:text="@string/section_number_5" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/weekview_section_number_width"
-            android:background="@drawable/border_line"
-            android:gravity="center"
-            android:text="@string/section_number_6" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/weekview_section_number_width"
+                android:background="@drawable/border_line"
+                android:gravity="center"
+                android:text="@string/section_number_6" />
 
-    </LinearLayout>
-    <com.breeziness.timetable.UI.courselayout.CourseLayout
-        android:id="@+id/cources"
-        android:layout_height="match_parent"
-        android:layout_width="wrap_content">
+        </LinearLayout>
+        <com.breeziness.timetable.UI.courselayout.CourseLayout
+            android:id="@+id/cources"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content">
 
-    </com.breeziness.timetable.UI.courselayout.CourseLayout>
-</LinearLayout>
+        </com.breeziness.timetable.UI.courselayout.CourseLayout>
+    </LinearLayout>-->
 
 </ScrollView>

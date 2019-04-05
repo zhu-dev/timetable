@@ -46,16 +46,17 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
     private static final String TAG = "CourseActivity";
 
     private PopView popView;
-
     private DrawerLayout drawer;
-    private List<DropBean> weekList;
     private Toolbar toolbar;
     private NavigationView navigationView;
 
     //weekview
     private CalendarDate calendarDate;
-    private  WeekViewBar weekViewBar;
-    private  List<Integer> days;
+    private WeekViewBar weekViewBar;
+    private List<Integer> days;
+
+
+    private int CurWeek = 6;//当前周
 
     private int[] bg_color = new int[]{
             R.drawable.bg_cource_gray
@@ -69,30 +70,17 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
 
     //测试内容
     private List<TestCourseBean> cources = new ArrayList<>();//测试用课程数据
-//    private List<String> days = new ArrayList<>();
     protected CourseContract.Presenter mPresenter;//Presenter
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cource);
-
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//设置竖屏，禁止屏幕横屏显示
         getWindow().setNavigationBarColor(Color.WHITE);//设置底部导航虚拟按键颜色为白色
-
-
-        //初始化view
-        initView();
-        //沉浸式状态栏
-        setStatusBarColor();
-
-        //获取Presenter实例，传入view对象
-        CoursePresenter coursePresenter = new CoursePresenter(this);
-
-
-
-
-
+        initView();//初始化view
+        setStatusBarColor();//沉浸式状态栏
+        CoursePresenter coursePresenter = new CoursePresenter(this);//获取Presenter实例，传入view对象
     }
 
 
@@ -107,24 +95,19 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
      * 初始化控件
      */
     private void initView() {
-
-        //初始化选择周次弹出菜单
-        popViewInit();
-        //初始化toolbar
-        toolbarInit();
-        //初始化测换菜单
-        drawerInit();
-        //初始化侧滑菜单内容视图
-        navigatinViewInit();
-        //初始化星期头部
-        weekViewInit();
+        popViewInit(); //初始化选择周次弹出菜单
+        toolbarInit();//初始化toolbar
+        drawerInit();//初始化测换菜单
+        navigatinViewInit();//初始化侧滑菜单内容视图
+        weekViewInit();//初始化星期头部
 
         //测试
         initTestCourceData();
+
+        CourseLayout layout = findViewById(R.id.cources);
         for (int i = 0; i < cources.size(); i++) {
             int randBg = bg_color[RandomUtil.getRandomInt(bg_color.length - 1)];
             TestCourseBean cource = cources.get(i);
-            CourseLayout layout = findViewById(R.id.cources);
             CourseView courseView = new CourseView(getApplicationContext());
             courseView.setCourceId(cource.getCourceId());
             courseView.setStartSection(cource.getStartSection());
@@ -153,11 +136,7 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
         cources.add(cource4);
     }
 
-    /**
-     * view的点击事件处理
-     *
-     * @param v
-     */
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -167,12 +146,11 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
 
     private void weekViewInit() {
         calendarDate = new CalendarDate();
-        days = calendarDate.getTargetWeekDays(0);
+        days = calendarDate.getTargetWeekDays(0);//默认显示当前周 偏移0
         weekViewBar = findViewById(R.id.weekbar);
         weekViewBar.setTextList(days);
 
     }
-
 
 
     /**
@@ -180,7 +158,7 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
      */
     private void popViewInit() {
         popView = findViewById(R.id.drop_couerce_select);
-        popView.setData(6,6);//这里记得传入当前周号
+        popView.setData(CurWeek, CurWeek);//这里记得传入当前周号
         popView.setOnDropItemSelectListener(this);
     }
     /************************************透明状态栏********************************/
@@ -195,9 +173,7 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
 
 
     /************************************toolbar相关*************************************/
-    /**
-     * 初始化toolbar
-     */
+
     private void toolbarInit() {
         /*toolbar*/
         toolbar = findViewById(R.id.toolbar);
@@ -205,24 +181,14 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
         setSupportActionBar(toolbar);
     }
 
-    /**
-     * 向toolbar添加menu
-     *
-     * @param menu
-     * @return
-     */
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    /**
-     * toolbar menu菜单点击处理
-     *
-     * @param item
-     * @return
-     */
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -248,17 +214,13 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
 
     /******************************侧滑菜单**************************/
 
-    /**
-     * 初始化侧滑菜单内容视图
-     */
+
     private void navigatinViewInit() {
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    /**
-     * 初始化侧滑菜单
-     */
+
     private void drawerInit() {
         /*drawerlayout侧滑菜单*/
         drawer = findViewById(R.id.drawer_layout);
@@ -276,12 +238,7 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
         toggle.syncState();
     }
 
-    /**
-     * 侧滑菜单点击事件
-     *
-     * @param menuItem
-     * @return
-     */
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
@@ -311,17 +268,19 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
         return true;
     }
 
+    @Override
+    public void onDropItemSelect(int Postion) {
+        calendarDate = new CalendarDate();//此处有缺陷，每次获取都是不同对象  会new出很多对象
+        days = calendarDate.getTargetWeekDays(Postion + 1 - 6);
+        weekViewBar.setTextList(days);
+    }
 
     /*********************************以下是View接口的方法*******************************************/
     @Override
-    public void showProgressBar(boolean isShow) {
-
-    }
+    public void showProgressBar(boolean isShow) { }
 
     @Override
-    public void setCource(String cource) {
-
-    }
+    public void setCource(String cource) { }
 
     @Override
     public boolean isActive() {
@@ -333,19 +292,4 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
         mPresenter = presenter;
     }
 
-
-
-    /**
-     * 周次弹出菜单选择监听
-     *
-     * @param Postion
-     */
-    @Override
-    public void onDropItemSelect(int Postion) {
-        calendarDate = new CalendarDate();//此处有缺陷，每次获取都是不同对象  会new出很多对象
-        days = calendarDate.getTargetWeekDays(Postion+1-6);
-        weekViewBar.setTextList(days);
-        Log.e(TAG, "onDropItemSelect: -----Postion------"+(Postion+1));
-        Log.e(TAG, "onDropItemSelect: -----days------"+days.get(2));
-    }
 }

@@ -65,7 +65,7 @@ public class CourseLayout extends ViewGroup {
         sectionHeight = (getMeasuredHeight() - divideHeight * sectionTotal) / sectionTotal;//每节课的高度
         sectionWidth = (getMeasuredWidth() - divideWidth * weekdayTotal) / weekdayTotal;//每节课的宽度
 
-        Log.e(TAG, "getMeasuredHeight()----> " + getMeasuredHeight());
+        //Log.e(TAG, "getMeasuredHeight()----> " + getMeasuredHeight());
         int childCount = getChildCount();//获取子控件的个数。
         for (int i = 0; i < childCount; i++) {
             CourseView child = (CourseView) getChildAt(i);
