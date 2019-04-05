@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
     tools:context=".coursemain.CourseActivity"
-    tools:openDrawer="start"
-    android:background="@color/color_light_grey">
+    tools:openDrawer="start">
 
     <include layout="@layout/app_bar_main"/>
 

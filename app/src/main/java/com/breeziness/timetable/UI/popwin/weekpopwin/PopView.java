@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.breeziness.timetable.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PopView extends RelativeLayout implements Checkable, View.OnClickListener, PopWindowManager.OnDismissListener, AdapterView.OnItemClickListener {
@@ -19,7 +20,9 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
     private final static String TAG = "PopView";
     /*顶部标题*/
     private TextView tv_title;
-    private boolean isChecked = true;//被转中标志
+    private View titleView;
+    private int CurWeek;
+    private boolean isChecked = true;//被选中标志
     private Context context;
     private PopWindowManager popWindowManager;
     private PopListAdapter adapter;
@@ -60,22 +63,27 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
         /*顶部标题设置*/
         View view = LayoutInflater.from(getContext()).inflate(R.layout.drop_top_title, this, true);
         tv_title = view.findViewById(R.id.drop_title);
+        titleView = view.findViewById(R.id.drop_top);
+
         //设置点击监听事件
-        tv_title.setOnClickListener(this);
+        titleView.setOnClickListener(this);
     }
 
     /**
-     * 设置数据
-     *
-     * @param dropBeanList
+     * @param CurWeek    当前周
+     * @param selectWeek 选择跳转到的周次
      */
-    public void setData(List<DropBean> dropBeanList) {
-        //默认选择第一个位置的内容
-        drops = dropBeanList;
-        drops.get(0).setCheck(true);
-        drops.get(0).setCurWeek(true);//默认第一周是当前周
-        tv_title.setText(drops.get(0).getWeekday());
-        selectPosition = 0;
+    public void setData(int CurWeek, int selectWeek) {
+        this.CurWeek = CurWeek;
+        drops = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            drops.add(new DropBean("第" + (i + 1) + "周"));
+        }
+        //默认选择当前周的内容
+        drops.get(selectWeek-1).setCheck(true);
+        drops.get(CurWeek-1).setCurWeek(true);//默认当前周
+        tv_title.setText(drops.get(CurWeek-1).getWeekday());
+        selectPosition = CurWeek-1;
         View contentView = LayoutInflater.from(context).inflate(R.layout.drop_content, null);
         contentView.findViewById(R.id.drop_content).setOnClickListener(new OnClickListener() {
             @Override
@@ -106,7 +114,12 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        setChecked(!isChecked);
+        switch (v.getId()) {
+            case R.id.drop_top:
+                setChecked(!isChecked);
+                break;
+        }
+
     }
 
     @Override
@@ -119,11 +132,10 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
             //onShowListener.OnShow();//显示的状态回调
 
 
-
         } else {
             //icon = getResources().getDrawable(R.drawable.ic_drop_menu_week, null);
             popWindowManager.hide();//关闭弹出菜单
-           // onDismissListener.OnDismiss();//关闭的状态回调
+            // onDismissListener.OnDismiss();//关闭的状态回调
 
 
         }
@@ -169,13 +181,13 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
     }
 
 
-/*
-    */
+    /*
+     */
 /**
-     * 设置Popview弹出监听
-     *
-     * @param onShowListener
-     *//*
+ * 设置Popview弹出监听
+ *
+ * @param onShowListener
+ *//*
 
     public void setOnShowListener(OnShowListener onShowListener) {
         this.onShowListener = onShowListener;
@@ -183,10 +195,10 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
 
     */
 /**
-     * 设置Popview关闭监听
-     *
-     * @param onDismissListener
-     *//*
+ * 设置Popview关闭监听
+ *
+ * @param onDismissListener
+ *//*
 
     public void setOnDismissListener(OnDismissListener onDismissListener) {
         this.onDismissListener = onDismissListener;
@@ -194,15 +206,16 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
 
     */
 /**
-     * Popview弹出监听的回调接口
-     *//*
+ * Popview弹出监听的回调接口
+ *//*
 
     public interface OnShowListener {
         void OnShow();
     }
 
     */
-/**
+
+    /**
      * Popview关闭监听的回调接口
      *//*
 
@@ -210,8 +223,6 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
         void OnDismiss();
     }
 */
-
-
     @Override
     public boolean isChecked() {
         return isChecked;

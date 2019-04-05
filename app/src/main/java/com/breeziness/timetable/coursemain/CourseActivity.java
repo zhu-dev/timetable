@@ -81,9 +81,6 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
         getWindow().setNavigationBarColor(Color.WHITE);//设置底部导航虚拟按键颜色为白色
 
 
-
-        //初始化选择周次数据
-        initWeeksData();
         //初始化view
         initView();
         //沉浸式状态栏
@@ -120,7 +117,7 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
         //初始化侧滑菜单内容视图
         navigatinViewInit();
         //初始化星期头部
-        weekviewInit();
+        weekViewInit();
 
         //测试
         initTestCourceData();
@@ -168,7 +165,7 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
         }
     }
 
-    private void weekviewInit() {
+    private void weekViewInit() {
         calendarDate = new CalendarDate();
         days = calendarDate.getTargetWeekDays(0);
         weekViewBar = findViewById(R.id.weekbar);
@@ -183,7 +180,7 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
      */
     private void popViewInit() {
         popView = findViewById(R.id.drop_couerce_select);
-        popView.setData(weekList);//这里记得传入当前周号
+        popView.setData(6,6);//这里记得传入当前周号
         popView.setOnDropItemSelectListener(this);
     }
     /************************************透明状态栏********************************/
@@ -314,15 +311,6 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
         return true;
     }
 
-    /**
-     * 添加周次数据
-     */
-    private void initWeeksData() {
-        weekList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            weekList.add(new DropBean("第" + (i + 1) + "周"));
-        }
-    }
 
     /*********************************以下是View接口的方法*******************************************/
     @Override

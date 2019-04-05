@@ -21,6 +21,6 @@
         android:layout_below="@+id/drop_title"
         android:layout_centerHorizontal="true"
         android:text="@string/toolbar_subtitle_week"
-        android:textSize="12sp" />
+        android:textSize="@dimen/smallTextSze" />
 
 </RelativeLayout>

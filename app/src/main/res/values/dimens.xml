@@ -11,5 +11,6 @@
     <dimen name="tint_text_size">11sp</dimen>
 
     <dimen name="custom_toolbar">40dp</dimen>
+    <dimen name="smallTextSze">10sp</dimen>
 
 </resources>
