@@ -9,6 +9,7 @@
 
 
     <RadioGroup
+        android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="2dp"
@@ -29,33 +30,36 @@
             android:textSize="@dimen/tinyTextSze"/>
 
         <RadioButton
+            android:id="@+id/rb_btn_study_helper"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="bottom|center_horizontal"
             android:button="@null"
-            android:drawableTop="@drawable/selector_floating_course"
+            android:drawableTop="@drawable/selector_floating_study_helper"
             android:text="@string/floating_bar_text_2"
             android:textSize="@dimen/tinyTextSze"/>
 
         <RadioButton
+            android:id="@+id/rb_btn_utils"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="bottom|center_horizontal"
             android:button="@null"
-            android:drawableTop="@drawable/selector_floating_course"
+            android:drawableTop="@drawable/selector_floating_utils"
             android:text="@string/floating_bar_text_3"
             android:textSize="@dimen/tinyTextSze"/>
 
         <RadioButton
+            android:id="@+id/rb_btn_more"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="bottom|center_horizontal"
             android:button="@null"
             android:text="@string/floating_bar_text_4"
-            android:drawableTop="@drawable/selector_floating_course"
+            android:drawableTop="@drawable/selector_floating_more"
             android:textSize="@dimen/tinyTextSze"/>
     </RadioGroup>
 

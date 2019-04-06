@@ -36,4 +36,12 @@
         <include layout="@layout/content_main" /><!--加入内容界面-->
 
     </LinearLayout>
+
+    <com.breeziness.timetable.UI.floatingBar.FloatingBar
+        android:id="@+id/fb_bar"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:alpha="0.8"
+        android:layout_gravity="bottom|center_horizontal">
+    </com.breeziness.timetable.UI.floatingBar.FloatingBar>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

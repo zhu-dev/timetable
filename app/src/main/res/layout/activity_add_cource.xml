@@ -20,7 +20,7 @@
             android:id="@+id/image_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_icon_64"
+            android:src="@drawable/bg_letme_64"
             app:civ_border_color="@color/white_textcolor"
             app:civ_border_width="5dp"
             app:layout_constraintBottom_toBottomOf="parent"

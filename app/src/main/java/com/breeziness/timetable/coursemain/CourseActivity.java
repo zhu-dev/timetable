@@ -5,26 +5,22 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.breeziness.timetable.R;
+import com.breeziness.timetable.UI.floatingBar.FloatingBar;
 import com.breeziness.timetable.UI.weekview.CalendarDate;
-import com.breeziness.timetable.UI.weekview.OldWeekView;
 import com.breeziness.timetable.UI.weekview.WeekViewBar;
 import com.breeziness.timetable.addcource.AddCourseActivity;
-import com.breeziness.timetable.UI.courselayout.CourseLayout;
-import com.breeziness.timetable.UI.courseview.CourseView;
-import com.breeziness.timetable.UI.popwin.weekpopwin.DropBean;
 import com.breeziness.timetable.UI.popwin.weekpopwin.PopView;
+import com.breeziness.timetable.coursemain.fragment.CourseFragment;
+import com.breeziness.timetable.coursemain.fragment.StudentUtilsFragment;
+import com.breeziness.timetable.coursemain.fragment.StudyHelperFragment;
 import com.breeziness.timetable.data.bean.TestCourseBean;
 import com.breeziness.timetable.homePage.HomeActivity;
-import com.breeziness.timetable.util.DateUtil;
-import com.breeziness.timetable.util.RandomUtil;
 import com.google.android.material.navigation.NavigationView;
 
 
@@ -41,36 +37,33 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import static android.widget.Toast.LENGTH_SHORT;
 
 
-public class CourseActivity extends AppCompatActivity implements CourseContract.View, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, PopView.OnDropItemSelectListener {
+public class CourseActivity extends AppCompatActivity implements CourseContract.View, PopView.OnDropItemSelectListener,View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, FloatingBar.OnFloatingItemChecked {
 
     private static final String TAG = "CourseActivity";
+    protected CourseContract.Presenter mPresenter;//Presenter
+    private OnWeekChangeListener onWeekChangeListener;// fragment和activity的监听器  当选择周次变化时通知fragment更新数据
 
     private PopView popView;
     private DrawerLayout drawer;
     private Toolbar toolbar;
     private NavigationView navigationView;
+    private FloatingBar floatingBar;
 
-    //weekview
+    //    //weekview
     private CalendarDate calendarDate;
     private WeekViewBar weekViewBar;
     private List<Integer> days;
 
+    private CourseFragment courseFragment;
+    private StudyHelperFragment helperFragment;
+    private StudentUtilsFragment utilsFragment;
 
     private int CurWeek = 6;//当前周
 
-    private int[] bg_color = new int[]{
-            R.drawable.bg_cource_gray
-            , R.drawable.bg_cource_green
-            , R.drawable.bg_cource_light_green
-            , R.drawable.bg_cource_pink
-            , R.drawable.bg_cource_blue
-            , R.drawable.bg_cource_brown
-            , R.drawable.bg_cource_yellow
-    };
 
     //测试内容
     private List<TestCourseBean> cources = new ArrayList<>();//测试用课程数据
-    protected CourseContract.Presenter mPresenter;//Presenter
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,103 +77,52 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
     }
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mPresenter.detach();//将presenter中正在执行的任务取消，将view对象置为空。
-    }
-
-
-    /**
-     * 初始化控件
-     */
+    //初始化控件
     private void initView() {
         popViewInit(); //初始化选择周次弹出菜单
         toolbarInit();//初始化toolbar
         drawerInit();//初始化测换菜单
-        navigatinViewInit();//初始化侧滑菜单内容视图
-        weekViewInit();//初始化星期头部
-
-        //测试
-        initTestCourceData();
-
-        CourseLayout layout = findViewById(R.id.cources);
-        for (int i = 0; i < cources.size(); i++) {
-            int randBg = bg_color[RandomUtil.getRandomInt(bg_color.length - 1)];
-            TestCourseBean cource = cources.get(i);
-            CourseView courseView = new CourseView(getApplicationContext());
-            courseView.setCourceId(cource.getCourceId());
-            courseView.setStartSection(cource.getStartSection());
-            courseView.setEndSection(cource.getEndSection());
-            courseView.setWeekday(cource.getWeekday());
-            courseView.setBackground(getDrawable(randBg));
-            courseView.setText(String.format("%s@%s", cource.getCourceName(), cource.getClassroom()));
-            courseView.setTextColor(Color.WHITE);
-            //courceView.setAlpha(0.5f);
-            courseView.setTextSize(10);
-            courseView.setGravity(Gravity.CENTER);
-            layout.addView(courseView);
-        }
-
-    }
-
-    //测试数据
-    public void initTestCourceData() {
-        TestCourseBean cource1 = new TestCourseBean("通信原理A", "黎", 1, 1, 1, 1, "11C107", "1-16");
-        TestCourseBean cource2 = new TestCourseBean("微波天线", "黎", 2, 1, 2, 2, "02201Y", "1-16");
-        TestCourseBean cource3 = new TestCourseBean("科技文献阅读和写作（信息类）", "黎", 3, 7, 2, 2, "11C107", "1-16");
-        TestCourseBean cource4 = new TestCourseBean("科技文献阅读和写作（信息类）", "黎", 3, 4, 4, 4, "11C107", "1-16");
-        cources.add(cource1);
-        cources.add(cource2);
-        cources.add(cource3);
-        cources.add(cource4);
+        navigationViewInit();//初始化侧滑菜单内容视图
+        floatingBarInit();//初始化底部悬浮菜单栏
+        fragmentInit();//初始化fragment
     }
 
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            //点击事件
-        }
+    private void fragmentInit() {
+        courseFragment = new CourseFragment();
+        helperFragment = new StudyHelperFragment();
+        utilsFragment = new StudentUtilsFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_container, courseFragment).commit();
     }
 
-    private void weekViewInit() {
-        calendarDate = new CalendarDate();
-        days = calendarDate.getTargetWeekDays(0);//默认显示当前周 偏移0
-        weekViewBar = findViewById(R.id.weekbar);
-        weekViewBar.setTextList(days);
-
+    //初始化底部悬浮菜单栏
+    private void floatingBarInit() {
+        floatingBar = findViewById(R.id.fb_bar);
+        floatingBar.setOnFloatingItemChecked(this);
     }
 
 
-    /**
-     * 初始化选择周次弹出框
-     */
+    //初始化选择周次弹出框
     private void popViewInit() {
         popView = findViewById(R.id.drop_couerce_select);
         popView.setData(CurWeek, CurWeek);//这里记得传入当前周号
         popView.setOnDropItemSelectListener(this);
     }
-    /************************************透明状态栏********************************/
-    /**
-     * 透明状态栏,不再支持6.0以下
-     */
-    protected void setStatusBarColor() {
-        getWindow().setStatusBarColor(Color.TRANSPARENT);//透明
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-    }
-
 
     /************************************toolbar相关*************************************/
 
     private void toolbarInit() {
-        /*toolbar*/
         toolbar = findViewById(R.id.toolbar);
         toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_menu_more, null));//设置溢出菜单按钮图标，默认是三个点
         setSupportActionBar(toolbar);
     }
 
+    //透明状态栏,不再支持6.0以下
+    protected void setStatusBarColor() {
+        getWindow().setStatusBarColor(Color.TRANSPARENT);//透明
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -215,14 +157,13 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
     /******************************侧滑菜单**************************/
 
 
-    private void navigatinViewInit() {
+    private void navigationViewInit() {
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
 
     private void drawerInit() {
-        /*drawerlayout侧滑菜单*/
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -270,17 +211,52 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
 
     @Override
     public void onDropItemSelect(int Postion) {
-        calendarDate = new CalendarDate();//此处有缺陷，每次获取都是不同对象  会new出很多对象
-        days = calendarDate.getTargetWeekDays(Postion + 1 - 6);
-        weekViewBar.setTextList(days);
+       onWeekChangeListener.OnWeekChange(Postion);
     }
 
-    /*********************************以下是View接口的方法*******************************************/
     @Override
-    public void showProgressBar(boolean isShow) { }
+    public void onItemChecked(int id) {
+        switch (id) {
+            case 0:
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_container, courseFragment).commit();
+                break;
+            case 1:
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_container, helperFragment).commit();
+                break;
+            case 2:
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_container, utilsFragment).commit();
+                break;
+        }
+    }
+
 
     @Override
-    public void setCource(String cource) { }
+    public void onClick(View v) {
+        switch (v.getId()) {
+            //点击事件
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.detach();//将presenter中正在执行的任务取消，将view对象置为空。
+    }
+
+    public void setOnWeekChangeListener(OnWeekChangeListener onWeekChangeListener){
+        this.onWeekChangeListener = onWeekChangeListener;
+    }
+    public interface OnWeekChangeListener {
+        void OnWeekChange(int position);
+    }
+    /*********************************以下是View接口的方法*******************************************/
+    @Override
+    public void showProgressBar(boolean isShow) {
+    }
+
+    @Override
+    public void setCource(String cource) {
+    }
 
     @Override
     public boolean isActive() {
@@ -291,5 +267,6 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
     public void setPresenter(CourseContract.Presenter presenter) {
         mPresenter = presenter;
     }
+
 
 }

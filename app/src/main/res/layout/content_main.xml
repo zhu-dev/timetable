@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/content_container"
     android:background="@color/color_light_grey">
-
-    <!--星期头部视图-->
+<!--    &lt;!&ndash;星期头部视图&ndash;&gt;
     <com.breeziness.timetable.UI.weekview.WeekViewBar
         android:id="@+id/weekbar"
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
 
     </com.breeziness.timetable.UI.weekview.WeekViewBar>
 
-    <!--课表布局-->
-    <include layout="@layout/content_cource" />
+    &lt;!&ndash;课表布局&ndash;&gt;
+    <include layout="@layout/content_cource" />-->
 
 </LinearLayout>

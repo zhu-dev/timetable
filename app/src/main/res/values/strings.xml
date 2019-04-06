@@ -37,7 +37,7 @@
     <string name="weekview_friday">周五</string>
     <string name="weekview_saturday">周六</string>
     <string name="weekview_sunday">周日</string>
-    <string name="weekview_default_day">14日</string>
+    <string name="weekview_default_day">20日</string>
 
     <!--courceview-->
     <string name="section_number_1">1</string>
@@ -63,8 +63,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="floating_bar_text_1">课程表</string>
-    <string name="floating_bar_text_2">课程表</string>
-    <string name="floating_bar_text_3">课程表</string>
-    <string name="floating_bar_text_4">课程表</string>
+    <string name="floating_bar_text_2">学习助手</string>
+    <string name="floating_bar_text_3">小工具</string>
+    <string name="floating_bar_text_4">更多</string>
 
 </resources>
