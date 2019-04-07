@@ -1,12 +1,15 @@
 package com.breeziness.timetable.coursemain.fragment;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.print.PrinterId;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +21,11 @@ import com.breeziness.timetable.UI.courselayout.CourseLayout;
 import com.breeziness.timetable.UI.courseview.CourseView;
 import com.breeziness.timetable.UI.weekview.CalendarDate;
 import com.breeziness.timetable.UI.weekview.WeekViewBar;
+import com.breeziness.timetable.addcource.AddCourseActivity;
 import com.breeziness.timetable.base.BaseFragment;
 import com.breeziness.timetable.coursemain.CourseActivity;
+import com.breeziness.timetable.coursemain.CourseContract;
+import com.breeziness.timetable.data.bean.CourseBean;
 import com.breeziness.timetable.data.bean.TestCourseBean;
 import com.breeziness.timetable.util.RandomUtil;
 
@@ -27,21 +33,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CourseFragment extends BaseFragment implements  View.OnClickListener, CourseActivity.OnWeekChangeListener {
+public class CourseFragment extends BaseFragment implements CourseContract.View, View.OnClickListener, CourseActivity.OnWeekChangeListener {
 
+    private static final String TAG = "CourseFragment";
 
-
+    private CourseContract.Presenter mPresenter;
 
     //weekview
     private CalendarDate calendarDate;
     private WeekViewBar weekViewBar;
     private List<Integer> days;
 
+    //courseLayout
+    private CourseLayout layout;
+
+    //Data
     private int CurWeek = 6;//当前周
+    private List<CourseBean.DataBean> dataBeans;
+
 
     private int[] bg_color = new int[]{
             R.drawable.bg_cource_gray
@@ -65,22 +77,21 @@ public class CourseFragment extends BaseFragment implements  View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View contentView = inflater.inflate(R.layout.fragment_course, container, false);
         initView(contentView);
+        //mPresenter.getCource();
         return contentView;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof )
     }
 
     private void initView(View contentView) {
         weekViewInit(contentView);//初始化星期头部
         courseLayoutInit(contentView);//课程布局初始化
-
+        //courseLayoutInitTest(contentView);
     }
 
     private void weekViewInit(View contentView) {
@@ -90,6 +101,10 @@ public class CourseFragment extends BaseFragment implements  View.OnClickListene
         weekViewBar.setTextList(days);
     }
 
+    private void courseLayoutInitTest(View contentView) {
+        layout = contentView.findViewById(R.id.cources);
+
+    }
 
     private void courseLayoutInit(View contentView) {
         TestCourseBean cource1 = new TestCourseBean("通信原理A", "黎", 1, 1, 1, 1, "11C107", "1-16");
@@ -101,7 +116,7 @@ public class CourseFragment extends BaseFragment implements  View.OnClickListene
         cources.add(cource3);
         cources.add(cource4);
 
-        CourseLayout layout = contentView.findViewById(R.id.cources);
+        layout = contentView.findViewById(R.id.cources);
         for (int i = 0; i < cources.size(); i++) {
             int randBg = bg_color[RandomUtil.getRandomInt(bg_color.length - 1)];
             TestCourseBean cource = cources.get(i);
@@ -121,9 +136,21 @@ public class CourseFragment extends BaseFragment implements  View.OnClickListene
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        //在这里订阅事件
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        //在这里取消订阅事件
+        mPresenter.detach();//将presenter中正在执行的任务取消，将view对象置为空。
+    }
+
+
+    @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-        }
     }
 
     @Override
@@ -134,5 +161,47 @@ public class CourseFragment extends BaseFragment implements  View.OnClickListene
     }
 
 
+    @Override
+    public void setCource(List<CourseBean.DataBean> dataBeans) {
+        Log.e(TAG, "setCource: -------" + dataBeans.get(0).getCname());
+//        this.dataBeans = dataBeans;
+//        int randBg = bg_color[RandomUtil.getRandomInt(bg_color.length - 1)];
+//        CourseView courseView = new CourseView(getActivity().getApplicationContext());
+//        courseView.setCourceId(dataBeans.get(0).getId());
+//        courseView.setWeekday(dataBeans.get(0).getWeek());
+//        courseView.setSeq(dataBeans.get(0).getSeq());
+//        courseView.setBackground(getActivity().getDrawable(randBg));
+//        courseView.setText(String.format("%s@%s", dataBeans.get(0).getCname(), dataBeans.get(0).getCroomno()));
+//        courseView.setTextColor(Color.WHITE);
+//        //courceView.setAlpha(0.5f);
+//        courseView.setTextSize(10);
+//        courseView.setGravity(Gravity.CENTER);
+//        layout.addView(courseView);
+//        layout.invalidate();
+        for (int i = 0; i < cources.size(); i++) {
+            int randBg = bg_color[RandomUtil.getRandomInt(bg_color.length - 1)];
+            TestCourseBean cource = cources.get(i);
+            CourseView courseView = new CourseView(getActivity().getApplicationContext());
+            courseView.setCourceId(dataBeans.get(0).getId());
+            courseView.setStartSection(cource.getStartSection());
+            courseView.setEndSection(cource.getEndSection());
+            courseView.setWeekday(dataBeans.get(0).getWeek());
+            courseView.setBackground(getActivity().getDrawable(randBg));
+            //courseView.setText(String.format("%s@%s", cources.get(i).getCourceName(),cources.get(i).getClassroom()));
+           courseView.setText(String.format("%s@%s", dataBeans.get(0).getCname(), "11C109"));
+            courseView.setTextColor(Color.WHITE);
+            //courceView.setAlpha(0.5f);
+            courseView.setTextSize(10);
+            courseView.setGravity(Gravity.CENTER);
+            layout.addView(courseView);
+            layout.invalidate();
+        }
+    }
 
+    @Override
+    public void setPresenter(CourseContract.Presenter presenter) {
+        if (presenter != null) {
+            mPresenter = presenter;
+        }
+    }
 }

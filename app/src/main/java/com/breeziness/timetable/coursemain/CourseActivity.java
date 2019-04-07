@@ -37,11 +37,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import static android.widget.Toast.LENGTH_SHORT;
 
 
-public class CourseActivity extends AppCompatActivity implements CourseContract.View, PopView.OnDropItemSelectListener,View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, FloatingBar.OnFloatingItemChecked {
+public class CourseActivity extends AppCompatActivity implements PopView.OnDropItemSelectListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, FloatingBar.OnFloatingItemChecked {
 
     private static final String TAG = "CourseActivity";
-    protected CourseContract.Presenter mPresenter;//Presenter
-    private OnWeekChangeListener onWeekChangeListener;// fragment和activity的监听器  当选择周次变化时通知fragment更新数据
+    protected CoursePresenter coursePresenter;//Presenter
+    //private OnWeekChangeListener onWeekChangeListener;// fragment和activity的监听器  当选择周次变化时通知fragment更新数据
 
     private PopView popView;
     private DrawerLayout drawer;
@@ -49,21 +49,11 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
     private NavigationView navigationView;
     private FloatingBar floatingBar;
 
-    //    //weekview
-    private CalendarDate calendarDate;
-    private WeekViewBar weekViewBar;
-    private List<Integer> days;
-
     private CourseFragment courseFragment;
     private StudyHelperFragment helperFragment;
     private StudentUtilsFragment utilsFragment;
 
     private int CurWeek = 6;//当前周
-
-
-    //测试内容
-    private List<TestCourseBean> cources = new ArrayList<>();//测试用课程数据
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +63,8 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
         getWindow().setNavigationBarColor(Color.WHITE);//设置底部导航虚拟按键颜色为白色
         initView();//初始化view
         setStatusBarColor();//沉浸式状态栏
-        CoursePresenter coursePresenter = new CoursePresenter(this);//获取Presenter实例，传入view对象
+
+        coursePresenter = new CoursePresenter(courseFragment);//传入view对象
     }
 
 
@@ -92,6 +83,7 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
         courseFragment = new CourseFragment();
         helperFragment = new StudyHelperFragment();
         utilsFragment = new StudentUtilsFragment();
+
         getSupportFragmentManager().beginTransaction().replace(R.id.content_container, courseFragment).commit();
     }
 
@@ -211,20 +203,30 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
 
     @Override
     public void onDropItemSelect(int Postion) {
-       onWeekChangeListener.OnWeekChange(Postion);
+        courseFragment.OnWeekChange(Postion);
     }
 
     @Override
     public void onItemChecked(int id) {
         switch (id) {
             case 0:
+                popView.setVisibility(View.VISIBLE);
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_container, courseFragment).commit();
                 break;
             case 1:
+                popView.setVisibility(View.GONE);
+                toolbar.setTitle("学习助手");
+                toolbar.setTitleTextColor(getColor(R.color.colorPrimary));
+
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_container, helperFragment).commit();
                 break;
             case 2:
+                popView.setVisibility(View.GONE);
+                toolbar.setTitle("小工具集合");
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_container, utilsFragment).commit();
+                break;
+            case 3:
+                Toast.makeText(CourseActivity.this, "功能未开放", LENGTH_SHORT).show();
                 break;
         }
     }
@@ -240,33 +242,15 @@ public class CourseActivity extends AppCompatActivity implements CourseContract.
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPresenter.detach();//将presenter中正在执行的任务取消，将view对象置为空。
+
     }
 
-    public void setOnWeekChangeListener(OnWeekChangeListener onWeekChangeListener){
-        this.onWeekChangeListener = onWeekChangeListener;
-    }
+//    public void setOnWeekChangeListener(OnWeekChangeListener onWeekChangeListener) {
+//        this.onWeekChangeListener = onWeekChangeListener;
+//    }
+
     public interface OnWeekChangeListener {
         void OnWeekChange(int position);
     }
-    /*********************************以下是View接口的方法*******************************************/
-    @Override
-    public void showProgressBar(boolean isShow) {
-    }
-
-    @Override
-    public void setCource(String cource) {
-    }
-
-    @Override
-    public boolean isActive() {
-        return false;
-    }
-
-    @Override
-    public void setPresenter(CourseContract.Presenter presenter) {
-        mPresenter = presenter;
-    }
-
 
 }

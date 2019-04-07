@@ -1,10 +1,21 @@
 package com.breeziness.timetable.coursemain;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 
+import com.breeziness.timetable.base.BaseActivity;
+import com.breeziness.timetable.base.BaseApplication;
+import com.breeziness.timetable.data.bean.CourseBean;
+import com.breeziness.timetable.data.db.DataBaseManager;
+
+import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class CoursePresenter implements CourseContract.Presenter {
 
@@ -28,6 +39,30 @@ public class CoursePresenter implements CourseContract.Presenter {
     @SuppressLint("CheckResult")
     @Override
     public void getCource() {
+        DataBaseManager.getInstance(BaseApplication.getContext()).getAllCourse("course")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<CourseBean.DataBean>>() {
+                    @Override
+                    public void accept(List<CourseBean.DataBean> dataBeans) throws Exception {
+                       view.setCource(dataBeans);
+                        Log.e(TAG, "accept: ------"+dataBeans.get(5).getCname());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        // Log.e(TAG, "accept: -----throwable------" + throwable);
+                    }
+                });
+    }
+
+    @Override
+    public void subscribe() {
+
+    }
+
+    @Override
+    public void unSubscribe() {
 
     }
 

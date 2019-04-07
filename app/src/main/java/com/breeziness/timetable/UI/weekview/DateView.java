@@ -129,15 +129,15 @@ public class DateView extends View {
         unitWidth = width / 7;
         unitHeight = height;
 
-        for (int i = 0; i <7; i++) {
+        for (int i = 0; i < 7; i++) {
             if (isDrawUnitBackground) {
                 mPaint.setColor(getResources().getColor(R.color.color_light_grey));
                 containDrawnRect.set(unitWidth * i, 0, (i + 1) * unitWidth, unitHeight);
                 canvas.drawRect(containDrawnRect, mPaint);
             }
-
-            if ((selectedWeekday-1) == i) {
-                Log.e(TAG, "setContentText: ----Weekday---"+selectedWeekday);
+            Log.e(TAG, "onDraw: -----date--"+mTextList.get(i+2));
+            if ((selectedWeekday - 1) == i) {
+                //Log.e(TAG, "setContentText: ----Weekday---" + selectedWeekday);
                 drawCircle((unitWidth * i) + unitWidth / 2.0f, unitHeight / 2.0f, unitWidth / 4.0f, canvas, mPaint);
                 if (mTextList.size() != 0) {
                     drawText(mTextList.get(i + 2).toString(), (unitWidth * i) + unitWidth / 2.0f, unitHeight, canvas, curDateTextPaint);
@@ -166,8 +166,12 @@ public class DateView extends View {
 
     public void setContentText(List<Integer> mTextList) {
         this.mTextList = mTextList;
-        setSelectedWeekday(mTextList.get(1)-1);
-        Log.e(TAG, "setContentText: ----SelectedWeekday---"+selectedWeekday);
+        int weekday = mTextList.get(1) - 1;
+        if (weekday == 0) {
+            weekday = 7;
+        }
+        setSelectedWeekday(weekday);
+       // Log.e(TAG, "setContentText: ----SelectedWeekday---" + selectedWeekday);
         invalidate();
     }
 

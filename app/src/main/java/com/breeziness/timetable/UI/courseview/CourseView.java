@@ -7,12 +7,14 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.breeziness.timetable.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 
 /**
@@ -23,11 +25,18 @@ public class CourseView extends TextView {
 
     private static final String TAG = "CourceView";
 
-
-    private int courceId;//课程ID
     private int startSection;//开始节次  确定在容器的上坐标
     private int endSection;//结束节次  确定在容器中的下坐标
+
+    private int courceId;//课程ID
     private int weekday;//星期几   确定所属的容器
+    private String cname;//课程名字
+    private String name;//教师名字
+    private String term;//课程所属学期
+    private String courseid;//课程代号
+    private int startweek;//开始周次
+    private int endweek;//结束周次
+    private String seq;//第几节
 
     private Paint mPaint;//画笔
 
@@ -82,18 +91,8 @@ public class CourseView extends TextView {
     @Override
     protected void onDraw(Canvas canvas) {
 
-
-//        //解决文本无法垂直居中的问题，动态绘制获取文本高度和TextView的宽度，计算出居中的位置 (getHeight() - textWidth) / 2）
-//        float textHeight = getStringHeight(getText().toString(), getPaint());
-//        float textWidth = getStringWidth(getText().toString(), getPaint());
-        //float startX = (float) (getWidth() / 2) - fm.descent + (fm.bottom - fm.top) / 2;
-//        float startX = (float) (getWidth() / 2);
-//        float startY = (float) (getHeight() / 2) + (fm.bottom - fm.top) / 2;//文本的坐标在文字baseline的中间，故为“+”
-        //int baseLineY = (int) (mBound.centerY() - fm.top/2 - fm.bottom/2);//基线中间点的y轴计算公式
-
-
         newLines(mTextList);//分割获得行数
-        Paint.FontMetrics fm = mPaint.getFontMetrics();//获得文本参数
+        // Paint.FontMetrics fm = mPaint.getFontMetrics();//获得文本参数
         float scale = getContext().getResources().getDisplayMetrics().density;//获取屏幕密度，相对密度，近似
         float Y = (getHeight() - getStringHeight(getText().toString(), mPaint) * lineCount * scale) / 2;//加上scale效果更好
         canvas.translate(0, Y);//加入文本位置偏移
@@ -155,6 +154,7 @@ public class CourseView extends TextView {
 
     public void setCourceId(int courceId) {
         this.courceId = courceId;
+        Log.e(TAG, "setCourceId: ---courceId--"+courceId);
     }
 
     public int getStartSection() {
@@ -163,6 +163,7 @@ public class CourseView extends TextView {
 
     public void setStartSection(int startSection) {
         this.startSection = startSection;
+        Log.e(TAG, "setCourceId: ---startSection--"+startSection);
     }
 
     public int getEndSection() {
@@ -179,5 +180,67 @@ public class CourseView extends TextView {
 
     public void setWeekday(int weekday) {
         this.weekday = weekday;
+        Log.e(TAG, "setCourceId: ---weekday--"+weekday);
     }
+
+    public String getCname() {
+        return cname;
+    }
+
+    public void setCname(String cname) {
+        this.cname = cname;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTerm() {
+        return term;
+    }
+
+    public void setTerm(String term) {
+        this.term = term;
+    }
+
+    public String getCourseid() {
+        return courseid;
+    }
+
+    public void setCourseid(String courseid) {
+        this.courseid = courseid;
+    }
+
+    public int getStartweek() {
+        return startweek;
+    }
+
+    public void setStartweek(int startweek) {
+        this.startweek = startweek;
+    }
+
+    public int getEndweek() {
+        return endweek;
+    }
+
+    public void setEndweek(int endweek) {
+        this.endweek = endweek;
+    }
+
+    public String getSeq() {
+        return seq;
+    }
+
+    public void setSeq(String seq) {
+        this.seq = seq;
+//        String patt1 ="/[0-9]+/";  //我CNM的后台，傻逼老师
+//        seq.matches(patt1);
+       // Log.e(TAG, "setSeq: ----seq---" + Integer.valueOf(seq));
+        startSection = endSection = Integer.valueOf(seq);
+    }
+
 }

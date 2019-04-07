@@ -6,6 +6,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import com.breeziness.timetable.UI.dialog.LoadingDialog;
 import com.breeziness.timetable.UI.dialog.LoginImageDialog;
 import com.breeziness.timetable.UI.wheelpicker.InfoPicker;
 import com.breeziness.timetable.base.BaseActivity;
+import com.breeziness.timetable.coursemain.CourseActivity;
 import com.breeziness.timetable.data.bean.CourseBean;
 import com.breeziness.timetable.data.db.DataBaseManager;
 
@@ -192,18 +194,10 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
                     .subscribe(new Consumer<Boolean>() {
                         @Override
                         public void accept(Boolean aBoolean) throws Exception {
-                            if (aBoolean) {
-                                //Log.e(TAG, "accept: ---1---" + aBoolean);
-                                //  Toast.makeText(AddCourseActivity.this, "插入数据成功", Toast.LENGTH_SHORT).show();
-                            } else {
-                                //  Toast.makeText(AddCourseActivity.this, "插入数据失败", Toast.LENGTH_SHORT).show();
-                            }
                         }
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
-                            //Log.e(TAG, "accept: ---throwable1-----" + throwable);
-                            //  Toast.makeText(AddCourseActivity.this, "插入异常", Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -216,24 +210,18 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
                     .subscribe(new Consumer<Boolean>() {
                         @Override
                         public void accept(Boolean aBoolean) throws Exception {
-                            if (aBoolean) {
-                                //Log.e(TAG, "accept: ----2----" + aBoolean);
-                                //Toast.makeText(AddCourseActivity.this, "更新数据成功", Toast.LENGTH_SHORT).show();
-                            } else {
-                                //Toast.makeText(AddCourseActivity.this, "更新数据失败", Toast.LENGTH_SHORT).show();
-                            }
-
                         }
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
-                            //Log.e(TAG, "accept: ---throwable2-----" + throwable);
-                            // Toast.makeText(AddCourseActivity.this, "更新数据异常", Toast.LENGTH_SHORT).show();
                         }
                     });
 
         }
         //要在获取课程之后返回到课程的界面
+        Intent intent = new Intent(AddCourseActivity.this, CourseActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     /**

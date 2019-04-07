@@ -72,7 +72,7 @@ public class WeekViewBar extends ConstraintLayout {
 
     public void setTextList(List<Integer> mTextList) {
         this.mTextList = mTextList;
-        Log.e(TAG, "setTextList: -size-----" + mTextList.size());
+       // Log.e(TAG, "setTextList: -size-----" + mTextList.size());
         selectedmonth = mTextList.get(0);
         tv_month.setText(selectedmonth + "月");
         dateView.setContentText(mTextList);
