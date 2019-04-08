@@ -16,17 +16,37 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "DataBaseHelper";
     private Context mContext;
 
+    /**
+     * * id : 508342
+     * * cname : RFID技术与应用
+     * * courseno : 1821925
+     * * name : 李天松
+     * * croomno : 17412*
+     * * startweek : 10
+     * * endweek : 16
+     * * week : 1
+     * * seq : 3
+     * * term : 2018-2019_2
+     */
+
+
     //建主课程表
     private static final String CREATE_COURSE = "CREATE TABLE course ("
             + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "itemid INTEGER NOT NULL,"
             + "courseid TEXT NOT NULL,"
             + "cname TEXT NOT NULL,"
-            + "teachername TEXT NOT NULL,"
-            + "term TEXT NOT NULL,"
+            + "croomno TEXT,"
+            + "teachername TEXT,"
+            + "term TEXT,"
+            + "seq TEXT NOT NULL,"
             + "startweek INTEGER NOT NULL,"
             + "endweek INTEGER NOT NULL,"
             + "week INTEGER NOT NULL)";
+
+    private static final String CREATE_COURSE2 = "CREATE TABLE course ("
+            + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + "data BLOB)";
 
     /**
      * @param context
@@ -43,7 +63,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_COURSE);
+        // db.execSQL(CREATE_COURSE);
+        db.execSQL(CREATE_COURSE2);
         Log.e(TAG, "onCreate:-------ok---- ");
 
     }

@@ -1,27 +1,23 @@
 package com.breeziness.timetable.coursemain.fragment;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.print.PrinterId;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.breeziness.timetable.R;
 import com.breeziness.timetable.UI.courselayout.CourseLayout;
 import com.breeziness.timetable.UI.courseview.CourseView;
 import com.breeziness.timetable.UI.weekview.CalendarDate;
 import com.breeziness.timetable.UI.weekview.WeekViewBar;
-import com.breeziness.timetable.addcource.AddCourseActivity;
 import com.breeziness.timetable.base.BaseFragment;
 import com.breeziness.timetable.coursemain.CourseActivity;
 import com.breeziness.timetable.coursemain.CourseContract;
@@ -79,7 +75,7 @@ public class CourseFragment extends BaseFragment implements CourseContract.View,
         // Inflate the layout for this fragment
         View contentView = inflater.inflate(R.layout.fragment_course, container, false);
         initView(contentView);
-        //mPresenter.getCource();
+        mPresenter.getCource();
         return contentView;
     }
 
@@ -163,39 +159,8 @@ public class CourseFragment extends BaseFragment implements CourseContract.View,
 
     @Override
     public void setCource(List<CourseBean.DataBean> dataBeans) {
-        Log.e(TAG, "setCource: -------" + dataBeans.get(0).getCname());
-//        this.dataBeans = dataBeans;
-//        int randBg = bg_color[RandomUtil.getRandomInt(bg_color.length - 1)];
-//        CourseView courseView = new CourseView(getActivity().getApplicationContext());
-//        courseView.setCourceId(dataBeans.get(0).getId());
-//        courseView.setWeekday(dataBeans.get(0).getWeek());
-//        courseView.setSeq(dataBeans.get(0).getSeq());
-//        courseView.setBackground(getActivity().getDrawable(randBg));
-//        courseView.setText(String.format("%s@%s", dataBeans.get(0).getCname(), dataBeans.get(0).getCroomno()));
-//        courseView.setTextColor(Color.WHITE);
-//        //courceView.setAlpha(0.5f);
-//        courseView.setTextSize(10);
-//        courseView.setGravity(Gravity.CENTER);
-//        layout.addView(courseView);
-//        layout.invalidate();
-        for (int i = 0; i < cources.size(); i++) {
-            int randBg = bg_color[RandomUtil.getRandomInt(bg_color.length - 1)];
-            TestCourseBean cource = cources.get(i);
-            CourseView courseView = new CourseView(getActivity().getApplicationContext());
-            courseView.setCourceId(dataBeans.get(0).getId());
-            courseView.setStartSection(cource.getStartSection());
-            courseView.setEndSection(cource.getEndSection());
-            courseView.setWeekday(dataBeans.get(0).getWeek());
-            courseView.setBackground(getActivity().getDrawable(randBg));
-            //courseView.setText(String.format("%s@%s", cources.get(i).getCourceName(),cources.get(i).getClassroom()));
-           courseView.setText(String.format("%s@%s", dataBeans.get(0).getCname(), "11C109"));
-            courseView.setTextColor(Color.WHITE);
-            //courceView.setAlpha(0.5f);
-            courseView.setTextSize(10);
-            courseView.setGravity(Gravity.CENTER);
-            layout.addView(courseView);
-            layout.invalidate();
-        }
+        this.dataBeans = dataBeans;
+
     }
 
     @Override

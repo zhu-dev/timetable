@@ -1,5 +1,6 @@
 package com.breeziness.timetable.data.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class CourseBean {
@@ -38,7 +39,7 @@ public class CourseBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * id : 508342
          * ctype : RZ
@@ -84,10 +85,10 @@ public class CourseBean {
         private String cname;
         private String courseno;
         private String teacherno;
-        private String name;
-        private String term;
+        private Object name;
+        private Object term;
         private String courseid;
-        private String croomno;
+        private Object croomno;
         private Object comm;
         private int startweek;
         private int endweek;
@@ -199,19 +200,19 @@ public class CourseBean {
             this.teacherno = teacherno;
         }
 
-        public String getName() {
+        public Object getName() {
             return name;
         }
 
-        public void setName(String name) {
+        public void setName(Object name) {
             this.name = name;
         }
 
-        public String getTerm() {
+        public Object getTerm() {
             return term;
         }
 
-        public void setTerm(String term) {
+        public void setTerm(Object term) {
             this.term = term;
         }
 
@@ -223,11 +224,11 @@ public class CourseBean {
             this.courseid = courseid;
         }
 
-        public String getCroomno() {
+        public Object getCroomno() {
             return croomno;
         }
 
-        public void setCroomno(String croomno) {
+        public void setCroomno(Object croomno) {
             this.croomno = croomno;
         }
 

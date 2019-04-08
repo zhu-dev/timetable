@@ -185,39 +185,73 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
     @SuppressLint("CheckResult")
     @Override
     public void setCource(List<CourseBean.DataBean> dataBeans) {
+//        String cname =  dataBeans.get(0).getCname();
+//        String courseno =  dataBeans.get(0).getCourseno();
+//        String croomno =  dataBeans.get(0).getCroomno();
+//        String seq =  dataBeans.get(0).getSeq();
+//        int week =  dataBeans.get(0).getWeek();
+//        Log.e(TAG, "setCource: -------"+cname+"------"+courseno+"------"+croomno+"------"+seq+"------"+ week);
+
+
+//        if (flag) {
+//            //第一次插入
+//            DataBaseManager.getInstance(AddCourseActivity.this).insertCourse(dataBeans)
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Consumer<Boolean>() {
+//                        @Override
+//                        public void accept(Boolean aBoolean) throws Exception {
+//                            Log.e(TAG, "accept: ---存入ok---");
+//                        }
+//                    }, new Consumer<Throwable>() {
+//                        @Override
+//                        public void accept(Throwable throwable) throws Exception {
+//                            Log.e(TAG, "accept: ---存取出错---");
+//                        }
+//                    });
+//
+//            flag = false;//改变标志位
+//
+//        } else {
+//            DataBaseManager.getInstance(AddCourseActivity.this).updataCourse(dataBeans)
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Consumer<Boolean>() {
+//                        @Override
+//                        public void accept(Boolean aBoolean) throws Exception {
+//                        }
+//                    }, new Consumer<Throwable>() {
+//                        @Override
+//                        public void accept(Throwable throwable) throws Exception {
+//                        }
+//                    });
+//
+//        }
+
+
 
         if (flag) {
             //第一次插入
-            DataBaseManager.getInstance(AddCourseActivity.this).insertCourse(dataBeans)
+            DataBaseManager.getInstance(AddCourseActivity.this).insertCourses(dataBeans)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<Boolean>() {
                         @Override
                         public void accept(Boolean aBoolean) throws Exception {
+                            Log.e(TAG, "accept: ---存入ok---");
                         }
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
+                            Log.e(TAG, "accept: ---存取出错---");
                         }
                     });
 
             flag = false;//改变标志位
 
-        } else {
-            DataBaseManager.getInstance(AddCourseActivity.this).updataCourse(dataBeans)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<Boolean>() {
-                        @Override
-                        public void accept(Boolean aBoolean) throws Exception {
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
-                        }
-                    });
-
         }
+
+
         //要在获取课程之后返回到课程的界面
         Intent intent = new Intent(AddCourseActivity.this, CourseActivity.class);
         startActivity(intent);

@@ -4,9 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.breeziness.timetable.data.bean.CourseBean;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +26,11 @@ import io.reactivex.FlowableOnSubscribe;
 public class DataBaseManager implements DataBaseService {
     private static volatile DataBaseManager manager;//懒汉单例模式
     private DataBaseHelper helper;
-
+    private static final String TAG = "DataBaseManager";
 
     //私有的构造方法
     private DataBaseManager(Context context) {
-        helper = new DataBaseHelper(context, "timetable.db", null, 2);
+        helper = new DataBaseHelper(context, "timetable.db", null, 1);
     }
 
     //获取实例的方法
@@ -62,12 +67,13 @@ public class DataBaseManager implements DataBaseService {
                     cv.put("cname", dataBean.getCname());
                     cv.put("courseid", dataBean.getCourseno());
                     cv.put("itemid", dataBean.getId());
-                    cv.put("teachername", dataBean.getName());
-                    cv.put("term", dataBean.getTerm());
+                    //cv.put("teachername", dataBean.getName());
+                    // cv.put("term", dataBean.getTerm());
                     cv.put("startweek", dataBean.getStartweek());
                     cv.put("endweek", dataBean.getEndweek());
                     cv.put("week", dataBean.getWeek());
-
+                    //cv.put("croomno",dataBean.getCroomno());
+                    cv.put("seq", dataBean.getSeq());
                     //判断是否插入成功，并决定是否发射事件,这里的处理还需优化  有点问题
 //                    if (db.insert("course", null, cv) != -1) {
 //                        emitter.onNext(true);
@@ -78,6 +84,32 @@ public class DataBaseManager implements DataBaseService {
                 }
                 emitter.onNext(true);
                 emitter.onComplete();//完成事件
+            }
+        }, BackpressureStrategy.BUFFER);
+    }
+
+    //测试插入对象
+    @Override
+    public Flowable<Boolean> insertCourses(final List<CourseBean.DataBean> dataBeans) {
+        return Flowable.create(new FlowableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(FlowableEmitter<Boolean> emitter) throws Exception {
+                SQLiteDatabase db = helper.getWritableDatabase();
+                for (int i = 0; i < dataBeans.size(); i++) {
+                    CourseBean.DataBean dataBean = dataBeans.get(i);
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+                    objectOutputStream.writeObject(dataBean);
+                    objectOutputStream.flush();
+                    byte[] data = byteArrayOutputStream.toByteArray();
+                    objectOutputStream.close();
+                    byteArrayOutputStream.close();
+                    String sql = "insert into course(data) values (?)";
+                    db.execSQL(sql, new Object[]{data});
+                }
+                emitter.onNext(true);
+                emitter.onComplete();//完成事件
+
             }
         }, BackpressureStrategy.BUFFER);
     }
@@ -99,11 +131,13 @@ public class DataBaseManager implements DataBaseService {
                     cv.put("cname", dataBean.getCname());
                     cv.put("courseid", dataBean.getCourseno());
                     cv.put("itemid", dataBean.getId());
-                    cv.put("teachername", dataBean.getName());
-                    cv.put("term", dataBean.getTerm());
+//                    cv.put("teachername", dataBean.getName());
+//                    cv.put("term", dataBean.getTerm());
                     cv.put("startweek", dataBean.getStartweek());
                     cv.put("endweek", dataBean.getEndweek());
                     cv.put("week", dataBean.getWeek());
+//                    cv.put("croomno",dataBean.getCroomno());
+                    cv.put("seq", dataBean.getSeq());
 
                     String args = i + "";//限制条件
                     //判断是否更新成功，并决定是否发射事件
@@ -130,13 +164,16 @@ public class DataBaseManager implements DataBaseService {
             public void subscribe(FlowableEmitter<List<CourseBean.DataBean>> emitter) throws Exception {
                 List<CourseBean.DataBean> dataList = new ArrayList<>();
                 StringBuilder sql = new StringBuilder();
-                sql.append("select * from ").append(tableName);
+                sql.append("SELECT * FROM ").append(tableName);
+                Log.e(TAG, "subscribe: --sql---" + sql);
                 SQLiteDatabase db = helper.getWritableDatabase();
                 Cursor cursor = db.rawQuery(sql.toString(), null);
                 if (cursor.moveToFirst()) {
                     //遍历所有的数据
                     do {
+
                         CourseBean.DataBean dataBean = new CourseBean.DataBean();
+                        Log.e(TAG, "subscribe: ---cname---" + cursor.getString(cursor.getColumnIndex("cname")));
                         dataBean.setCname(cursor.getString(cursor.getColumnIndex("cname")));
                         dataBean.setId(cursor.getInt(cursor.getColumnIndex("itemid")));
                         dataBean.setCourseno(cursor.getString(cursor.getColumnIndex("courseid")));
@@ -144,12 +181,54 @@ public class DataBaseManager implements DataBaseService {
                         dataBean.setStartweek(cursor.getInt(cursor.getColumnIndex("startweek")));
                         dataBean.setEndweek(cursor.getInt(cursor.getColumnIndex("endweek")));
                         dataBean.setWeek(cursor.getInt(cursor.getColumnIndex("week")));
+                        Log.e(TAG, "subscribe: --ok1---");
+                        if (cursor.getString(cursor.getColumnIndex("'seq")).equals("")) {
+                            Log.e(TAG, "subscribe: --null---");
+                        }
+                        //Log.e(TAG, "subscribe: ----seq----"+cursor.getString(cursor.getColumnIndex("'seq")) );
+//                        dataBean.setSeq(cursor.getString(cursor.getColumnIndex("'seq")));
+//                        dataBean.setCroomno(cursor.getString(cursor.getColumnIndex("'croomno")));
+//                        dataBean.setTerm(cursor.getString(cursor.getColumnIndex("'term")));
+
+
                         dataList.add(dataBean);
+                        Log.e(TAG, "subscribe: --ok2---");
                     } while (cursor.moveToNext());
                 }
+                Log.e(TAG, "subscribe: --size---" + dataList.size());
                 cursor.close();//关闭指针
                 db.close();//关闭数据库
 
+                emitter.onNext(dataList);//发射结果
+                emitter.onComplete();//完成事件
+            }
+        }, BackpressureStrategy.BUFFER);
+    }
+
+    @Override
+    public Flowable<List<CourseBean.DataBean>> getAllCourses(final String tableName) {
+        return Flowable.create(new FlowableOnSubscribe<List<CourseBean.DataBean>>() {
+            @Override
+            public void subscribe(FlowableEmitter<List<CourseBean.DataBean>> emitter) throws Exception {
+                List<CourseBean.DataBean> dataList = new ArrayList<>();
+                StringBuilder sql = new StringBuilder();
+                sql.append("SELECT * FROM ").append(tableName);
+                Log.e(TAG, "subscribe: --sql---" + sql);
+                SQLiteDatabase db = helper.getWritableDatabase();
+                Cursor cursor = db.rawQuery(sql.toString(), null);
+                if (cursor != null) {
+                    while (cursor.moveToNext()) {
+                        byte[] data = cursor.getBlob(cursor.getColumnIndex("data"));
+                        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data);
+                        ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+                        CourseBean.DataBean dataBean = (CourseBean.DataBean) objectInputStream.readObject();
+                        objectInputStream.close();
+                        byteArrayInputStream.close();
+                        dataList.add(dataBean);
+                    }
+                    cursor.close();
+                }
+                db.close();
                 emitter.onNext(dataList);//发射结果
                 emitter.onComplete();//完成事件
             }

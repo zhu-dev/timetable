@@ -14,11 +14,17 @@ public interface DataBaseService {
     //插入课程
     Flowable<Boolean> insertCourse(List<CourseBean.DataBean> dataBeans);
 
+    //测试存储对象
+    Flowable<Boolean> insertCourses(List<CourseBean.DataBean> dataBeans);
+
     //更新课程
     Flowable<Boolean> updataCourse(List<CourseBean.DataBean> dataBeans);
 
     //获取所有的课程
     Flowable<List<CourseBean.DataBean>> getAllCourse(String tableName);
+
+    //测试存储对象
+    Flowable<List<CourseBean.DataBean>> getAllCourses(String tableName);
 
     //添加一门课程
     Flowable<CourseBean.DataBean> addCourse(String courseid);

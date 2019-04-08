@@ -154,7 +154,7 @@ public class CourseView extends TextView {
 
     public void setCourceId(int courceId) {
         this.courceId = courceId;
-        Log.e(TAG, "setCourceId: ---courceId--"+courceId);
+       // Log.e(TAG, "setCourceId: ---courceId--"+courceId);
     }
 
     public int getStartSection() {
@@ -163,7 +163,7 @@ public class CourseView extends TextView {
 
     public void setStartSection(int startSection) {
         this.startSection = startSection;
-        Log.e(TAG, "setCourceId: ---startSection--"+startSection);
+       // Log.e(TAG, "setCourceId: ---startSection--"+startSection);
     }
 
     public int getEndSection() {
@@ -180,7 +180,7 @@ public class CourseView extends TextView {
 
     public void setWeekday(int weekday) {
         this.weekday = weekday;
-        Log.e(TAG, "setCourceId: ---weekday--"+weekday);
+       // Log.e(TAG, "setCourceId: ---weekday--"+weekday);
     }
 
     public String getCname() {

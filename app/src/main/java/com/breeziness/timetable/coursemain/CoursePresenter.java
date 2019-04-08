@@ -39,7 +39,7 @@ public class CoursePresenter implements CourseContract.Presenter {
     @SuppressLint("CheckResult")
     @Override
     public void getCource() {
-        DataBaseManager.getInstance(BaseApplication.getContext()).getAllCourse("course")
+        DataBaseManager.getInstance(BaseApplication.getContext()).getAllCourses("course")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<CourseBean.DataBean>>() {
@@ -51,7 +51,7 @@ public class CoursePresenter implements CourseContract.Presenter {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        // Log.e(TAG, "accept: -----throwable------" + throwable);
+                         Log.e(TAG, "accept: -----throwable------" + throwable);
                     }
                 });
     }
