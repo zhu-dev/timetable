@@ -4,10 +4,10 @@ import android.annotation.SuppressLint;
 import android.util.Log;
 
 
-import com.breeziness.timetable.base.BaseActivity;
 import com.breeziness.timetable.base.BaseApplication;
 import com.breeziness.timetable.data.bean.CourseBean;
-import com.breeziness.timetable.data.db.DataBaseManager;
+import com.breeziness.timetable.data.db.LocalDataRepository;
+import com.breeziness.timetable.util.SharedPreferencesUtil;
 
 import java.util.List;
 
@@ -39,21 +39,26 @@ public class CoursePresenter implements CourseContract.Presenter {
     @SuppressLint("CheckResult")
     @Override
     public void getCource() {
-        DataBaseManager.getInstance(BaseApplication.getContext()).getAllCourses("course")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<CourseBean.DataBean>>() {
-                    @Override
-                    public void accept(List<CourseBean.DataBean> dataBeans) throws Exception {
-                       view.setCource(dataBeans);
-                        Log.e(TAG, "accept: ------"+dataBeans.get(5).getCname());
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                         Log.e(TAG, "accept: -----throwable------" + throwable);
-                    }
-                });
+        //当第一次进入时数据库空白，不读取数据库，避免可能发生ANR
+        boolean flag = SharedPreferencesUtil.getBoolen(BaseApplication.getContext(), "InsertFlag", "flag", true);
+        if (!flag) {
+            LocalDataRepository.getInstance(BaseApplication.getContext()).getAll("course")
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<List<CourseBean>>() {
+                        @Override
+                        public void accept(List<CourseBean> dataBeans) throws Exception {
+                            view.setCource(dataBeans);
+                            Log.e(TAG, "accept: ------" + dataBeans.get(5).getCname() + dataBeans.get(5).getName() + dataBeans.get(5).getTerm() + dataBeans.get(5).getCroomno());
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
+                            Log.e(TAG, "accept: -----throwable------" + throwable);
+                        }
+                    });
+        }
+
     }
 
     @Override

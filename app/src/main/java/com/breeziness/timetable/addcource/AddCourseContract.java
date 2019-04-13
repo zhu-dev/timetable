@@ -4,8 +4,7 @@ import android.graphics.Bitmap;
 
 import com.breeziness.timetable.base.BasePresenter;
 import com.breeziness.timetable.base.BaseView;
-import com.breeziness.timetable.data.bean.CourseBean;
-import com.breeziness.timetable.data.bean.LoginBean;
+import com.breeziness.timetable.data.bean.CourseNetBean;
 
 import java.util.List;
 
@@ -14,8 +13,8 @@ public interface AddCourseContract {
         //显示加载进度动画
         void showProgressBar(boolean isShow);
 
-        //设置课程
-        void setCource(List<CourseBean.DataBean> dataBeans);
+        //跳转到主界面
+        void complete();
 
         //显示验证码
         void setImage(Bitmap bitmap);
@@ -36,7 +35,7 @@ public interface AddCourseContract {
         void getImage();
 
         //获取课程数据
-        void getCource(String term);
+        void getCourse(String term);
 
     }
 }

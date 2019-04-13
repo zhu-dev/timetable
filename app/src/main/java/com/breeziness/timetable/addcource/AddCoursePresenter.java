@@ -5,8 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.breeziness.timetable.data.bean.CourseBean;
+import com.breeziness.timetable.data.DataRepository;
+import com.breeziness.timetable.data.bean.CourseNetBean;
 import com.breeziness.timetable.data.bean.LoginBean;
+import com.breeziness.timetable.data.retrofit.RemoteDataRepository;
 import com.breeziness.timetable.data.retrofit.RetrofitFactory;
 import com.breeziness.timetable.util.ErrorCodeUtil;
 
@@ -28,15 +30,18 @@ import okhttp3.ResponseBody;
 public class AddCoursePresenter implements AddCourseContract.Presenter {
 
     private static final String TAG = "AddCoursePresenter";
+
     private AddCourseContract.View view;//持有View引用
+
     //将所有正在处理的Subscription都添加到CompositeSubscription中。统一退出的时候注销观察
     private CompositeDisposable mCompositeDisposable;
 
+    private DataRepository dataRepository;
 
     public AddCoursePresenter(AddCourseContract.View view) {
         this.view = view;
         view.setPresenter(this);
-
+        dataRepository = DataRepository.getInstance();
     }
 
     /**
@@ -51,7 +56,7 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
         params.put("PassWord", "338471");
         params.put("CheckCode", CheckCode);
 
-        Log.e(TAG, "getLogin: -----"+CheckCode);
+        Log.e(TAG, "getLogin: -----" + CheckCode);
 
         RetrofitFactory.getInstance().getCookie(params)
 
@@ -72,14 +77,14 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                     public void accept(LoginBean loginBean) throws Exception {
 
                         //Log.e(TAG, "accept: -------" + loginBean.getData() + loginBean.getMsg());
-                       // view.showProgressBar(false);//显示进度条
-                        view.setLoginMassage(loginBean.isSuccess(),loginBean.getMsg());
+                        // view.showProgressBar(false);//显示进度条
+                        view.setLoginMassage(loginBean.isSuccess(), loginBean.getMsg());
 
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        view.showError(ErrorCodeUtil.getloginError,throwable.getMessage());
+                        view.showError(ErrorCodeUtil.getloginError, throwable.getMessage());
                     }
                 });
     }
@@ -125,10 +130,9 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        view.showError(ErrorCodeUtil.getImageError,throwable.getMessage());
+                        view.showError(ErrorCodeUtil.getImageError, throwable.getMessage());
                     }
                 });
-
 
     }
 
@@ -138,7 +142,7 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
      */
     @SuppressLint("CheckResult")
     @Override
-    public void getCource(String term) {
+    public void getCourse(String term) {
         RetrofitFactory.getInstance().getCourse(term)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Consumer<Disposable>() {
@@ -150,23 +154,24 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 //转化结果
-                .map(new Function<CourseBean, List<CourseBean.DataBean>>() {
+                .map(new Function<CourseNetBean, List<CourseNetBean.DataBean>>() {
                     @Override
-                    public List<CourseBean.DataBean> apply(CourseBean courseBean) throws Exception {
-                        return courseBean.getData();
+                    public List<CourseNetBean.DataBean> apply(CourseNetBean courseNetBean) throws Exception {
+                        return courseNetBean.getData();
                     }
                 })
-                .subscribe(new Consumer<List<CourseBean.DataBean>>() {
+                .subscribe(new Consumer<List<CourseNetBean.DataBean>>() {
                     @Override
-                    public void accept(List<CourseBean.DataBean> dataBeans) throws Exception {
+                    public void accept(List<CourseNetBean.DataBean> dataBeans) throws Exception {
                         view.showProgressBar(false);
-                        view.setCource(dataBeans);
+                        dataRepository.saveCourseToDB(dataBeans);
+                        view.complete();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         view.showProgressBar(false);
-                        view.showError(ErrorCodeUtil.getCourseError,throwable.getMessage());
+                        view.showError(ErrorCodeUtil.getCourseError, throwable.getMessage());
                     }
                 });
     }

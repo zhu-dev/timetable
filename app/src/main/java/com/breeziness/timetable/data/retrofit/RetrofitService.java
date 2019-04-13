@@ -2,16 +2,14 @@ package com.breeziness.timetable.data.retrofit;
 
 
 
-import com.breeziness.timetable.data.bean.CourseBean;
+import com.breeziness.timetable.data.bean.CourseNetBean;
 import com.breeziness.timetable.data.bean.LoginBean;
 
 
-import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
-import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -35,7 +33,7 @@ public interface RetrofitService {
     //获取课表的json
     @GET("student/getstutable")  //http://bkjw.guet.edu.cn/student/getstutable?_dc=1552548462281&term=2018-2019_2&page=1&start=0&limit=25
     @Headers("Referer:http://bkjw.guet.edu.cn/Login/MainDesktop")
-    Observable<CourseBean> getCourse(@Query("term") String term);
+    Observable<CourseNetBean> getCourse(@Query("term") String term);
 
     //获取我的成绩
     @GET()

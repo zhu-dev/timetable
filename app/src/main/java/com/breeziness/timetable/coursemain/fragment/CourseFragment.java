@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +21,7 @@ import com.breeziness.timetable.base.BaseFragment;
 import com.breeziness.timetable.coursemain.CourseActivity;
 import com.breeziness.timetable.coursemain.CourseContract;
 import com.breeziness.timetable.data.bean.CourseBean;
+import com.breeziness.timetable.data.bean.CourseNetBean;
 import com.breeziness.timetable.data.bean.TestCourseBean;
 import com.breeziness.timetable.util.RandomUtil;
 
@@ -48,7 +48,7 @@ public class CourseFragment extends BaseFragment implements CourseContract.View,
 
     //Data
     private int CurWeek = 6;//当前周
-    private List<CourseBean.DataBean> dataBeans;
+    private List<CourseBean> dataBeans;
 
 
     private int[] bg_color = new int[]{
@@ -113,6 +113,9 @@ public class CourseFragment extends BaseFragment implements CourseContract.View,
         cources.add(cource4);
 
         layout = contentView.findViewById(R.id.cources);
+
+
+        //记得在这里判断数据集合是否为空，为空不显示，避免ANR
         for (int i = 0; i < cources.size(); i++) {
             int randBg = bg_color[RandomUtil.getRandomInt(bg_color.length - 1)];
             TestCourseBean cource = cources.get(i);
@@ -158,9 +161,8 @@ public class CourseFragment extends BaseFragment implements CourseContract.View,
 
 
     @Override
-    public void setCource(List<CourseBean.DataBean> dataBeans) {
+    public void setCource(List<CourseBean> dataBeans) {
         this.dataBeans = dataBeans;
-
     }
 
     @Override

@@ -21,8 +21,8 @@ import com.breeziness.timetable.UI.dialog.LoginImageDialog;
 import com.breeziness.timetable.UI.wheelpicker.InfoPicker;
 import com.breeziness.timetable.base.BaseActivity;
 import com.breeziness.timetable.coursemain.CourseActivity;
-import com.breeziness.timetable.data.bean.CourseBean;
-import com.breeziness.timetable.data.db.DataBaseManager;
+import com.breeziness.timetable.data.bean.CourseNetBean;
+import com.breeziness.timetable.data.db.LocalDataRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +53,7 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
     private AddCoursePresenter courcePresenter;
 
 
-    //测试数据库
-    private boolean flag = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,27 +136,9 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
 //            mPresenter.getCource();
             //登录请求
             case R.id.btn_import:
-                Log.e(TAG, "onClick: ---获取课表---");
+               // Log.e(TAG, "onClick: ---获取课表---");
                 mPresenter.getImage();
                 break;
-/*            case R.id.btn_get_course_from_db:
-                DataBaseManager.getInstance(AddCourseActivity.this).getAllCourse("course")
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<List<CourseBean.DataBean>>() {
-                            @Override
-                            public void accept(List<CourseBean.DataBean> dataBeans) throws Exception {
-                                tv_show.setText(dataBeans.get(5).getCname());
-                            }
-                        }, new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
-                                // Log.e(TAG, "accept: -----throwable------" + throwable);
-                            }
-                        });
-                break;*/
-
-
         }
 
     }
@@ -177,81 +158,8 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-    /**
-     * 显示课程和将课程保存到数据库
-     *
-     * @param dataBeans
-     */
-    @SuppressLint("CheckResult")
     @Override
-    public void setCource(List<CourseBean.DataBean> dataBeans) {
-//        String cname =  dataBeans.get(0).getCname();
-//        String courseno =  dataBeans.get(0).getCourseno();
-//        String croomno =  dataBeans.get(0).getCroomno();
-//        String seq =  dataBeans.get(0).getSeq();
-//        int week =  dataBeans.get(0).getWeek();
-//        Log.e(TAG, "setCource: -------"+cname+"------"+courseno+"------"+croomno+"------"+seq+"------"+ week);
-
-
-//        if (flag) {
-//            //第一次插入
-//            DataBaseManager.getInstance(AddCourseActivity.this).insertCourse(dataBeans)
-//                    .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(new Consumer<Boolean>() {
-//                        @Override
-//                        public void accept(Boolean aBoolean) throws Exception {
-//                            Log.e(TAG, "accept: ---存入ok---");
-//                        }
-//                    }, new Consumer<Throwable>() {
-//                        @Override
-//                        public void accept(Throwable throwable) throws Exception {
-//                            Log.e(TAG, "accept: ---存取出错---");
-//                        }
-//                    });
-//
-//            flag = false;//改变标志位
-//
-//        } else {
-//            DataBaseManager.getInstance(AddCourseActivity.this).updataCourse(dataBeans)
-//                    .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(new Consumer<Boolean>() {
-//                        @Override
-//                        public void accept(Boolean aBoolean) throws Exception {
-//                        }
-//                    }, new Consumer<Throwable>() {
-//                        @Override
-//                        public void accept(Throwable throwable) throws Exception {
-//                        }
-//                    });
-//
-//        }
-
-
-
-        if (flag) {
-            //第一次插入
-            DataBaseManager.getInstance(AddCourseActivity.this).insertCourses(dataBeans)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<Boolean>() {
-                        @Override
-                        public void accept(Boolean aBoolean) throws Exception {
-                            Log.e(TAG, "accept: ---存入ok---");
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
-                            Log.e(TAG, "accept: ---存取出错---");
-                        }
-                    });
-
-            flag = false;//改变标志位
-
-        }
-
-
+    public void complete() {
         //要在获取课程之后返回到课程的界面
         Intent intent = new Intent(AddCourseActivity.this, CourseActivity.class);
         startActivity(intent);
@@ -274,7 +182,7 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
                 public void onDismiss(String content) {
                     if (content != null) {
                         mPresenter.getLogin(content);
-                        Log.e(TAG, "onDismiss: ---输入的验证码---" + content);
+                       // Log.e(TAG, "onDismiss: ---输入的验证码---" + content);
                     } else {
                         Toast.makeText(AddCourseActivity.this, "输入验证码为空", Toast.LENGTH_SHORT).show();
                     }
@@ -296,9 +204,9 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
     public void setLoginMassage(boolean isSuccess, String content) {
         if (isSuccess) {
             Toast.makeText(AddCourseActivity.this, content, Toast.LENGTH_SHORT).show();//显示登录结果信息
-            mPresenter.getCource("2018-2019_2");//获取课程
+            mPresenter.getCourse("2018-2019_2");//获取课程
         } else {
-            Log.e(TAG, "setLoginMassage: -----" + content);
+            //Log.e(TAG, "setLoginMassage: -----" + content);
             Toast.makeText(AddCourseActivity.this, content, Toast.LENGTH_SHORT).show();//显示登录结果信息
         }
 

@@ -1,4 +1,4 @@
-package com.breeziness.timetable.data.retrofit;
+package com.breeziness.timetable.data.retrofit.okhttp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -18,7 +18,7 @@ public class ReceiveCookieInterceptor implements Interceptor {
     private Context context;//sp需要context,
 
 
-    private static final String TAG = "ReceiveCookieIntercepto";
+    private static final String TAG = "ReceiveCookieInterceptor";
 
     public ReceiveCookieInterceptor(Context context) {
         super();

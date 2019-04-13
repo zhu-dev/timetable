@@ -1,4 +1,4 @@
-package com.breeziness.timetable.data.retrofit;
+package com.breeziness.timetable.data.retrofit.okhttp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

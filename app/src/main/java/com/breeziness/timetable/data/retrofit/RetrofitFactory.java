@@ -3,6 +3,9 @@ package com.breeziness.timetable.data.retrofit;
 import android.util.Log;
 
 import com.breeziness.timetable.base.BaseApplication;
+import com.breeziness.timetable.data.retrofit.okhttp.AddCoookieInterceptor;
+import com.breeziness.timetable.data.retrofit.okhttp.CommonHeaderInterceptor;
+import com.breeziness.timetable.data.retrofit.okhttp.ReceiveCookieInterceptor;
 import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;

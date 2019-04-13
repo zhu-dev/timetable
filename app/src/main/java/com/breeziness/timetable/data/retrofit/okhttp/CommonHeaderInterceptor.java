@@ -1,4 +1,4 @@
-package com.breeziness.timetable.data.retrofit;
+package com.breeziness.timetable.data.retrofit.okhttp;
 
 import java.io.IOException;
 

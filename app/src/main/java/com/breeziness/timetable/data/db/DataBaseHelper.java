@@ -36,9 +36,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             + "itemid INTEGER NOT NULL,"
             + "courseid TEXT NOT NULL,"
             + "cname TEXT NOT NULL,"
-            + "croomno TEXT,"
-            + "teachername TEXT,"
-            + "term TEXT,"
+            + "croomno TEXT NOT NULL,"
+            + "teachername TEXT NOT NULL,"
+            + "term TEXT NOT NULL,"
             + "seq TEXT NOT NULL,"
             + "startweek INTEGER NOT NULL,"
             + "endweek INTEGER NOT NULL,"
@@ -63,9 +63,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // db.execSQL(CREATE_COURSE);
-        db.execSQL(CREATE_COURSE2);
-        Log.e(TAG, "onCreate:-------ok---- ");
+        db.execSQL(CREATE_COURSE);
+        //db.execSQL(CREATE_COURSE2);
+        Log.e(TAG, "onCreate:-------创建数据库成功---- ");
 
     }
 

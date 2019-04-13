@@ -129,9 +129,7 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
         Intent intent;
         switch (item.getItemId()) {
             case R.id.menu_toolbar_add:
-                Toast.makeText(CourseActivity.this, "添加课程", LENGTH_SHORT).show();
-                intent = new Intent(CourseActivity.this, AddCourseActivity.class);
-                startActivity(intent);
+                Toast.makeText(CourseActivity.this, "修改当前周", LENGTH_SHORT).show();
                 break;
             case R.id.menu_toolbar_remove:
                 Toast.makeText(CourseActivity.this, "删除课程", LENGTH_SHORT).show();
@@ -174,9 +172,12 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        Intent intent;
         switch (menuItem.getItemId()) {
             case R.id.nav_cources:
-                Toast.makeText(CourseActivity.this, "我的课程", LENGTH_SHORT).show();
+                //Toast.makeText(CourseActivity.this, "我的课程", LENGTH_SHORT).show();
+                intent = new Intent(CourseActivity.this, AddCourseActivity.class);
+                startActivity(intent);
                 break;
             case R.id.nav_share_cource:
                 Toast.makeText(CourseActivity.this, "分享课程", LENGTH_SHORT).show();
@@ -222,7 +223,7 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
                 break;
             case 2:
                 popView.setVisibility(View.GONE);
-                toolbar.setTitle("小工具集合");
+                toolbar.setTitle("小工具");
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_container, utilsFragment).commit();
                 break;
             case 3:
