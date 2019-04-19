@@ -33,7 +33,7 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
 
 
     /*传入显示的数据*/
-    private List<DropBean> drops;
+    private List<DropBean> drops = new ArrayList<>();
 
     /*当前被选中的item的位置*/
     private int selectPosition;
@@ -75,15 +75,14 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
      */
     public void setData(int CurWeek, int selectWeek) {
         this.CurWeek = CurWeek;
-        drops = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
             drops.add(new DropBean("第" + (i + 1) + "周"));
         }
         //默认选择当前周的内容
-        drops.get(selectWeek-1).setCheck(true);
-        drops.get(CurWeek-1).setCurWeek(true);//默认当前周
-        tv_title.setText(drops.get(CurWeek-1).getWeekday());
-        selectPosition = CurWeek-1;
+        drops.get(selectWeek - 1).setCheck(true);
+        drops.get(CurWeek - 1).setCurWeek(true);//默认当前周
+        tv_title.setText(drops.get(CurWeek - 1).getWeekday());
+        selectPosition = CurWeek - 1;
         View contentView = LayoutInflater.from(context).inflate(R.layout.drop_content, null);
         contentView.findViewById(R.id.drop_content).setOnClickListener(new OnClickListener() {
             @Override
@@ -162,6 +161,21 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
         }
     }
 
+
+    public void backToCurrentWeek() {
+
+        //默认选择当前周的内容
+        drops.get(selectPosition).setCheck(false);//将上次选择的标志清空
+        drops.get(CurWeek - 1).setCheck(true);
+        drops.get(CurWeek - 1).setCurWeek(true);//默认当前周
+        tv_title.setText(drops.get(CurWeek - 1).getWeekday());
+
+        //回调被点击的item的position
+        if (onDropItemSelectListener != null) {
+            onDropItemSelectListener.onDropItemSelect(CurWeek-1);
+        }
+    }
+
     /**
      * 设置获取点击位置的接口回调监听
      *
@@ -177,7 +191,7 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
      */
     public interface OnDropItemSelectListener {
 
-        void onDropItemSelect(int Postion);
+        void onDropItemSelect(int position);
     }
 
 

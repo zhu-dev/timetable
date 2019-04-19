@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.breeziness.timetable.R;
+import com.breeziness.timetable.util.HandleDataUtil;
 
 
 import java.util.ArrayList;
@@ -26,10 +27,12 @@ public class InfoPicker extends LinearLayout implements GradePicker.OnGradeSelec
     private List<String> mTermList = new ArrayList<>();
     private List<String> mWeekList = new ArrayList<>();
 
-    private String mGrade;
-    private String mTerm;
-    private String mWeek;
+    //选中的item的数值
+    private int mGrade = 0;
+    private int mTerm = 0;
+    private int mWeek = 0;
 
+    //选中的item
     private int SelectedWeek;
     private int SelectedTerm;
     private int SelectedGrade;
@@ -39,7 +42,7 @@ public class InfoPicker extends LinearLayout implements GradePicker.OnGradeSelec
     private TextView tv_term_title;
     private TextView tv_week_title;
 
-    private OnDataSelectedListener onDataSelectedListener;
+    private OnDataSelectedListener onDataSelectedListener;//回调接口
 
 
     public InfoPicker(Context context) {
@@ -54,12 +57,11 @@ public class InfoPicker extends LinearLayout implements GradePicker.OnGradeSelec
         super(context, attrs, defStyleAttr);
         mContext = context;
         View contentView = LayoutInflater.from(context).inflate(R.layout.layout_info_picker, this);
-
+        //设置初始数据，避免提交空数据，引起崩溃
+        initData();
         //初始化子view
         initChild(contentView);
 
-        //设置初始数据，避免提交空数据，引起崩溃
-        initData();
 
     }
 
@@ -84,12 +86,34 @@ public class InfoPicker extends LinearLayout implements GradePicker.OnGradeSelec
         mTermPicker.setSelectedTerm(SelectedTerm);
         mGradePicker.setSelectedGrade(SelectedGrade);
 
+        setGradeList(mGradeList);
+        setTermList(mTermList);
+        setWeekList(mWeekList);
     }
 
     /**
      * 初始化数据
      */
     private void initData() {
+        if (mGradeList.size() == 0) {
+            mGradeList.add(HandleDataUtil.showGrades(0));
+            mGradeList.add(HandleDataUtil.showGrades(1));
+            mGradeList.add(HandleDataUtil.showGrades(2));
+            mGradeList.add(HandleDataUtil.showGrades(3));
+        }
+
+
+        if (mTermList.size() == 0) {
+            mTermList.add("第一学期");
+            mTermList.add("第二学期");
+        }
+
+        if (mWeekList.size() == 0) {
+            for (int i = 1; i <= 20; i++) {
+                mWeekList.add("第" + i + "周");
+            }
+        }
+
 
     }
 
@@ -101,14 +125,14 @@ public class InfoPicker extends LinearLayout implements GradePicker.OnGradeSelec
 
     }
 
-    public void setmTermList(List<String> mTermList) {
+    public void setTermList(List<String> mTermList) {
         this.mTermList = mTermList;
         if (mTermPicker != null) {
             mTermPicker.setTermList(mTermList);
         }
     }
 
-    public void setmWeekList(List<String> mWeekList) {
+    public void setWeekList(List<String> mWeekList) {
         this.mWeekList = mWeekList;
         if (mWeekPicker != null) {
             mWeekPicker.setWeekList(mWeekList);
@@ -128,21 +152,21 @@ public class InfoPicker extends LinearLayout implements GradePicker.OnGradeSelec
 
     @Override
     public void onGradeSelected(String item, int position) {
-        mGrade = item;
+        mGrade = position;
         tv_grade_title.setText(item);
         onDataSelectedListener.onDataSelected(mGrade, mTerm, mWeek);
     }
 
     @Override
     public void onTermSelected(String item, int position) {
-        mTerm = item;
+        mTerm = position;
         tv_term_title.setText(item);
         onDataSelectedListener.onDataSelected(mGrade, mTerm, mWeek);
     }
 
     @Override
     public void onWeekSelected(String item, int position) {
-        mWeek = item;
+        mWeek = position;
         tv_week_title.setText(item);
         onDataSelectedListener.onDataSelected(mGrade, mTerm, mWeek);
     }
@@ -152,6 +176,6 @@ public class InfoPicker extends LinearLayout implements GradePicker.OnGradeSelec
     }
 
     public interface OnDataSelectedListener {
-        void onDataSelected(String grade, String term, String week);
+        void onDataSelected(int grade, int term, int week);
     }
 }

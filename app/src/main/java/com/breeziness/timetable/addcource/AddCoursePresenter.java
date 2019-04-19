@@ -8,7 +8,6 @@ import android.util.Log;
 import com.breeziness.timetable.data.DataRepository;
 import com.breeziness.timetable.data.bean.CourseNetBean;
 import com.breeziness.timetable.data.bean.LoginBean;
-import com.breeziness.timetable.data.retrofit.RemoteDataRepository;
 import com.breeziness.timetable.data.retrofit.RetrofitFactory;
 import com.breeziness.timetable.util.ErrorCodeUtil;
 
@@ -84,7 +83,7 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        view.showError(ErrorCodeUtil.getloginError, throwable.getMessage());
+                        view.showError(ErrorCodeUtil.getLoginError, throwable.getMessage());
                     }
                 });
     }
@@ -164,6 +163,7 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                     @Override
                     public void accept(List<CourseNetBean.DataBean> dataBeans) throws Exception {
                         view.showProgressBar(false);
+                        Log.e(TAG, "accept: ----dataBeans----"+dataBeans.get(0).getCname());
                         dataRepository.saveCourseToDB(dataBeans);
                         view.complete();
                     }

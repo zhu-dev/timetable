@@ -10,13 +10,13 @@ import java.util.List;
 public interface CourseContract {
     interface View extends BaseView<Presenter> {
         //设置课程
-        void setCource(List<CourseBean> dataBeans);
+        void setCourse(List<CourseBean> dataBeans);
 
     }
 
     interface Presenter extends BasePresenter {
 
-        void getCource();//获取课程数据
+        void getCourse();//获取课程数据
 
         void subscribe();//订阅事件
 

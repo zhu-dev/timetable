@@ -1,4 +1,4 @@
-package com.breeziness.timetable.UI.weekview;
+package com.breeziness.timetable.util;
 
 import java.util.Calendar;
 import java.util.Date;

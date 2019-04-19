@@ -17,6 +17,7 @@ import com.breeziness.timetable.UI.courselayout.CourseLayout;
 import com.breeziness.timetable.UI.courseview.CourseView;
 import com.breeziness.timetable.UI.weekview.CalendarDate;
 import com.breeziness.timetable.UI.weekview.WeekViewBar;
+import com.breeziness.timetable.base.BaseApplication;
 import com.breeziness.timetable.base.BaseFragment;
 import com.breeziness.timetable.coursemain.CourseActivity;
 import com.breeziness.timetable.coursemain.CourseContract;
@@ -24,6 +25,7 @@ import com.breeziness.timetable.data.bean.CourseBean;
 import com.breeziness.timetable.data.bean.CourseNetBean;
 import com.breeziness.timetable.data.bean.TestCourseBean;
 import com.breeziness.timetable.util.RandomUtil;
+import com.breeziness.timetable.util.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +77,7 @@ public class CourseFragment extends BaseFragment implements CourseContract.View,
         // Inflate the layout for this fragment
         View contentView = inflater.inflate(R.layout.fragment_course, container, false);
         initView(contentView);
-        mPresenter.getCource();
+        mPresenter.getCourse();
         return contentView;
     }
 
@@ -155,13 +157,16 @@ public class CourseFragment extends BaseFragment implements CourseContract.View,
     @Override
     public void OnWeekChange(int position) {
         calendarDate = new CalendarDate();//此处有缺陷，每次获取都是不同对象  会new出很多对象
-        days = calendarDate.getTargetWeekDays(position + 1 - 6);
+        days = calendarDate.getTargetWeekDays(position + 1 - getCurWeek());
         weekViewBar.setTextList(days);
     }
 
+    private int getCurWeek() {
+        return SharedPreferencesUtil.getInt(getContext(), "CurrentWeek", "curweek", 0);
+    }
 
     @Override
-    public void setCource(List<CourseBean> dataBeans) {
+    public void setCourse(List<CourseBean> dataBeans) {
         this.dataBeans = dataBeans;
     }
 

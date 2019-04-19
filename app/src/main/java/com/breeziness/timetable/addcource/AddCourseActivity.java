@@ -1,11 +1,6 @@
 package com.breeziness.timetable.addcource;
 
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -18,26 +13,34 @@ import android.widget.Toast;
 import com.breeziness.timetable.R;
 import com.breeziness.timetable.UI.dialog.LoadingDialog;
 import com.breeziness.timetable.UI.dialog.LoginImageDialog;
+import com.breeziness.timetable.UI.weekview.CalendarDate;
 import com.breeziness.timetable.UI.wheelpicker.InfoPicker;
 import com.breeziness.timetable.base.BaseActivity;
 import com.breeziness.timetable.coursemain.CourseActivity;
-import com.breeziness.timetable.data.bean.CourseNetBean;
-import com.breeziness.timetable.data.db.LocalDataRepository;
+import com.breeziness.timetable.util.HandleDataUtil;
+import com.breeziness.timetable.util.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.breeziness.timetable.util.ErrorCodeUtil.getCourseError;
 import static com.breeziness.timetable.util.ErrorCodeUtil.getImageError;
-import static com.breeziness.timetable.util.ErrorCodeUtil.getloginError;
+import static com.breeziness.timetable.util.ErrorCodeUtil.getLoginError;
 
 public class AddCourseActivity extends BaseActivity implements View.OnClickListener, AddCourseContract.View {
     private static final String TAG = "AddCourseActivity";
+
+    private int CurrentWeek = 1;//这个需要用户选择来确定
 
     private InfoPicker infoPicker;
     private List<String> mGradeList = new ArrayList<>();
     private List<String> mTermList = new ArrayList<>();
     private List<String> mWeekList = new ArrayList<>();
+
+    private int mGrade;
+    private int mTerm;
+    private int mWeek;
+
 
     private TextView tv_student_name;
     private TextView tv_student_id;
@@ -53,40 +56,11 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
     private AddCoursePresenter courcePresenter;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initData();
         initView();
-        // helper = new DataBaseHelper(AddCourseActivity.this, "timetable.db", null, 1);//获得数据库helper实例
-
         courcePresenter = new AddCoursePresenter(this);
-    }
-
-
-    protected void initData() {
-
-        if (mGradeList.size() == 0) {
-            mGradeList.add("2016-2017");
-            mGradeList.add("2017-2018");
-            mGradeList.add("2018-2019");
-            mGradeList.add("2019-2020");
-        }
-
-        if (mTermList.size() == 0) {
-            mTermList.add("第一学期");
-            mTermList.add("第二学期");
-        }
-
-        if (mWeekList.size() == 0) {
-            for (int i = 1; i <= 20; i++) {
-                mWeekList.add("第" + i + "周");
-            }
-        }
-
-
     }
 
     protected void initView() {
@@ -99,18 +73,22 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
 
         loadingDialog = new LoadingDialog.Builder(AddCourseActivity.this).create();
 
-
         infoPicker = findViewById(R.id.info_picker);
-        infoPicker.setGradeList(mGradeList);
-        infoPicker.setmTermList(mTermList);
-        infoPicker.setmWeekList(mWeekList);
+        if (infoPicker == null) {
+            Log.e(TAG, "initView: ----infoPicker--null-");
+        }
         infoPicker.setOnDataSelectedListener(new InfoPicker.OnDataSelectedListener() {
             @Override
-            public void onDataSelected(String grade, String term, String week) {
-                Toast.makeText(AddCourseActivity.this, grade + term + week, Toast.LENGTH_SHORT).show();
+            public void onDataSelected(int grade, int term, int week) {
+                mGrade = grade;
+                mTerm = term;
+                mWeek = week;
+                Toast.makeText(AddCourseActivity.this, "" + grade + term + week, Toast.LENGTH_SHORT).show();
+
             }
         });
         infoPicker.setSelectedInfo(1, 1, 9);
+
 
     }
 
@@ -120,10 +98,6 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
         mPresenter.detach();//将presenter中正在执行的任务取消，将view对象置为空。避免OOM
     }
 
-    @Override
-    protected void setContentView() {
-
-    }
 
     /**
      * view的点击事件处理
@@ -133,11 +107,11 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            mPresenter.getCource();
+//            mPresenter.getCourse();
             //登录请求
             case R.id.btn_import:
-               // Log.e(TAG, "onClick: ---获取课表---");
-                mPresenter.getImage();
+                // Log.e(TAG, "onClick: ---获取课表---");
+                mPresenter.getImage();//发起获取验证码
                 break;
         }
 
@@ -160,6 +134,15 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void complete() {
+
+        //获取课表成功后保存设置的当前周次
+        SharedPreferencesUtil.saveInt(AddCourseActivity.this, "CurrentWeek", "curweek", mWeek + 1);//保存设置的当前周数
+
+        //把这周日的时间戳伴随设置的当前周次保存，用于判断要周次自动增加
+        CalendarDate cd = new CalendarDate();
+        int date = cd.getThisSunday();
+        SharedPreferencesUtil.saveInt(AddCourseActivity.this, "ThisSunday", "sunday", date);//保存设置的当前周数
+
         //要在获取课程之后返回到课程的界面
         Intent intent = new Intent(AddCourseActivity.this, CourseActivity.class);
         startActivity(intent);
@@ -182,7 +165,7 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
                 public void onDismiss(String content) {
                     if (content != null) {
                         mPresenter.getLogin(content);
-                       // Log.e(TAG, "onDismiss: ---输入的验证码---" + content);
+                        // Log.e(TAG, "onDismiss: ---输入的验证码---" + content);
                     } else {
                         Toast.makeText(AddCourseActivity.this, "输入验证码为空", Toast.LENGTH_SHORT).show();
                     }
@@ -204,7 +187,9 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
     public void setLoginMassage(boolean isSuccess, String content) {
         if (isSuccess) {
             Toast.makeText(AddCourseActivity.this, content, Toast.LENGTH_SHORT).show();//显示登录结果信息
-            mPresenter.getCourse("2018-2019_2");//获取课程
+            //Log.e(TAG, "setLoginMassage:-----term---- "+HandleDataUtil.handleGrade(mGrade) + HandleDataUtil.handleTerm(mTerm) );
+            mPresenter.getCourse(HandleDataUtil.handleGrade(mGrade) + HandleDataUtil.handleTerm(mTerm));//传入特定学期，获取课程
+
         } else {
             //Log.e(TAG, "setLoginMassage: -----" + content);
             Toast.makeText(AddCourseActivity.this, content, Toast.LENGTH_SHORT).show();//显示登录结果信息
@@ -224,7 +209,7 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
             case getImageError:
                 Toast.makeText(AddCourseActivity.this, "获取验证码失败", Toast.LENGTH_SHORT).show();
                 break;
-            case getloginError:
+            case getLoginError:
                 Toast.makeText(AddCourseActivity.this, "登录教务系统失败", Toast.LENGTH_SHORT).show();
                 break;
             case getCourseError:
@@ -240,3 +225,6 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
         mPresenter = presenter;
     }
 }
+
+
+

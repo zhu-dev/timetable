@@ -2,6 +2,8 @@ package com.breeziness.timetable.UI.weekview;
 
 import android.util.Log;
 
+import com.breeziness.timetable.util.DateTimeUtil;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -33,6 +35,13 @@ public class CalendarDate {
 
     }
 
+    public int getThisSunday() {
+        CalendarDate c1 = getTargetLastWeekSunday(0);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(c1.year, c1.month - 1, c1.date);
+        return calendar.get(Calendar.DAY_OF_MONTH);
+    }
+
     public List<Integer> getTargetWeekDays(int offset) {
         //Log.e(TAG, "getTargetWeekDays: ---offset----"+offset );
         CalendarDate c1 = getTargetLastWeekSunday(offset);
@@ -44,7 +53,7 @@ public class CalendarDate {
             weekdate.add(calendar.get(Calendar.DAY_OF_MONTH));
         }
 
-       // Log.e(TAG, "getTargetWeekDays: ----size--"+weekdate.size() );
+        // Log.e(TAG, "getTargetWeekDays: ----size--"+weekdate.size() );
         return weekdate;
     }
 
@@ -52,13 +61,13 @@ public class CalendarDate {
         CalendarDate c1 = getModifiedWeek(offset);
         weekdate.add(c1.month);
         weekdate.add(c1.weekday);
-        Log.e(TAG, "getTargetThisWeekSunday: --size---"+weekdate.size() );
+        Log.e(TAG, "getTargetThisWeekSunday: --size---" + weekdate.size());
         Calendar calendar = Calendar.getInstance();
         calendar.set(c1.year, c1.month - 1, c1.date);
         if (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
             calendar.add(Calendar.DAY_OF_MONTH, -(7 - Math.abs(calendar.get(Calendar.DAY_OF_WEEK) - 7) - 1));//获取上周的周日作为计算日期的起点
-        }else {
-            calendar.add(Calendar.DAY_OF_MONTH,-7);//如果当前是星期天，则直接回退7天
+        } else {
+            calendar.add(Calendar.DAY_OF_MONTH, -7);//如果当前是星期天，则直接回退7天
         }
         return new CalendarDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
     }
@@ -68,10 +77,10 @@ public class CalendarDate {
         Calendar calendar = Calendar.getInstance();
         calendar.set(c1.year, c1.month - 1, c1.date);
         if (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
-           // Log.e(TAG, "getTargetWeekSunday:---weekday---- " + calendar.get(Calendar.DAY_OF_WEEK));
+            // Log.e(TAG, "getTargetWeekSunday:---weekday---- " + calendar.get(Calendar.DAY_OF_WEEK));
             calendar.add(Calendar.DAY_OF_MONTH, 7 - calendar.get(Calendar.DAY_OF_WEEK) + 1);//获取这周的周日作为计算起点日期
         }
-       // Log.e(TAG, "getTargetWeekSunday: ---location--sunday-----" + calendar.get(Calendar.DAY_OF_MONTH));
+        // Log.e(TAG, "getTargetWeekSunday: ---location--sunday-----" + calendar.get(Calendar.DAY_OF_MONTH));
         return new CalendarDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
     }
 
@@ -87,7 +96,7 @@ public class CalendarDate {
         result.setMonth(calendar.get(Calendar.MONTH) + 1);
         result.setDate(calendar.get(Calendar.DATE));
         result.setWeekday(calendar.get(Calendar.DAY_OF_WEEK));
-       // Log.e(TAG, "getModifiedWeek: ----Weekday----"+calendar.get(Calendar.DAY_OF_WEEK));
+        // Log.e(TAG, "getModifiedWeek: ----Weekday----"+calendar.get(Calendar.DAY_OF_WEEK));
         return result;
     }
 

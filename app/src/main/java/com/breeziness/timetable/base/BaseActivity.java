@@ -25,9 +25,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//设置竖屏
         //getWindow().setNavigationBarColor(Color.WHITE);//设置底部导航虚拟按键颜色为白色
         setStatusBarColor(true);
-        setContentView();
-        initView();
-        initData();
+//        setContentView();
+//        initView();
+//        initData();
 
     }
 
@@ -88,20 +88,20 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
 
-    /**
-     * 设置布局
-     */
-    protected abstract void setContentView();
-
-
-
-    /**
-     * 初始化View
-     */
-    protected abstract void initView();
-
-    /**
-     * 初始化数据
-     */
-    protected abstract void initData();
+//    /**
+//     * 设置布局
+//     */
+//    protected abstract void setContentView();
+//
+//
+//
+//    /**
+//     * 初始化View
+//     */
+//    protected abstract void initView();
+//
+//    /**
+//     * 初始化数据
+//     */
+//    protected abstract void initData();
 }
