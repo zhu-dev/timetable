@@ -105,7 +105,7 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
     //初始化选择周次弹出框
     private void popViewInit() {
         popView = findViewById(R.id.drop_couerce_select);
-        //popView.setData(getCurWeek(), getCurWeek());//这里记得传入当前周号
+       // popView.setData(getCurWeek(), getCurWeek());//这里记得传入当前周号
         popView.setOnDropItemSelectListener(this);
     }
 
@@ -304,12 +304,15 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
     private void autoWeekIncrement() {
         DateTimeUtil date = new DateTimeUtil();
         //如果今天时周一就会判读是否要将当前周次加一显示
-        if (date.getCurWeekday() == 1) {
+        if (date.getCurWeekday() == 2) {
             //获取当前周日时间
             CalendarDate cd = new CalendarDate();
             int sunday = cd.getThisSunday();
             //1.读取时间戳
             int query_sunday = SharedPreferencesUtil.getInt(CourseActivity.this, "ThisSunday", "sunday", sunday);
+
+            Log.e(TAG, "autoWeekIncrement: ----getThisSunday---"+sunday);
+            Log.e(TAG, "autoWeekIncrement: ----query_sunday---"+query_sunday);
             //2. 如果存取的是上周日的时间戳，就将周次加一，否则不加
             if (sunday != query_sunday) {
                 SharedPreferencesUtil.saveInt(CourseActivity.this, "CurrentWeek", "curweek", getCurWeek() + 1);//保存设置的当前周数

@@ -21,7 +21,7 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
     /*顶部标题*/
     private TextView tv_title;
     private View titleView;
-    private int CurWeek;
+    private int mCurWeek;
     private boolean isChecked = true;//被选中标志
     private Context context;
     private PopWindowManager popWindowManager;
@@ -74,7 +74,8 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
      * @param selectWeek 选择跳转到的周次
      */
     public void setData(int CurWeek, int selectWeek) {
-        this.CurWeek = CurWeek;
+        mCurWeek = CurWeek;
+        drops.clear();
         for (int i = 0; i < 20; i++) {
             drops.add(new DropBean("第" + (i + 1) + "周"));
         }
@@ -166,13 +167,13 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
 
         //默认选择当前周的内容
         drops.get(selectPosition).setCheck(false);//将上次选择的标志清空
-        drops.get(CurWeek - 1).setCheck(true);
-        drops.get(CurWeek - 1).setCurWeek(true);//默认当前周
-        tv_title.setText(drops.get(CurWeek - 1).getWeekday());
-
+        drops.get(mCurWeek - 1).setCheck(true);
+        drops.get(mCurWeek - 1).setCurWeek(true);//默认当前周
+        tv_title.setText(drops.get(mCurWeek - 1).getWeekday());
+        adapter.notifyDataSetInvalidated();//通知适配器更新listview数据
         //回调被点击的item的position
         if (onDropItemSelectListener != null) {
-            onDropItemSelectListener.onDropItemSelect(CurWeek-1);
+            onDropItemSelectListener.onDropItemSelect(mCurWeek - 1);
         }
     }
 

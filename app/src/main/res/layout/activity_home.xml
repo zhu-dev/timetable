@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".homePage.HomeActivity"
-    android:background="@color/color_light_grey">
+    android:background="@color/color_light_grey"
+    tools:context=".homePage.HomeActivity">
 
     <com.breeziness.timetable.UI.weekview.WeekViewBar
         android:id="@+id/weekbar"
@@ -30,4 +30,13 @@
 
     </com.breeziness.timetable.UI.floatingBar.FloatingBar>
 
+
+    <com.breeziness.timetable.UI.BezierSeekBar.BezierSeekBar
+        android:id="@+id/bs"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

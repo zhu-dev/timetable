@@ -36,7 +36,7 @@ public class CalendarDate {
     }
 
     public int getThisSunday() {
-        CalendarDate c1 = getTargetLastWeekSunday(0);
+        CalendarDate c1 = getTargetThisWeekSunday(0);
         Calendar calendar = Calendar.getInstance();
         calendar.set(c1.year, c1.month - 1, c1.date);
         return calendar.get(Calendar.DAY_OF_MONTH);
