@@ -63,7 +63,7 @@ public class DataRepository implements DataSource {
                         }
                     });
 
-            SharedPreferencesUtil.saveBoolen(BaseApplication.getContext(), "InsertFlag", "flag", false);
+            SharedPreferencesUtil.saveBoolean(BaseApplication.getContext(), "InsertFlag", "flag", false);
 
         } else {
             LocalDataRepository.getInstance(BaseApplication.getContext()).update(dataBeans)

@@ -91,7 +91,6 @@ public class PopView extends RelativeLayout implements Checkable, View.OnClickLi
                 popWindowManager.hide();//当点击弹出菜单后关闭弹出菜单
             }
         });
-
         ListView listView = contentView.findViewById(R.id.drop_listview);
         listView.setOnItemClickListener(this);
         adapter = new PopListAdapter(drops, context);

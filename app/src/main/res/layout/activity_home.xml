@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_light_grey"
-    tools:context=".homePage.HomeActivity">
+    tools:mContext=".homePage.HomeActivity">
 
     <com.breeziness.timetable.UI.weekview.WeekViewBar
         android:id="@+id/weekbar"
@@ -33,10 +33,19 @@
 
     <com.breeziness.timetable.UI.BezierSeekBar.BezierSeekBar
         android:id="@+id/bs"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:bezierWidth="8dp"
+        app:commonBallColor="@color/color_light_green"
+        app:commonTextColor="@color/grey_color"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lineColor="@color/colorPrimary"
+        app:selectedBgColor="#BFEFFF"
+        app:selectedTextColor="@color/white_color"
+        app:valueTextSize="12sp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

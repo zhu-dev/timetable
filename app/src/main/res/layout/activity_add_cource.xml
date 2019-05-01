@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_light_grey"
-    tools:context=".addcource.AddCourseActivity">
+    tools:mContext=".addcource.AddCourseActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header_info"

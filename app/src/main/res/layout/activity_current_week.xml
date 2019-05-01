@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_light_grey"
+    tools:mContext=".setCurrentWeek.setCurrentWeek">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:background="@drawable/bg_bottom_radius"
+        android:elevation="5dp"
+        android:orientation="horizontal"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.95">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:background="@drawable/bg_gradient_color"
+            android:textColor="@color/white_color"
+            android:text="@string/setCurrentWeekText"
+            tools:ignore="HardcodedText" />
+
+        <com.breeziness.timetable.UI.BezierSeekBar.BezierSeekBar
+            android:id="@+id/bs"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
+            app:bezierWidth="8dp"
+            app:commonBallColor="@color/color_light_green"
+            app:commonTextColor="@color/grey_color"
+            app:lineColor="@color/colorPrimary"
+            app:selectedBgColor="#BFEFFF"
+            app:selectedTextColor="@color/white_color"
+            app:valueTextSize="12sp" />
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_gradient_button"
+            android:text="确定"
+            android:layout_gravity="bottom|center"/>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

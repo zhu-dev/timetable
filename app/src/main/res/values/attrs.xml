@@ -50,6 +50,15 @@
         <attr name="mSelectDateTextColor" format="color" />
         <attr name="mSelectDateCircleColor" format="color" />
     </declare-styleable>
+    <declare-styleable name="BezierSeekBar">
+        <attr name="lineColor" format="color"/>
+        <attr name="commonTextColor" format="color"/>
+        <attr name="commonBallColor" format="color"/>
+        <attr name="selectedBgColor" format="color"/>
+        <attr name="selectedValueColor" format="color"/>
+        <attr name="valueTextSize" format="dimension"/>
+        <attr name="bezierWidth" format="dimension"/>
+    </declare-styleable>
 
 
 </resources>

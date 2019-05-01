@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_my_round"
         android:supportsRtl="true"
         android:theme="@style/Base.AppTheme">
-        <activity android:name=".setCurrentWeek.setCurrentWeek"></activity>
+        <activity android:name=".setCurrentWeek.CurrentWeekActivity"></activity>
         <activity android:name=".homePage.HomeActivity" />
         <activity android:name=".addcource.AddCourseActivity" />
         <activity

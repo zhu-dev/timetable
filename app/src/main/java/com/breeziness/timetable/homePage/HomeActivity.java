@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.breeziness.timetable.R;
 import com.breeziness.timetable.UI.BezierSeekBar.BezierSeekBar;
@@ -30,6 +31,12 @@ public class HomeActivity extends AppCompatActivity {
         FloatingBar floatingBar = findViewById(R.id.fb_bar);
 
        BezierSeekBar bs =  findViewById(R.id.bs);
+       bs.setOnSelectedValueListener(new BezierSeekBar.OnSelectedValueListener() {
+           @Override
+           public void onSelectedValue(int value) {
+               Toast.makeText(HomeActivity.this,""+value,Toast.LENGTH_SHORT).show();
+           }
+       });
 
 
     }

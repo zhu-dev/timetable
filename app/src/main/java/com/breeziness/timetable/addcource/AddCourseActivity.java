@@ -141,7 +141,7 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
         //把这周日的时间戳伴随设置的当前周次保存，用于判断要周次自动增加
         CalendarDate cd = new CalendarDate();
         int date = cd.getThisSunday();
-        SharedPreferencesUtil.saveInt(AddCourseActivity.this, "ThisSunday", "sunday", date);//保存设置的当前周数
+        SharedPreferencesUtil.saveInt(AddCourseActivity.this, "ThisSunday", "sunday", date);//保存当前的周日日期
 
         //要在获取课程之后返回到课程的界面
         Intent intent = new Intent(AddCourseActivity.this, CourseActivity.class);

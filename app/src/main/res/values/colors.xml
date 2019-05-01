@@ -29,6 +29,7 @@
     <color name="weekview_bg_color">#F7F7F7</color>
     <color name="color_black">#000000</color>
     <color name="color_light_grey">#F7F7F7</color>
+    <color name="color_light_green">#55AA66</color>
 
     <color name="weekview_circle_color">#00BCD4</color>
 

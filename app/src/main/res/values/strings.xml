@@ -66,5 +66,6 @@
     <string name="floating_bar_text_2">学习助手</string>
     <string name="floating_bar_text_3">小工具</string>
     <string name="floating_bar_text_4">更多</string>
+    <string name="setCurrentWeekText">修改当前周次</string>
 
 </resources>

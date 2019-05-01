@@ -19,7 +19,7 @@ public class SharedPreferencesUtil {
         editor.apply();
     }
 
-    public static void saveBoolen(Context context, String name, String key, boolean value){
+    public static void saveBoolean(Context context, String name, String key, boolean value){
         SharedPreferences sp = context.getSharedPreferences(name, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean(key, value);

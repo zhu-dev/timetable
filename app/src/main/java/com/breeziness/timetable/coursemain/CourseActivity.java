@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.breeziness.timetable.R;
 import com.breeziness.timetable.UI.floatingBar.FloatingBar;
 import com.breeziness.timetable.UI.weekview.CalendarDate;
+import com.breeziness.timetable.setCurrentWeek.CurrentWeekActivity;
 import com.breeziness.timetable.util.DateTimeUtil;
 import com.breeziness.timetable.addcource.AddCourseActivity;
 import com.breeziness.timetable.UI.popwin.weekpopwin.PopView;
@@ -66,15 +67,14 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
         getWindow().setNavigationBarColor(Color.WHITE);//设置底部导航虚拟按键颜色为白色
         initView();//初始化view
         setStatusBarColor();//沉浸式状态栏
-
+        autoWeekIncrement();//判断周次自动增加
         coursePresenter = new CoursePresenter(courseFragment);//传入view对象
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        popView.setData(getCurWeek(), getCurWeek());//在这个再设置一次
-        autoWeekIncrement();//判断周次自动增加
+       popView.setData(getCurWeek(), getCurWeek());//在这个再设置一次
     }
 
     //初始化控件
@@ -137,10 +137,12 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
         Intent intent;
         switch (item.getItemId()) {
             case R.id.menu_toolbar_add:
-                Toast.makeText(CourseActivity.this, "修改当前周", LENGTH_SHORT).show();
+                intent = new Intent(CourseActivity.this, CurrentWeekActivity.class);
+                startActivity(intent);
+              //  Toast.makeText(CourseActivity.this, "修改当前周", LENGTH_SHORT).show();
                 break;
             case R.id.menu_toolbar_remove:
-                Toast.makeText(CourseActivity.this, "删除课程", LENGTH_SHORT).show();
+              //  Toast.makeText(CourseActivity.this, "删除课程", LENGTH_SHORT).show();
                 intent = new Intent(CourseActivity.this, HomeActivity.class);
                 startActivity(intent);
                 break;
@@ -245,7 +247,7 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
     }
 
     private int getCurWeek() {
-        return SharedPreferencesUtil.getInt(CourseActivity.this, "CurrentWeek", "curweek", 0);
+        return SharedPreferencesUtil.getInt(CourseActivity.this, "CurrentWeek", "curweek", 1);
     }
 
     /*****************定时器*********************/
@@ -304,7 +306,7 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
     private void autoWeekIncrement() {
         DateTimeUtil date = new DateTimeUtil();
         //如果今天时周一就会判读是否要将当前周次加一显示
-        if (date.getCurWeekday() == 2) {
+        if (date.getCurWeekday() == 1) {
             //获取当前周日时间
             CalendarDate cd = new CalendarDate();
             int sunday = cd.getThisSunday();
@@ -315,7 +317,8 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
             Log.e(TAG, "autoWeekIncrement: ----query_sunday---"+query_sunday);
             //2. 如果存取的是上周日的时间戳，就将周次加一，否则不加
             if (sunday != query_sunday) {
-                SharedPreferencesUtil.saveInt(CourseActivity.this, "CurrentWeek", "curweek", getCurWeek() + 1);//保存设置的当前周数
+                SharedPreferencesUtil.saveInt(CourseActivity.this, "CurrentWeek", "curweek", getCurWeek() + 1);//当前周数自加一
+                SharedPreferencesUtil.saveInt(CourseActivity.this, "ThisSunday", "sunday", sunday);//保存最新的周日日期
             }
         }
     }
