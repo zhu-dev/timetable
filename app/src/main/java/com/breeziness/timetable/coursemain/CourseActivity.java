@@ -19,7 +19,7 @@ import com.breeziness.timetable.UI.floatingBar.FloatingBar;
 import com.breeziness.timetable.UI.weekview.CalendarDate;
 import com.breeziness.timetable.setCurrentWeek.CurrentWeekActivity;
 import com.breeziness.timetable.util.DateTimeUtil;
-import com.breeziness.timetable.addcource.AddCourseActivity;
+import com.breeziness.timetable.addcourse.AddCourseActivity;
 import com.breeziness.timetable.UI.popwin.weekpopwin.PopView;
 import com.breeziness.timetable.coursemain.fragment.CourseFragment;
 import com.breeziness.timetable.coursemain.fragment.StudentUtilsFragment;
@@ -66,15 +66,16 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//设置竖屏，禁止屏幕横屏显示
         getWindow().setNavigationBarColor(Color.WHITE);//设置底部导航虚拟按键颜色为白色
         initView();//初始化view
+        coursePresenter = new CoursePresenter(courseFragment);//传入view对象
         setStatusBarColor();//沉浸式状态栏
         autoWeekIncrement();//判断周次自动增加
-        coursePresenter = new CoursePresenter(courseFragment);//传入view对象
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-       popView.setData(getCurWeek(), getCurWeek());//在这个再设置一次
+        popView.setData(getCurWeek(), getCurWeek());//在这个再设置一次
     }
 
     //初始化控件
@@ -105,7 +106,7 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
     //初始化选择周次弹出框
     private void popViewInit() {
         popView = findViewById(R.id.drop_couerce_select);
-       // popView.setData(getCurWeek(), getCurWeek());//这里记得传入当前周号
+        // popView.setData(getCurWeek(), getCurWeek());//这里记得传入当前周号
         popView.setOnDropItemSelectListener(this);
     }
 
@@ -139,10 +140,10 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
             case R.id.menu_toolbar_add:
                 intent = new Intent(CourseActivity.this, CurrentWeekActivity.class);
                 startActivity(intent);
-              //  Toast.makeText(CourseActivity.this, "修改当前周", LENGTH_SHORT).show();
+                //  Toast.makeText(CourseActivity.this, "修改当前周", LENGTH_SHORT).show();
                 break;
             case R.id.menu_toolbar_remove:
-              //  Toast.makeText(CourseActivity.this, "删除课程", LENGTH_SHORT).show();
+                //  Toast.makeText(CourseActivity.this, "删除课程", LENGTH_SHORT).show();
                 intent = new Intent(CourseActivity.this, HomeActivity.class);
                 startActivity(intent);
                 break;
@@ -227,6 +228,7 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
         switch (id) {
             case 0:
                 popView.setVisibility(View.VISIBLE);
+                //可能需要判断是否当前显示的就是这个界面
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_container, courseFragment).commit();
                 break;
             case 1:
@@ -312,13 +314,15 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
             int sunday = cd.getThisSunday();
             //1.读取时间戳
             int query_sunday = SharedPreferencesUtil.getInt(CourseActivity.this, "ThisSunday", "sunday", sunday);
-
-            Log.e(TAG, "autoWeekIncrement: ----getThisSunday---"+sunday);
-            Log.e(TAG, "autoWeekIncrement: ----query_sunday---"+query_sunday);
-            //2. 如果存取的是上周日的时间戳，就将周次加一，否则不加
-            if (sunday != query_sunday) {
-                SharedPreferencesUtil.saveInt(CourseActivity.this, "CurrentWeek", "curweek", getCurWeek() + 1);//当前周数自加一
-                SharedPreferencesUtil.saveInt(CourseActivity.this, "ThisSunday", "sunday", sunday);//保存最新的周日日期
+            //如果当前是20周则不再自加
+            if (getCurWeek() != 20) {
+                Log.e(TAG, "autoWeekIncrement: ----getThisSunday---" + sunday);
+                Log.e(TAG, "autoWeekIncrement: ----query_sunday---" + query_sunday);
+                //2. 如果存取的是上周日的时间戳，就将周次加一，否则不加
+                if (sunday != query_sunday) {
+                    SharedPreferencesUtil.saveInt(CourseActivity.this, "CurrentWeek", "curweek", getCurWeek() + 1);//当前周数自加一
+                    SharedPreferencesUtil.saveInt(CourseActivity.this, "ThisSunday", "sunday", sunday);//保存最新的周日日期
+                }
             }
         }
     }

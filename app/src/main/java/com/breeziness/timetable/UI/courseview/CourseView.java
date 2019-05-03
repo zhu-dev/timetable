@@ -2,19 +2,14 @@ package com.breeziness.timetable.UI.courseview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.TextView;
-
-import com.breeziness.timetable.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 
 /**
@@ -27,13 +22,11 @@ public class CourseView extends TextView {
 
     private int startSection;//开始节次  确定在容器的上坐标
     private int endSection;//结束节次  确定在容器中的下坐标
-
     private int courceId;//课程ID
     private int weekday;//星期几   确定所属的容器
     private String cname;//课程名字
     private String name;//教师名字
-    private String term;//课程所属学期
-    private String courseid;//课程代号
+    private String courseno;//课程代号
     private int startweek;//开始周次
     private int endweek;//结束周次
     private String seq;//第几节
@@ -56,15 +49,6 @@ public class CourseView extends TextView {
 
     public CourseView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
-        //绑定自定义的属性
-        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CourseView);
-        courceId = array.getInt(R.styleable.CourseView_courceId, 0);
-        startSection = array.getInt(R.styleable.CourseView_startSection, 0);
-        endSection = array.getInt(R.styleable.CourseView_endSection, 0);
-        weekday = array.getInt(R.styleable.CourseView_weekday, 0);
-        array.recycle();
-
         //初始化画笔
         mPaint = new Paint();
 
@@ -199,20 +183,12 @@ public class CourseView extends TextView {
         this.name = name;
     }
 
-    public String getTerm() {
-        return term;
+    public String getCourseno() {
+        return courseno;
     }
 
-    public void setTerm(String term) {
-        this.term = term;
-    }
-
-    public String getCourseid() {
-        return courseid;
-    }
-
-    public void setCourseid(String courseid) {
-        this.courseid = courseid;
+    public void setCourseno(String courseno) {
+        this.courseno = courseno;
     }
 
     public int getStartweek() {
@@ -237,9 +213,6 @@ public class CourseView extends TextView {
 
     public void setSeq(String seq) {
         this.seq = seq;
-//        String patt1 ="/[0-9]+/";  //我CNM的后台，傻逼老师
-//        seq.matches(patt1);
-       // Log.e(TAG, "setSeq: ----seq---" + Integer.valueOf(seq));
         startSection = endSection = Integer.valueOf(seq);
     }
 

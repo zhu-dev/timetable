@@ -1,18 +1,12 @@
 package com.breeziness.timetable.setCurrentWeek;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.breeziness.timetable.R;
 import com.breeziness.timetable.UI.BezierSeekBar.BezierSeekBar;
-import com.breeziness.timetable.addcource.AddCourseActivity;
 import com.breeziness.timetable.base.BaseActivity;
-import com.breeziness.timetable.coursemain.CourseActivity;
 import com.breeziness.timetable.util.SharedPreferencesUtil;
 
 public class CurrentWeekActivity extends BaseActivity {

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.breeziness.timetable.data.bean.CourseBean;
 import com.breeziness.timetable.data.bean.CourseNetBean;
@@ -192,6 +193,7 @@ public class LocalDataRepository implements LocalDataSource {
                         dataBean.setTerm(cursor.getString(cursor.getColumnIndex("term")));
                         dataBean.setSeq(cursor.getString(cursor.getColumnIndex("seq")));
                         dataBean.setCroomno(cursor.getString(cursor.getColumnIndex("croomno")));
+                        Log.e(TAG, "subscribe: ---getall----"+ dataBean.getCname() );
                         dataList.add(dataBean);
                     } while (cursor.moveToNext());
                 }

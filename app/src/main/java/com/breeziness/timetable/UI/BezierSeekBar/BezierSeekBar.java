@@ -15,7 +15,9 @@ import android.view.View;
 
 import com.breeziness.timetable.R;
 import com.breeziness.timetable.base.BaseApplication;
+import com.breeziness.timetable.coursemain.CourseActivity;
 import com.breeziness.timetable.util.DecimalFormat;
+import com.breeziness.timetable.util.SharedPreferencesUtil;
 
 import androidx.annotation.Nullable;
 
@@ -83,7 +85,7 @@ public class BezierSeekBar extends View {
         initPaint();
         bezierPath = new Path();//初始化路径
         //moveX = bezierWidth * 2 * 3;//手指移动X坐标
-        valueSelected = 10;
+        valueSelected = getCurrent();
     }
 
     private void initAttrs(AttributeSet attrs) {
@@ -143,7 +145,6 @@ public class BezierSeekBar extends View {
         valueBgPaint.setColor(valueBgColor);
         valueBgPaint.setStyle(Paint.Style.FILL);
 
-
     }
 
     @Override
@@ -154,11 +155,9 @@ public class BezierSeekBar extends View {
         height = computeSize(defaultHeight, heightMeasureSpec);
         setMeasuredDimension(width, height);
 
-        //初始位置在中间
-        valueSelected = (valueMax + valueMin) / 2;
-        //通过数值获得格式化算法反算触摸点位置，属于为数不多的懒狗算法，就是不想化简
-        moveX = (((valueMax - 3 * valueMin) * (width - bezierWidth * 2 * 2 * 2f)) / (2 * (valueMax - valueMin))) + bezierWidth * 2 * 2;
-
+        int currentWeek = getCurrent();//获得当前周次
+        //通过数值获得格式化算法反算触摸点位置
+        moveX = (currentWeek-valueMin)*(width-bezierWidth * 2 * 4f)/(valueMax - valueMin)+bezierWidth * 2 * 2;
     }
 
     @Override
@@ -284,6 +283,9 @@ public class BezierSeekBar extends View {
         return dp * scale + 0.5f;
     }
 
+    private int getCurrent(){
+        return SharedPreferencesUtil.getInt(mContext, "CurrentWeek", "curweek", 1);
+    }
     private float getScale() {
         return mContext.getResources().getDisplayMetrics().density;
     }

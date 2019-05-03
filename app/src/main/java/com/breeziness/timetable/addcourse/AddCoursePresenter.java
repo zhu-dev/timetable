@@ -1,4 +1,4 @@
-package com.breeziness.timetable.addcource;
+package com.breeziness.timetable.addcourse;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
@@ -106,7 +106,6 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
                         addDisposable(disposable);//将disponsable对象加入容器统一注销
-
                     }
                 })
                 //观察者在主线程

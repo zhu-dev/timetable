@@ -39,23 +39,24 @@ public class CoursePresenter implements CourseContract.Presenter {
     @SuppressLint("CheckResult")
     @Override
     public void getCourse() {
+
         //当第一次进入时数据库空白，不读取数据库，避免可能发生ANR
         boolean flag = SharedPreferencesUtil.getBoolen(BaseApplication.getContext(), "InsertFlag", "flag", true);
         if (!flag) {
-            LocalDataRepository.getInstance(BaseApplication.getContext()).getAll("course")
+            LocalDataRepository.getInstance(BaseApplication.getContext())
+                    .getAll("course")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<List<CourseBean>>() {
                         @Override
                         public void accept(List<CourseBean> dataBeans) throws Exception {
-                            view.setCourse(dataBeans);
+                            if (view != null) view.setCourse(dataBeans);
 
-                           // Log.e(TAG, "accept: ------" + dataBeans.get(5).getCname() + dataBeans.get(5).getName() + dataBeans.get(5).getTerm() + dataBeans.get(5).getCroomno());
                         }
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
-                            Log.e(TAG, "accept: -----throwable------" + throwable);
+                            Log.e(TAG, "getCourse: ----Exception---" + throwable.getMessage());
                         }
                     });
         }

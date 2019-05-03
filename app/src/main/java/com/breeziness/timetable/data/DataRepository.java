@@ -9,6 +9,7 @@ import com.breeziness.timetable.data.bean.CourseNetBean;
 import com.breeziness.timetable.data.db.LocalDataRepository;
 import com.breeziness.timetable.util.SharedPreferencesUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -43,7 +44,7 @@ public class DataRepository implements DataSource {
     @Override
     public void saveCourseToDB(List<CourseNetBean.DataBean> dataBeans) {
 
-        Log.e(TAG, "saveCourseToDB: ---1--" );
+        Log.e(TAG, "saveCourseToDB: ---1--");
         flag = SharedPreferencesUtil.getBoolen(BaseApplication.getContext(), "InsertFlag", "flag", true);
 
         if (flag) {
@@ -91,21 +92,6 @@ public class DataRepository implements DataSource {
     @SuppressLint("CheckResult")
     @Override
     public List<CourseBean> getCourseFromDB() {
-//        LocalDataRepository.getInstance(BaseApplication.getContext()).getAll("course")
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Consumer<List<CourseBean>>() {
-//                    @Override
-//                    public void accept(List<CourseBean> dataBeans) throws Exception {
-//                       // view.setCource(dataBeans);
-//                        Log.e(TAG, "accept: ------"+dataBeans.get(5).getCname()+dataBeans.get(5).getName()+dataBeans.get(5).getTerm()+dataBeans.get(5).getCroomno());
-//                    }
-//                }, new Consumer<Throwable>() {
-//                    @Override
-//                    public void accept(Throwable throwable) throws Exception {
-//                        Log.e(TAG, "accept: -----throwable------" + throwable);
-//                    }
-//                });
         return null;
     }
 

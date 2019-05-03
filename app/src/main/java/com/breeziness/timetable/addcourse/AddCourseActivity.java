@@ -1,4 +1,4 @@
-package com.breeziness.timetable.addcource;
+package com.breeziness.timetable.addcourse;
 
 
 import android.content.Intent;

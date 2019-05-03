@@ -1,12 +1,9 @@
-package com.breeziness.timetable.addcource;
+package com.breeziness.timetable.addcourse;
 
 import android.graphics.Bitmap;
 
 import com.breeziness.timetable.base.BasePresenter;
 import com.breeziness.timetable.base.BaseView;
-import com.breeziness.timetable.data.bean.CourseNetBean;
-
-import java.util.List;
 
 public interface AddCourseContract {
     interface View extends BaseView<AddCourseContract.Presenter> {

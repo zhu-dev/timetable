@@ -5,8 +5,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import com.breeziness.timetable.base.BaseApplication;
 import com.breeziness.timetable.base.BaseFragment;
 import com.breeziness.timetable.coursemain.CourseActivity;
 import com.breeziness.timetable.coursemain.CourseContract;
+import com.breeziness.timetable.data.DataHelper;
 import com.breeziness.timetable.data.bean.CourseBean;
 import com.breeziness.timetable.data.bean.CourseNetBean;
 import com.breeziness.timetable.data.bean.TestCourseBean;
@@ -48,9 +51,9 @@ public class CourseFragment extends BaseFragment implements CourseContract.View,
     //courseLayout
     private CourseLayout layout;
 
-    //Data
-    private int CurWeek = 6;//当前周
+
     private List<CourseBean> dataBeans;
+    private List<CourseBean> weekCourses;
 
 
     private int[] bg_color = new int[]{
@@ -64,7 +67,7 @@ public class CourseFragment extends BaseFragment implements CourseContract.View,
     };
 
     //测试内容
-    private List<TestCourseBean> cources = new ArrayList<>();//测试用课程数据
+    private List<CourseBean> cources = new ArrayList<>();//课程数据
 
     public CourseFragment() {
         // Required empty public constructor
@@ -77,13 +80,38 @@ public class CourseFragment extends BaseFragment implements CourseContract.View,
         // Inflate the layout for this fragment
         View contentView = inflater.inflate(R.layout.fragment_course, container, false);
         initView(contentView);
-        mPresenter.getCourse();
         return contentView;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mPresenter != null) {
+            mPresenter.getCourse();//获取这学期课表
+        }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //在这里订阅事件
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        //在这里取消订阅事件
+        mPresenter.detach();//将presenter中正在执行的任务取消，将view对象置为空。
     }
 
     private void initView(View contentView) {
@@ -100,36 +128,47 @@ public class CourseFragment extends BaseFragment implements CourseContract.View,
     }
 
     private void courseLayoutInitTest(View contentView) {
-        layout = contentView.findViewById(R.id.cources);
+        layout = contentView.findViewById(R.id.courses);
 
     }
 
     private void courseLayoutInit(View contentView) {
-        TestCourseBean cource1 = new TestCourseBean("通信原理A", "黎", 1, 1, 1, 1, "11C107", "1-16");
-        TestCourseBean cource2 = new TestCourseBean("微波天线", "黎", 2, 1, 2, 2, "02201Y", "1-16");
-        TestCourseBean cource3 = new TestCourseBean("科技文献阅读和写作（信息类）", "黎", 3, 7, 2, 2, "11C107", "1-16");
-        TestCourseBean cource4 = new TestCourseBean("科技文献阅读和写作（信息类）", "黎", 3, 4, 5, 5, "11C107", "1-16");
-        cources.add(cource1);
-        cources.add(cource2);
-        cources.add(cource3);
-        cources.add(cource4);
 
-        layout = contentView.findViewById(R.id.cources);
+//        CourseBean c = new CourseBean();
+//        c.setCname("机器学习");
+//        c.setCroomno("02306Y");
+//        c.setWeek(5);
+//        c.setStartweek(8);
+//        c.setEndweek(16);
+//        c.setSeq("2");
+//        c.setName("林乐平");
 
+        layout = contentView.findViewById(R.id.courses);
 
-        //记得在这里判断数据集合是否为空，为空不显示，避免ANR
-        for (int i = 0; i < cources.size(); i++) {
+//        int randBg = bg_color[RandomUtil.getRandomInt(bg_color.length - 1)];
+//        CourseView courseView = new CourseView(BaseApplication.getContext());
+//        courseView.setCourceId(c.getId());
+//        courseView.setSeq(c.getSeq());
+//        courseView.setWeekday(c.getWeek());
+//        courseView.setBackground(BaseApplication.getContext().getDrawable(randBg));
+//        courseView.setText(String.format("%s@%s", c.getCname(), c.getCroomno()));
+//        courseView.setTextColor(Color.WHITE);
+//        courseView.setTextSize(10);
+//        courseView.setGravity(Gravity.CENTER);
+//        layout.addView(courseView);
+    }
+
+    private void showCourses(List<CourseBean> weekCourses) {
+        for (int i = 0; i < weekCourses.size(); i++) {
+            CourseBean c = weekCourses.get(i);
             int randBg = bg_color[RandomUtil.getRandomInt(bg_color.length - 1)];
-            TestCourseBean cource = cources.get(i);
-            CourseView courseView = new CourseView(getActivity().getApplicationContext());
-            courseView.setCourceId(cource.getCourceId());
-            courseView.setStartSection(cource.getStartSection());
-            courseView.setEndSection(cource.getEndSection());
-            courseView.setWeekday(cource.getWeekday());
-            courseView.setBackground(getActivity().getDrawable(randBg));
-            courseView.setText(String.format("%s@%s", cource.getCourceName(), cource.getClassroom()));
+            CourseView courseView = new CourseView(BaseApplication.getContext());
+            courseView.setCourceId(c.getId());
+            courseView.setSeq(c.getSeq());
+            courseView.setWeekday(c.getWeek());
+            courseView.setBackground(BaseApplication.getContext().getDrawable(randBg));
+            courseView.setText(String.format("%s@%s", c.getCname(), c.getCroomno()));
             courseView.setTextColor(Color.WHITE);
-            //courceView.setAlpha(0.5f);
             courseView.setTextSize(10);
             courseView.setGravity(Gravity.CENTER);
             layout.addView(courseView);
@@ -137,28 +176,20 @@ public class CourseFragment extends BaseFragment implements CourseContract.View,
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        //在这里订阅事件
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        //在这里取消订阅事件
-        mPresenter.detach();//将presenter中正在执行的任务取消，将view对象置为空。
-    }
-
-
-    @Override
     public void onClick(View v) {
     }
 
     @Override
     public void OnWeekChange(int position) {
+        //改变星期日期栏
         calendarDate = new CalendarDate();//此处有缺陷，每次获取都是不同对象  会new出很多对象
         days = calendarDate.getTargetWeekDays(position + 1 - getCurWeek());
         weekViewBar.setTextList(days);
+        //改变课表显示
+        if (mPresenter != null) {
+            mPresenter.getCourse();//获取这学期课表
+        }
+        // handleCourseData(position+1);
     }
 
     private int getCurWeek() {
@@ -168,6 +199,15 @@ public class CourseFragment extends BaseFragment implements CourseContract.View,
     @Override
     public void setCourse(List<CourseBean> dataBeans) {
         this.dataBeans = dataBeans;
+        Log.e(TAG, "setCourse: -----" + dataBeans.get(0).getCname());
+        handleCourseData(getCurWeek());
+        if (weekCourses.size() != 0) {
+            Log.e(TAG, "setCourse: ---weekCourses.size()----"+weekCourses.size());
+            showCourses(weekCourses);
+        }else {
+            Log.e(TAG, "setCourse: ---weekCourses.size()----"+weekCourses.size());
+        }
+
     }
 
     @Override
@@ -175,5 +215,14 @@ public class CourseFragment extends BaseFragment implements CourseContract.View,
         if (presenter != null) {
             mPresenter = presenter;
         }
+    }
+
+    private void handleCourseData(int week) {
+        DataHelper dh = new DataHelper(dataBeans);
+        weekCourses = dh.getCoursesOfWeek(week);
+        for (int i = 0; i < weekCourses.size(); i++) {
+            Log.e(TAG, "handleCourseData: -------" + weekCourses.get(i).getCname() + weekCourses.get(i).getSeq());
+        }
+
     }
 }

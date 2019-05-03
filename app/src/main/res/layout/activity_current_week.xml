@@ -36,9 +36,9 @@
             android:id="@+id/bs"
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
             app:bezierWidth="8dp"
             app:commonBallColor="@color/color_light_green"
             app:commonTextColor="@color/grey_color"
@@ -52,7 +52,7 @@
             android:layout_height="45dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/bg_gradient_button"
-            android:text="确定"
+            android:text="@string/text_sure_click"
             android:layout_gravity="bottom|center"/>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

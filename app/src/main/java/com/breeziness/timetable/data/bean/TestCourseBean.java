@@ -3,6 +3,18 @@ package com.breeziness.timetable.data.bean;
 /**
  * 课程实体类
  */
+
+//private int id; //唯一的id
+//private String cname;//课程名称
+//private String courseno;//课号
+//private String name;//老师名字
+//private String term;//学期
+//private String croomno;//教师
+//private int startweek;//起始周次
+//private int endweek;//结束周次
+//private int week;//星期几
+//private String seq;//节次
+
 public class TestCourseBean {
     private String courceName;
     private String teacher;
