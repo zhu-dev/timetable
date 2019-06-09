@@ -30,7 +30,7 @@ public interface RetrofitService {
     Observable<LoginBean> getCookie(@QueryMap Map<String, String> params);
 
 
-    //获取课表的json
+    //获取课表的json               http://bkjw.guet.edu.cn/student/getstutable?_dc=1557927524381&term=2018-2019_2&page=1&start=0&limit=25
     @GET("student/getstutable")  //http://bkjw.guet.edu.cn/student/getstutable?_dc=1552548462281&term=2018-2019_2&page=1&start=0&limit=25
     @Headers("Referer:http://bkjw.guet.edu.cn/Login/MainDesktop")
     Observable<CourseNetBean> getCourse(@Query("term") String term);

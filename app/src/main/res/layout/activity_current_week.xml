@@ -5,7 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_light_grey"
-    tools:mContext=".setCurrentWeek.setCurrentWeek">
+    tools:mContext=".setCurrentWeek.setCurrentWeek"
+    android:fitsSystemWindows="true">
+
+    <include layout="@layout/layout_toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
@@ -25,11 +31,11 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:textSize="18sp"
             android:background="@drawable/bg_gradient_color"
-            android:textColor="@color/white_color"
+            android:gravity="center"
             android:text="@string/setCurrentWeekText"
+            android:textColor="@color/white_color"
+            android:textSize="18sp"
             tools:ignore="HardcodedText" />
 
         <com.breeziness.timetable.UI.BezierSeekBar.BezierSeekBar
@@ -46,13 +52,14 @@
             app:selectedBgColor="#BFEFFF"
             app:selectedTextColor="@color/white_color"
             app:valueTextSize="12sp" />
+
         <Button
             android:id="@+id/btn_save"
             android:layout_width="150dp"
             android:layout_height="45dp"
+            android:layout_gravity="bottom|center"
             android:layout_marginBottom="10dp"
             android:background="@drawable/bg_gradient_button"
-            android:text="@string/text_sure_click"
-            android:layout_gravity="bottom|center"/>
+            android:text="@string/text_sure_click" />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

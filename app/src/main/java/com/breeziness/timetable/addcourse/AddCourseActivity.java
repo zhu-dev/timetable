@@ -59,12 +59,19 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initView();
+
+       // initView();
+
         courcePresenter = new AddCoursePresenter(this);
+
+        //Toolbar 相关
+        setToolbarTitle("添加课程");
+        setToolbarAlpha(0);
+
     }
 
     protected void initView() {
-        setContentView(R.layout.activity_add_cource);
+        //setContentView(R.layout.activity_add_cource);
 
         tv_student_id = findViewById(R.id.student_id);
         tv_student_name = findViewById(R.id.student_name);
@@ -88,7 +95,12 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
             }
         });
         infoPicker.setSelectedInfo(1, 1, 9);
+    }
 
+
+
+    @Override
+    protected void initData() {
 
     }
 
@@ -96,6 +108,11 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.detach();//将presenter中正在执行的任务取消，将view对象置为空。避免OOM
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_add_cource;
     }
 
 
@@ -165,7 +182,7 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
                 public void onDismiss(String content) {
                     if (content != null) {
                         mPresenter.getLogin(content);
-                        // Log.e(TAG, "onDismiss: ---输入的验证码---" + content);
+                         Log.e(TAG, "onDismiss: ---输入的验证码---" + content);
                     } else {
                         Toast.makeText(AddCourseActivity.this, "输入验证码为空", Toast.LENGTH_SHORT).show();
                     }
@@ -187,8 +204,9 @@ public class AddCourseActivity extends BaseActivity implements View.OnClickListe
     public void setLoginMassage(boolean isSuccess, String content) {
         if (isSuccess) {
             Toast.makeText(AddCourseActivity.this, content, Toast.LENGTH_SHORT).show();//显示登录结果信息
-            //Log.e(TAG, "setLoginMassage:-----term---- "+HandleDataUtil.handleGrade(mGrade) + HandleDataUtil.handleTerm(mTerm) );
+            Log.e(TAG, "setLoginMassage:-----term---- "+HandleDataUtil.handleGrade(mGrade) + HandleDataUtil.handleTerm(mTerm) );
             mPresenter.getCourse(HandleDataUtil.handleGrade(mGrade) + HandleDataUtil.handleTerm(mTerm));//传入特定学期，获取课程
+            //mPresenter.getCourse("2018-2019_2");//传入特定学期，获取课程
 
         } else {
             //Log.e(TAG, "setLoginMassage: -----" + content);

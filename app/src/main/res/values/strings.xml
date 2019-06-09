@@ -68,5 +68,11 @@
     <string name="floating_bar_text_4">更多</string>
     <string name="setCurrentWeekText">修改当前周次</string>
     <string name="text_sure_click">确定</string>
+    <string name="base_toolbar_title">子标题</string>
+    <string name="base_toolbar_subtitle">标题</string>
+    <string name="login_page_button_str">Login</string>
+    <string name="login_page_help_str"><u>登录问题解决方法</u>></string>
+    <string name="login_page_about_me_str"><u>关于胖圆课表</u>></string>
+    <string name="login_page_message_str">请输入教务系统账号/密码</string>
 
 </resources>

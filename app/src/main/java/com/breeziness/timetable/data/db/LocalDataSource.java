@@ -38,4 +38,6 @@ public interface LocalDataSource {
 
     //删除课程
     Flowable<Boolean> removeCourse(String courseid);
+
+    Flowable<Boolean> removeAll();
 }

@@ -95,7 +95,24 @@ public class DataRepository implements DataSource {
         return null;
     }
 
-    private boolean checkInsertFlag() {
+    @SuppressLint("CheckResult")
+    @Override
+    public boolean removeAllCourse() {
+        LocalDataRepository.getInstance(BaseApplication.getContext()).removeAll()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        Log.e(TAG, "accept: ----清空数据成功---");
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e(TAG, "accept: ----清空数据失败---");
+                    }
+                });
         return false;
     }
+
 }

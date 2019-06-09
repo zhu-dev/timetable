@@ -12,8 +12,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.breeziness.timetable.LoginPage.LoginActivity;
 import com.breeziness.timetable.R;
 import com.breeziness.timetable.UI.floatingBar.FloatingBar;
 import com.breeziness.timetable.UI.weekview.CalendarDate;
@@ -55,7 +57,6 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
     private StudyHelperFragment helperFragment;
     private StudentUtilsFragment utilsFragment;
 
-    private int CurWeek = 1;//当前周
     private boolean flag = true;//开启定时器的标志
     private static final int TIMER = 1;//定时器Handler标识
 
@@ -65,17 +66,20 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
         setContentView(R.layout.activity_cource);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//设置竖屏，禁止屏幕横屏显示
         getWindow().setNavigationBarColor(Color.WHITE);//设置底部导航虚拟按键颜色为白色
-        initView();//初始化view
-        coursePresenter = new CoursePresenter(courseFragment);//传入view对象
         setStatusBarColor();//沉浸式状态栏
+        initView();//初始化view
+        //coursePresenter = new CoursePresenter(courseFragment);//传入view对象
         autoWeekIncrement();//判断周次自动增加
-
+        Log.e(TAG, "onCreate: ------->");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        //解决在其他界面设置了Toolbar的透明度后，回到这个界面Toolbar等界面显示不正常的Bug
+        toolbar.getBackground().setAlpha(255);
         popView.setData(getCurWeek(), getCurWeek());//在这个再设置一次
+        Log.e(TAG, "onResume: ------->");
     }
 
     //初始化控件
@@ -120,7 +124,11 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
 
     //透明状态栏,不再支持6.0以下
     protected void setStatusBarColor() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        //注意要清除 FLAG_TRANSLUCENT_STATUS flag
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().setStatusBarColor(Color.TRANSPARENT);//透明
+        //6.0以后的系统需要设置状态栏的字体和图案为亮色才能正常显示
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
@@ -148,7 +156,9 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
                 startActivity(intent);
                 break;
             case R.id.menu_toolbar_share:
-                Toast.makeText(CourseActivity.this, "分享课程", LENGTH_SHORT).show();
+                //Toast.makeText(CourseActivity.this, "分享课程", LENGTH_SHORT).show();
+                intent = new Intent(CourseActivity.this, LoginActivity.class);
+                startActivity(intent);
                 break;
 
         }
@@ -189,6 +199,7 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
                 //Toast.makeText(CourseActivity.this, "我的课程", LENGTH_SHORT).show();
                 intent = new Intent(CourseActivity.this, AddCourseActivity.class);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.nav_share_cource:
                 Toast.makeText(CourseActivity.this, "分享课程", LENGTH_SHORT).show();
@@ -213,12 +224,14 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
         return true;
     }
 
+
     @Override
     public void onDropItemSelect(int position) {
         courseFragment.OnWeekChange(position);
         if (position != getCurWeek() - 1) {
-            setTimer();
-            Log.e(TAG, "onDropItemSelect: ---position--" + position);
+            stopTimer();//每次点击之前都先关闭定时器
+            setTimer();//启动定时器
+           // Log.e(TAG, "onDropItemSelect: ---position--" + position);
         }
 
     }
@@ -260,7 +273,7 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
             public void run() {
                 while (flag) {
                     try {
-                        Thread.sleep(5000); //休眠5秒
+                        Thread.sleep(7000); //休眠5秒
                         mHandler.sendEmptyMessage(TIMER);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -280,7 +293,7 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
                     //去执行定时操作逻辑
                     stopTimer();
                     popView.backToCurrentWeek();
-                    Log.e(TAG, "handleMessage: ----stopTimer---");
+                   // Log.e(TAG, "handleMessage: ----stopTimer---");
                     break;
                 default:
                     break;
@@ -302,7 +315,7 @@ public class CourseActivity extends AppCompatActivity implements PopView.OnDropI
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        Log.e(TAG, "onDestroy: ----->" );
     }
 
     private void autoWeekIncrement() {

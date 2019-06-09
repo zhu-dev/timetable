@@ -18,12 +18,12 @@ import okhttp3.Response;
  * 添加cookie的拦截器
  * 将cookie从sp中读出
  */
-public class AddCoookieInterceptor implements Interceptor {
+public class AddCookieInterceptor implements Interceptor {
 
-    private static final String TAG = "AddCoookieInterceptor";
+    private static final String TAG = "AddCookieInterceptor";
     private Context context;//sp需要context,
 
-    public AddCoookieInterceptor(Context context) {
+    public AddCookieInterceptor(Context context) {
         super();
         this.context = context;
     }

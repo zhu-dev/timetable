@@ -43,59 +43,13 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
         dataRepository = DataRepository.getInstance();
     }
 
-    /**
-     * 获取登录信息
-     */
-    @SuppressLint("CheckResult")
-    @Override
-    public void getLogin(String CheckCode) {
-        //登录请求
-        Map<String, String> params = new HashMap<>();
-        params.put("UserName", "1600200639");//这个应该从sp中读出
-        params.put("PassWord", "338471");
-        params.put("CheckCode", CheckCode);
-
-        Log.e(TAG, "getLogin: -----" + CheckCode);
-
-        RetrofitFactory.getInstance().getCookie(params)
-
-                //被观察者在io子线程
-                .subscribeOn(Schedulers.io())
-                //初始化操作
-                .doOnSubscribe(new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        addDisposable(disposable);//将disponsable对象加入容器统一注销
-                        //view.showProgressBar(true);//显示进度条
-                    }
-                })
-                //观察者在主线程
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<LoginBean>() {
-                    @Override
-                    public void accept(LoginBean loginBean) throws Exception {
-
-                        //Log.e(TAG, "accept: -------" + loginBean.getData() + loginBean.getMsg());
-                        // view.showProgressBar(false);//显示进度条
-                        view.setLoginMassage(loginBean.isSuccess(), loginBean.getMsg());
-
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        view.showError(ErrorCodeUtil.getLoginError, throwable.getMessage());
-                    }
-                });
-    }
 
     /**
      * 获取验证码
      */
-
     @SuppressLint("CheckResult")
     @Override
     public void getImage() {
-
 
         RetrofitFactory.getInstance().getIdImage()
 
@@ -129,9 +83,57 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         view.showError(ErrorCodeUtil.getImageError, throwable.getMessage());
+                        Log.e(TAG, "accept: -----getImageError------" + throwable.getMessage());
                     }
                 });
 
+    }
+
+
+    /**
+     * 获取登录信息
+     */
+    @SuppressLint("CheckResult")
+    @Override
+    public void getLogin(String CheckCode) {
+        //登录请求
+        Map<String, String> params = new HashMap<>();
+
+        params.put("us", "1600200639");//这个应该从sp中读出
+        params.put("pwd", "338471");
+        params.put("ck", CheckCode);
+
+        Log.e(TAG, "getLogin: -----" + CheckCode);
+
+        RetrofitFactory.getInstance().getCookie(params)
+                //被观察者在io子线程
+                .subscribeOn(Schedulers.io())
+                //初始化操作
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        addDisposable(disposable);//将disposable对象加入容器统一注销
+                        //view.showProgressBar(true);//显示进度条
+                    }
+                })
+                //观察者在主线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<LoginBean>() {
+                    @Override
+                    public void accept(LoginBean loginBean) throws Exception {
+
+                        Log.e(TAG, "accept: -------" + loginBean.getData() + loginBean.getMsg());
+                        // view.showProgressBar(false);//显示进度条
+                        view.setLoginMassage(loginBean.isSuccess(), loginBean.getMsg());
+
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        view.showError(ErrorCodeUtil.getLoginError, throwable.getMessage());
+                        Log.e(TAG, "accept: -----getLoginError------" + throwable.getMessage());
+                    }
+                });
     }
 
 
@@ -146,7 +148,7 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
-                        addDisposable(disposable);//将disponsable对象加入容器统一注销
+                        addDisposable(disposable);//将disposable对象加入容器统一注销
                         view.showProgressBar(true);//显示进度条
                     }
                 })
@@ -162,7 +164,7 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                     @Override
                     public void accept(List<CourseNetBean.DataBean> dataBeans) throws Exception {
                         view.showProgressBar(false);
-                        Log.e(TAG, "accept: ----dataBeans----"+dataBeans.get(0).getCname());
+                        Log.e(TAG, "accept: ----dataBeans----" + dataBeans.get(0).getCname());
                         dataRepository.saveCourseToDB(dataBeans);
                         view.complete();
                     }
@@ -171,6 +173,8 @@ public class AddCoursePresenter implements AddCourseContract.Presenter {
                     public void accept(Throwable throwable) throws Exception {
                         view.showProgressBar(false);
                         view.showError(ErrorCodeUtil.getCourseError, throwable.getMessage());
+                        view.complete();
+                        Log.e(TAG, "accept: -----getCourseError------" + throwable.getMessage());
                     }
                 });
     }

@@ -234,88 +234,24 @@ public class LocalDataRepository implements LocalDataSource {
         return null;
     }
 
-    //测试插入对象
-//    @Override
-//    public Flowable<Boolean> insertCourses(final List<CourseNetBean.DataBean> dataBeans) {
-//        return Flowable.create(new FlowableOnSubscribe<Boolean>() {
-//            @Override
-//            public void subscribe(FlowableEmitter<Boolean> emitter) throws Exception {
-//                SQLiteDatabase db = helper.getWritableDatabase();
-//                for (int i = 0; i < dataBeans.size(); i++) {
-//                    CourseNetBean.DataBean dataBean = dataBeans.get(i);
-//                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-//                    objectOutputStream.writeObject(dataBean);
-//                    objectOutputStream.flush();
-//                    byte[] data = byteArrayOutputStream.toByteArray();
-//                    objectOutputStream.close();
-//                    byteArrayOutputStream.close();
-//                    String sql = "insert into course(data) values (?)";
-//                    db.execSQL(sql, new Object[]{data});
-//                }
-//                emitter.onNext(true);
-//                emitter.onComplete();//完成事件
-//
-//            }
-//        }, BackpressureStrategy.BUFFER);
-//    }
+    /**
+     *
+     *移除所有的课程
+     * @return
+     */
+    @Override
+    public Flowable<Boolean> removeAll() {
 
-
-//    @Override
-//    public Flowable<Boolean> updateCourses(final List<CourseNetBean.DataBean> dataBeans) {
-//        return Flowable.create(new FlowableOnSubscribe<Boolean>() {
-//            @Override
-//            public void subscribe(FlowableEmitter<Boolean> emitter) throws Exception {
-//                SQLiteDatabase db = helper.getWritableDatabase();
-//                for (int i = 0; i < dataBeans.size(); i++) {
-//                    CourseNetBean.DataBean dataBean = dataBeans.get(i);
-//                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-//                    objectOutputStream.writeObject(dataBean);
-//                    objectOutputStream.flush();
-//                    byte[] data = byteArrayOutputStream.toByteArray();
-//                    objectOutputStream.close();
-//                    byteArrayOutputStream.close();
-//                    String sql = "update course set data = (?)";
-//                    db.execSQL(sql, new Object[]{data});
-//                    //判断是否更新成功，并决定是否发射事件
-//                }
-//                emitter.onNext(true);
-//                emitter.onComplete();//完成事件
-//            }
-//        }, BackpressureStrategy.BUFFER);
-//    }
-
-
-//    @Override
-//    public Flowable<List<CourseNetBean.DataBean>> getAllCourses(final String tableName) {
-//        return Flowable.create(new FlowableOnSubscribe<List<CourseNetBean.DataBean>>() {
-//            @Override
-//            public void subscribe(FlowableEmitter<List<CourseNetBean.DataBean>> emitter) throws Exception {
-//                List<CourseNetBean.DataBean> dataList = new ArrayList<>();
-//                StringBuilder sql = new StringBuilder();
-//                sql.append("SELECT * FROM ").append(tableName);
-//                Log.e(TAG, "subscribe: --sql---" + sql);
-//                SQLiteDatabase db = helper.getWritableDatabase();
-//                Cursor cursor = db.rawQuery(sql.toString(), null);
-//                if (cursor != null) {
-//                    while (cursor.moveToNext()) {
-//                        byte[] data = cursor.getBlob(cursor.getColumnIndex("data"));
-//                        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data);
-//                        ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
-//                        CourseNetBean.DataBean dataBean = (CourseNetBean.DataBean) objectInputStream.readObject();
-//                        objectInputStream.close();
-//                        byteArrayInputStream.close();
-//                        dataList.add(dataBean);
-//                    }
-//                    cursor.close();
-//                }
-//                db.close();
-//                emitter.onNext(dataList);//发射结果
-//                emitter.onComplete();//完成事件
-//            }
-//        }, BackpressureStrategy.BUFFER);
-//    }
+        return Flowable.create(new FlowableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(FlowableEmitter<Boolean> emitter) throws Exception {
+                SQLiteDatabase db = helper.getWritableDatabase();
+                db.execSQL("DELETE FROM course");
+                emitter.onNext(true);
+                emitter.onComplete();
+            }
+        }, BackpressureStrategy.BUFFER);
+    }
 
 
 }

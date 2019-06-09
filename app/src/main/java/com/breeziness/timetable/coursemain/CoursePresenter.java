@@ -50,8 +50,10 @@ public class CoursePresenter implements CourseContract.Presenter {
                     .subscribe(new Consumer<List<CourseBean>>() {
                         @Override
                         public void accept(List<CourseBean> dataBeans) throws Exception {
-                            if (view != null) view.setCourse(dataBeans);
-
+                            if (view != null) {
+                                view.setCourse(dataBeans);
+                                Log.e(TAG, "getCourse: ----view回调了数据---");
+                            }
                         }
                     }, new Consumer<Throwable>() {
                         @Override

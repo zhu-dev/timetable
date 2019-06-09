@@ -17,10 +17,23 @@ public class CurrentWeekActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_current_week);
-        Button btn_save = findViewById(R.id.btn_save);
+        // setContentView(R.layout.activity_current_week);
 
-        BezierSeekBar bs =  findViewById(R.id.bs);
+        //Toolbar 相关
+        setToolbarTitle("修改当前周");
+        setToolbarAlpha(0);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_current_week;
+    }
+
+    @Override
+    protected void initView() {
+
+        Button btn_save = findViewById(R.id.btn_save);
+        BezierSeekBar bs = findViewById(R.id.bs);
         bs.setOnSelectedValueListener(new BezierSeekBar.OnSelectedValueListener() {
             @Override
             public void onSelectedValue(int value) {
@@ -31,8 +44,13 @@ public class CurrentWeekActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 SharedPreferencesUtil.saveInt(CurrentWeekActivity.this, "CurrentWeek", "curweek", currentWeek);//保存设置的当前周数
-               finish();
+                finish();
             }
         });
+    }
+
+    @Override
+    protected void initData() {
+
     }
 }

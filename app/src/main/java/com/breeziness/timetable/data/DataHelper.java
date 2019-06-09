@@ -1,11 +1,15 @@
 package com.breeziness.timetable.data;
 
+import android.util.Log;
+
 import com.breeziness.timetable.data.bean.CourseBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DataHelper {
+
+    private static final String TAG = "DataHelper";
 
     private List<CourseBean> allCourses;
     private List<CourseBean> weekCourses = new ArrayList<>();
@@ -21,6 +25,7 @@ public class DataHelper {
                 weekCourses.add(course);
             }
         }
+      //  Log.e(TAG, "getCoursesOfWeek: ---weekCourses-----"+weekCourses.size());
         return weekCourses;
     }
 
