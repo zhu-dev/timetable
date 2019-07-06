@@ -1,4 +1,4 @@
-package com.breeziness.timetable.util;
+package com.breeziness.timetable.base;
 
 import android.app.Activity;
 

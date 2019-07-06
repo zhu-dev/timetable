@@ -12,19 +12,23 @@
         android:roundIcon="@mipmap/ic_launcher_my_round"
         android:supportsRtl="true"
         android:theme="@style/Base.AppTheme">
-        <activity android:name=".LoginPage.LoginActivity"></activity>
-        <activity android:name=".setCurrentWeek.CurrentWeekActivity" />
-        <activity android:name=".homePage.HomeActivity" />
-        <activity android:name=".addcourse.AddCourseActivity" />
-        <activity
-            android:name=".coursemain.CourseActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+        <activity android:name=".launchPage.LaunchActivity"
+            android:theme="@style/launchTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".loginPage.LoginActivity" />
+        <activity android:name=".setCurrentWeek.CurrentWeekActivity" />
+        <activity android:name=".homePage.HomeActivity" />
+        <activity android:name=".addcourse.AddCourseActivity" />
+        <activity
+            android:name=".main.CourseActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
         </activity>
     </application>
 

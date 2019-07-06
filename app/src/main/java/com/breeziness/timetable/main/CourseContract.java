@@ -1,9 +1,8 @@
-package com.breeziness.timetable.coursemain;
+package com.breeziness.timetable.main;
 
 import com.breeziness.timetable.base.BasePresenter;
 import com.breeziness.timetable.base.BaseView;
 import com.breeziness.timetable.data.bean.CourseBean;
-import com.breeziness.timetable.data.bean.CourseNetBean;
 
 import java.util.List;
 

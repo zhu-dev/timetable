@@ -1,4 +1,4 @@
-package com.breeziness.timetable.coursemain.fragment;
+package com.breeziness.timetable.main.fragment;
 
 import android.content.Context;
 import android.net.Uri;

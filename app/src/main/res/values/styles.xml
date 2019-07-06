@@ -52,6 +52,15 @@
 
     </style>
 
+    <!--启动页风格-->
+    <style name="launchTheme" parent="Theme.AppCompat">
+        <item name="android:windowNoTitle">true</item><!--无标题-->
+        <item name="android:windowFullscreen">true</item><!--全屏-->
+        <item name="android:navigationBarColor">@android:color/black</item><!--透明导航栏-->
+        <item name="android:statusBarColor">@android:color/transparent</item><!--透明状态栏-->
+        <item name="android:windowBackground">@drawable/launch_1080</item><!--显示得图片-->
+    </style>
+
 
     <style name="Base.AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

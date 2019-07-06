@@ -1,4 +1,4 @@
-package com.breeziness.timetable.coursemain;
+package com.breeziness.timetable.main;
 
 import android.annotation.SuppressLint;
 import android.util.Log;

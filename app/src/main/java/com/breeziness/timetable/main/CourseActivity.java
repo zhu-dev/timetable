@@ -1,4 +1,4 @@
-package com.breeziness.timetable.coursemain;
+package com.breeziness.timetable.main;
 
 
 import android.annotation.SuppressLint;
@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.breeziness.timetable.LoginPage.LoginActivity;
+import com.breeziness.timetable.loginPage.LoginActivity;
 import com.breeziness.timetable.R;
 import com.breeziness.timetable.UI.floatingBar.FloatingBar;
 import com.breeziness.timetable.UI.weekview.CalendarDate;
@@ -23,9 +23,9 @@ import com.breeziness.timetable.setCurrentWeek.CurrentWeekActivity;
 import com.breeziness.timetable.util.DateTimeUtil;
 import com.breeziness.timetable.addcourse.AddCourseActivity;
 import com.breeziness.timetable.UI.popwin.weekpopwin.PopView;
-import com.breeziness.timetable.coursemain.fragment.CourseFragment;
-import com.breeziness.timetable.coursemain.fragment.StudentUtilsFragment;
-import com.breeziness.timetable.coursemain.fragment.StudyHelperFragment;
+import com.breeziness.timetable.main.fragment.CourseFragment;
+import com.breeziness.timetable.main.fragment.StudentUtilsFragment;
+import com.breeziness.timetable.main.fragment.StudyHelperFragment;
 import com.breeziness.timetable.homePage.HomeActivity;
 import com.breeziness.timetable.util.SharedPreferencesUtil;
 import com.google.android.material.navigation.NavigationView;

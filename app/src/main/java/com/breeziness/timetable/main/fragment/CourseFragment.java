@@ -1,4 +1,4 @@
-package com.breeziness.timetable.coursemain.fragment;
+package com.breeziness.timetable.main.fragment;
 
 
 import android.content.Context;
@@ -21,13 +21,11 @@ import com.breeziness.timetable.UI.weekview.CalendarDate;
 import com.breeziness.timetable.UI.weekview.WeekViewBar;
 import com.breeziness.timetable.base.BaseApplication;
 import com.breeziness.timetable.base.BaseFragment;
-import com.breeziness.timetable.coursemain.CourseActivity;
-import com.breeziness.timetable.coursemain.CourseContract;
-import com.breeziness.timetable.coursemain.CoursePresenter;
+import com.breeziness.timetable.main.CourseActivity;
+import com.breeziness.timetable.main.CourseContract;
+import com.breeziness.timetable.main.CoursePresenter;
 import com.breeziness.timetable.data.DataHelper;
 import com.breeziness.timetable.data.bean.CourseBean;
-import com.breeziness.timetable.data.bean.CourseNetBean;
-import com.breeziness.timetable.data.bean.TestCourseBean;
 import com.breeziness.timetable.util.RandomUtil;
 import com.breeziness.timetable.util.SharedPreferencesUtil;
 

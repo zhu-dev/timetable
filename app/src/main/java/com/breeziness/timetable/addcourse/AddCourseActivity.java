@@ -16,7 +16,7 @@ import com.breeziness.timetable.UI.dialog.LoginImageDialog;
 import com.breeziness.timetable.UI.weekview.CalendarDate;
 import com.breeziness.timetable.UI.wheelpicker.InfoPicker;
 import com.breeziness.timetable.base.BaseActivity;
-import com.breeziness.timetable.coursemain.CourseActivity;
+import com.breeziness.timetable.main.CourseActivity;
 import com.breeziness.timetable.util.HandleDataUtil;
 import com.breeziness.timetable.util.SharedPreferencesUtil;
 

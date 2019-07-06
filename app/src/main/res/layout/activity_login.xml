@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_login_3"
     android:fitsSystemWindows="true"
-    tools:context=".LoginPage.LoginActivity">
+    tools:context=".loginPage.LoginActivity">
 
     <include
         layout="@layout/layout_toolbar"

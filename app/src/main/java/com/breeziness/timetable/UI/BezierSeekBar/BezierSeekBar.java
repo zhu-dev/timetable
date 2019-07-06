@@ -9,13 +9,10 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.breeziness.timetable.R;
-import com.breeziness.timetable.base.BaseApplication;
-import com.breeziness.timetable.coursemain.CourseActivity;
 import com.breeziness.timetable.util.DecimalFormat;
 import com.breeziness.timetable.util.SharedPreferencesUtil;
 

@@ -9,7 +9,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 
 
 import com.breeziness.timetable.R;
-import com.breeziness.timetable.util.ActivityCollector;
 
 /**
  * 通用的Activity模板
